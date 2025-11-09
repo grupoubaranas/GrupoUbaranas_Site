@@ -1,5 +1,5 @@
 /* Importação de uma fonte moderna e limpa (opcional, mas recomendado) */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
+url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
 
 :root {
     /* Cores da Paleta (ajuste conforme a sua logo/marca) */
@@ -290,7 +290,7 @@ h3 {
 }
 
 /* Responsividade (Para dispositivos móveis) */
-@media (max-width: 768px) {
+ (max-width: 768px) {
     h1 {
         font-size: 2rem;
     }
@@ -321,3 +321,4 @@ h3 {
         text-align: left;
     }
 }
+
