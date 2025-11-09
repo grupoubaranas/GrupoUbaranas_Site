@@ -8,7 +8,7 @@ body {
   background-color: #babdc2;
   color: #222;
   line-height: 1.6;
-  text-align: center;
+  text-align: left;
 }
 
 /* ------------------------------
@@ -123,6 +123,7 @@ footer {
     padding: 12px 0;
   }
 }
+
 
 
 
