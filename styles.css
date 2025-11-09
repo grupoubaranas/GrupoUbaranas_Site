@@ -1,82 +1,125 @@
-* {
+/* ------------------------------
+   ESTILO GERAL
+------------------------------ */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-  background-color: #f2f2f2;
-  color: #333;
+  background-color: #f8f9fb;
+  color: #222;
   line-height: 1.6;
-  scroll-behavior: smooth;
+  text-align: center;
 }
 
+/* ------------------------------
+   CABEÇALHO E LOGO
+------------------------------ */
 header {
-  text-align: center;
-  padding: 60px 20px 30px;
   background-color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo {
-  width: 120px;
-  margin-bottom: 10px;
+  max-width: 220px;
+  height: auto;
 }
 
-h1 {
-  color: #004aad;
-  font-size: 2rem;
-}
-
-p {
-  font-size: 1rem;
-}
-
+/* ------------------------------
+   SEÇÕES
+------------------------------ */
 section {
+  padding: 40px 20px;
   max-width: 900px;
-  margin: 60px auto;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 0 auto;
 }
 
 h2 {
-  color: #004aad;
-  margin-bottom: 15px;
-  text-align: center;
+  color: #00274d;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-transform: uppercase;
 }
 
-.servico {
-  margin-bottom: 40px;
+p {
+  margin-bottom: 16px;
+  font-size: 1rem;
+  color: #333;
 }
 
-.servico h3 {
-  color: #004aad;
-  margin-bottom: 10px;
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
 }
 
-.whatsapp-btn {
+ul li {
+  background-color: #fff;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+ul li:hover {
+  transform: scale(1.02);
+}
+
+/* ------------------------------
+   BOTÃO WHATSAPP
+------------------------------ */
+.btn-whatsapp {
   display: inline-block;
-  margin-top: 15px;
-  padding: 12px 24px;
-  background-color: #25D366;
+  background-color: #25d366;
   color: #fff;
-  font-weight: bold;
-  border-radius: 30px;
   text-decoration: none;
-  transition: 0.3s;
+  font-weight: bold;
+  padding: 14px 30px;
+  border-radius: 50px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.whatsapp-btn:hover {
-  background-color: #1ebe5b;
-  transform: scale(1.03);
+.btn-whatsapp:hover {
+  background-color: #1ebe57;
+  transform: scale(1.05);
 }
 
+/* ------------------------------
+   RODAPÉ
+------------------------------ */
 footer {
-  text-align: center;
+  background-color: #00274d;
+  color: #fff;
   padding: 20px;
   font-size: 0.9rem;
-  color: #666;
+}
+
+/* ------------------------------
+   RESPONSIVIDADE
+------------------------------ */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .logo {
+    max-width: 160px;
+  }
+
+  section {
+    padding: 30px 15px;
+  }
+
+  .btn-whatsapp {
+    width: 80%;
+    padding: 12px 0;
+  }
 }
