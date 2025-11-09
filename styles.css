@@ -15,7 +15,7 @@ body {
    CABEÇALHO E LOGO
 ------------------------------ */
 header {
-  background-color: #ffffff;
+  background-color: #737272;
   padding: 20px 0;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
@@ -123,3 +123,4 @@ footer {
     padding: 12px 0;
   }
 }
+
