@@ -1,339 +1,169 @@
-/* Importação de uma fonte moderna e limpa (opcional, mas recomendado) */
-url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
 
 :root {
-    /* Cores da Paleta (ajuste conforme a sua logo/marca) */
-    --color-primary: #007bff; /* Azul primário (mantido para detalhes/ênfase) */
-    --color-cta: #25D366; /* Verde WhatsApp (Destaque máximo) */
-    --color-cta-hover: #1FAA59; 
-    --color-dark: #333; /* Cinza Escuro para texto */
-    --color-light: #f4f4f4; /* Cinza Claro para fundo */
-    --color-white: #fff;
-    --color-risk: #dc3545; /* Vermelho para risco */
+  --color-primary: #007bff;
+  --color-cta: #25D366;
+  --color-cta-hover: #1FAA59;
+  --color-dark: #333;
+  --color-light: #f4f4f4;
+  --color-white: #fff;
+  --color-risk: #dc3545;
 }
 
-/* Reset Básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    color: var (--color-dark);/* Deve ser #333 */
-    line-height: 1.6;
-    background-color: var (--color-light); /* Fundo em Cinza Claro */
+  font-family: 'Poppins', sans-serif;
+  color: var(--color-dark);
+  line-height: 1.6;
+  background-color: var(--color-light);
 }
 
-/* --- Header e Logo (NOVA CONFIGURAÇÃO) --- */
-.header {
-    background-color: var (--color-white);
-    padding: 15 px 5 %;
-    text-align: center; /* Centraliza o conteúdo (a logo) */
-    border-bottom: 2 px solid var (--color-primary);
+/* Header */
+header {
+  background-color: var(--color-white);
+  padding: 15px 5%;
+  text-align: center;
+  border-bottom: 2px solid var(--color-primary);
 }
 
 .logo {
-    max-width: 126 px; /* 180px - 30% = 126px */
-    height: auto;
+  max-width: 126px;
+  height: auto;
 }
 
-/* Estrutura Principal e Seções */
+/* Seções */
 main {
-    padding: 20 px 0;
+  padding: 20px 0;
 }
 
 section {
-    padding: 60 px 5 %;
-    margin: 0; /* Remove a margem vertical entre as seções */
-    text-align: center;
+  padding: 60px 5%;
+  text-align: center;
 }
 
 /* Títulos */
 h1 {
-    font-size: 2.5 rem;
-    color: var (--color-dark);
-    margin-bottom: 15 px;
-    font-weight: 900;
+  font-size: 2.5rem;
+  color: var(--color-dark);
+  margin-bottom: 15px;
+  font-weight: 900;
 }
 
 h2 {
-    font-size: 2 rem;
-    color: var (--color-risk); /* Mantém o destaque para o risco */
-    margin-bottom: 30 px;
-    font-weight: 700;
+  font-size: 2rem;
+  color: var(--color-risk);
+  margin-bottom: 30px;
+  font-weight: 700;
 }
 
 h3 {
-    color: var (--color-primary);
-    margin-bottom: 10 px;
-    font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .subtitle {
-    font-size: 1.2 rem;
-    color: var (--color-dark);
-    margin-bottom: 30 px;
+  font-size: 1.2rem;
+  color: var(--color-dark);
+  margin-bottom: 30px;
 }
 
-/* --- Botões CTA (NOVA CONFIGURAÇÃO DE COR) --- */
+/* Botões CTA */
 .cta-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15 px 30 px;
-    border-radius: 50 px;
-    text-decoration: none;
-    font-size: 1.2 rem;
-    font-weight: 700;
-    transition: background-color 0.3s ease;
-    border: none;
-    cursor: pointer;
-    color: var (--color-white); /* Texto branco para contraste com o verde */
-    text-shadow: 1 px 1 px 2 px rgba (0,0,0,0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+  color: var(--color-white);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 .whatsapp-icon {
-    width: 24 px;
-    height: 24 px;
-    margin-right: 10 px;
-    /* Certifique-se que o arquivo whatsapp-icon.png é branco ou transparente para se destacar */
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
 }
 
-/* CTA Primário (Foco Máximo no WhatsApp) */
+/* Efeitos CTA */
 .primary-cta, .final-cta {
-    background-color: var (--color-cta); /* Verde WhatsApp */
-    box-shadow: 0 4 px 15 px rgba (37, 211, 102, 0.6);
-    /* Adiciona um efeito de pulso sutil (animação CSS) para atrair o olhar */
-    animation: pulse 2s infinite; 
+  background-color: var(--color-cta);
+  box-shadow: 0 4px 15px rgba(37,211,102,0.6);
+  animation: pulse 2s infinite;
 }
 
 .primary-cta:hover, .final-cta:hover {
-    background-color: var (--color-cta-hover);
-    box-shadow: 0 6 px 20 px rgba (37, 211, 102, 0.8);
-    animation: none; /* Para a animação ao passar o mouse */
+  background-color: var(--color-cta-hover);
+  box-shadow: 0 6px 20px rgba(37,211,102,0.8);
+  animation: none;
 }
 
-/* Keyframes para animação do botão (Efeito de pulso) */
-pulse {
-    0% { transform: scale (1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale (1); }
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 
-/* CTA Secundário (Ainda de contato, mas com menor ênfase visual) */
-.secondary-cta {
-    background-color: var (--color-primary);
-    margin-top: 20 px;
-}
-
-.secondary-cta:hover {
-    background-color: #0056b3;
-}
-
-/* --- Seção Hero (Primeira Dobra) --- */
+/* Seção Hero */
 .hero {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 40 px;
-    background-color: var (--color-white);
-    padding: 80 px 5 %;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px;
+  background-color: var(--color-white);
+  padding: 80px 5%;
 }
 
 .hero-content, .hero-image {
-    flex: 1;
-    min-width: 300 px;
-    text-align: left; /* Alinha o texto à esquerda para melhor leitura em tela cheia */
+  flex: 1;
+  min-width: 300px;
+  text-align: left;
 }
 
-/* Garante que o CTA dentro do Hero fique centralizado no bloco de texto, se o bloco for pequeno */
-.hero-content .primary-cta {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 400 px; /* Limita o tamanho para não ficar muito largo */
-}
-
-.risk-image {
-    width: 100 %;
-    max-width: 450 px;
-    height: auto;
-    border-radius: 8 px;
-    box-shadow: 0 10 px 30 px rgba (0, 0, 0, 0.1);
+/* Imagens */
+.risk-image, .safe-image {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .caption {
-    font-style: italic;
-    margin-top: 10 px;
-    color: var (--color-risk);
-    font-weight: 600;
-    text-align: center;
+  font-style: italic;
+  margin-top: 10px;
+  color: var(--color-risk);
+  font-weight: 600;
+  text-align: center;
 }
 
-/* --- Seção de Riscos --- */
-.risks-section {
-    background-color: var (--color-light);
-    border-top: 5 px solid var (--color-risk);
+/* Responsivo */
+@media screen and (max-width: 768px) {
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.5rem; }
+
+  .hero, .solution-section {
+    flex-direction: column;
+    padding: 40px 5%;
+  }
+
+  .cta-button {
+    font-size: 1.1rem;
+    padding: 15px 20px;
+    width: 100%;
+  }
+
+  .hero-image { order: 1; }
+  .hero-content { order: 0; text-align: center; }
 }
-
-.risk-points {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30 px;
-    max-width: 1200 px;
-    margin: 0 auto;
-}
-
-.risk-item {
-    background-color: var (--color-white);
-    padding: 25 px;
-    border-radius: 8 px;
-    box-shadow: 0 4 px 10 px rgba (0, 0, 0, 0.05);
-    flex: 1;
-    min-width: 280 px;
-    max-width: 350 px;
-    text-align: left;
-}
-
-/* --- Seção de Solução --- */
-.solution-section {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 40 px;
-    text-align: left;
-    background-color: var (--color-white);
-}
-
-.solution-image, .solution-content {
-    flex: 1;
-    min-width: 300 px;
-}
-
-.safe-image {
-    width: 100 %;
-    max-width: 450 px;
-    height: auto;
-    border-radius: 8 px;
-    box-shadow: 0 10 px 30 px rgba (0, 0, 0, 0.1);
-}
-
-.solution-content ul {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 25 px;
-}
-
-.solution-content li {
-    /* ... Estilização de bullet points ... */
-    background: url('check-icon.png') no-repeat left center; 
-    background-size: 20 px;
-    padding-left: 30 px;
-    margin-bottom: 15 px;
-    font-size: 1.05 rem;
-}
-
-.solution-content .secondary-cta {
-    display: inline-flex; /* Garante que o CTA secundário não ocupe 100% da largura desnecessariamente */
-}
-
-/* --- Depoimentos --- */
-.testimonials-section {
-    background-color: var (--color-light);
-    border-bottom: 2 px solid var (--color-primary);
-}
-/* ... (Depoimentos - mantido) ... */
-
-/* --- CTA Final --- */
-.final-cta-section {
-    background-color: var (--color-dark);
-    color: var (--color-white);
-    padding: 80 px 5 %;
-}
-
-.final-cta-section h2 {
-    color: var (--color-white);
-    font-size: 2.2 rem;
-}
-
-.final-cta {
-    max-width: 500 px; /* Limita o tamanho para não ficar muito largo */
-    width: 100 %;
-    margin: 20 px auto;
-}
-
-.final-cta-section p {
-    margin-top: 20 px;
-    font-size: 1.1 rem;
-}
-
-.final-cta-section a {
-    color: var (--color-light);
-    text-decoration: underline;
-}
-
-.final-cta-section a:hover {
-    color: var (--color-primary);
-}
-
-/* Footer Legal */
-.footer {
-    background-color: #222;
-    color: #aaa;
-    padding: 20 px 5 %;
-    font-size: 0.8 rem;
-    text-align: center;
-}
-/* ... (Footer - mantido) ... */
-
-/* Responsividade (Ajustes finos para Mobile) */
- (max-width: 768px) {
-    h1 {
-        font-size: 1.8 rem;
-    }
-
-    h2 {
-        font-size: 1.5 rem;
-    }
-
-    /* O Hero fica empilhado no celular para garantir que o CTA principal fique visível rapidamente */
-    .hero, .solution-section {
-        flex-direction: column;
-        padding: 40 px 5 %;
-    }
-
-    /* No celular, queremos que o CTA ocupe quase toda a largura para máximo destaque */
-    .cta-button {
-        font-size: 1.1 rem;
-        padding: 15 px 20 px;
-        width: 100 %; /* Ocupa a largura total do container */
-        max-width: 100 %;
-    }
-    
-    /* Garante que o bloco de imagem apareça depois do texto e do CTA no celular */
-    .hero-image {
-        order: 1; 
-    }
-    
-    .hero-content {
-        order: 0;
-        text-align: center; /* Centraliza o texto no celular */
-    }
-    
-    .risk-item {
-        max-width: 100 %;
-    }
-
-    .solution-content {
-        text-align: center;
-    }
-
-    .solution-content li {
-        text-align: left; /* Mantém os itens da lista alinhados à esquerda para facilitar a leitura */
-    }
-}
-
-
