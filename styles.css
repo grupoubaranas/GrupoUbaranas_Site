@@ -1,26 +1,116 @@
-:root{--accent:#0b7a5f;--bg:#ffffff;--muted:#666;}
-*{box-sizing:border-box}
-body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;color:#111;background:var(--bg);-webkit-font-smoothing:antialiased}
-.container{max-width:1000px;margin:0 auto;padding:24px}
-.header{position:sticky;top:0;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.06);z-index:40}
-.header .container{display:flex;align-items:center;justify-content:space-between}
-.logo{height:44px}
-.nav a{margin-left:16px;text-decoration:none;color:var(--muted)}
-.nav .cta{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px}
-.section{padding:64px 0}
-.hero{background:linear-gradient(180deg,#f7fff9,#ffffff)}
-.hero-inner{text-align:center;padding:40px}
-h1{font-size:28px;margin:8px 0}
-h2{font-size:22px;margin-bottom:16px}
-.btn{display:inline-block;background:var(--accent);color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none}
-.btn.small{padding:8px 12px}
-.btn.big{padding:14px 20px;font-size:18px}
-.grid{display:flex;gap:16px;flex-wrap:wrap}
-.card{background:#fff;border-radius:10px;padding:18px;flex:1;min-width:220px;box-shadow:0 6px 20px rgba(0,0,0,0.04)}
-.alt{background:#f9f9fb}
-.features{display:flex;gap:12px;flex-wrap:wrap}
-.feature{background:#fff;padding:12px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
-.grid-2{display:flex;gap:12px}
-.grid-2 img{width:100%;height:auto;border-radius:8px}
-.footer{text-align:center}
-a.whatsapp{background:#25D366}
+/* ======== ESTILO GERAL ======== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  color: #333;
+  background-color: #fff;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  color: #111;
+  margin-bottom: 10px;
+}
+
+p {
+  margin: 10px 0;
+}
+
+/* ======== CABEÇALHO ======== */
+.topo {
+  background: linear-gradient(135deg, #0abf53, #008f3f);
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.topo h1 {
+  font-size: 2.2em;
+  margin-bottom: 10px;
+}
+
+.topo p {
+  font-size: 1.1em;
+  margin-bottom: 25px;
+}
+
+/* ======== BOTÕES WHATSAPP ======== */
+.btn-whatsapp {
+  background-color: #25D366;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 40px;
+  font-weight: 600;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1ebe5c;
+  transform: scale(1.05);
+}
+
+.destaque {
+  font-size: 1.1em;
+  padding: 15px 35px;
+}
+
+/* ======== SEÇÕES ======== */
+section {
+  padding: 60px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+#servicos .servico {
+  margin: 40px auto;
+  max-width: 700px;
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+#servicos .servico h3 {
+  color: #0a7f3f;
+  margin-bottom: 8px;
+}
+
+/* ======== RODAPÉ ======== */
+footer {
+  text-align: center;
+  background: #111;
+  color: #ccc;
+  padding: 25px 10px;
+  font-size: 0.9em;
+}
+
+footer a {
+  color: #25D366;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* ======== RESPONSIVIDADE ======== */
+@media (max-width: 768px) {
+  .topo {
+    padding: 40px 15px;
+  }
+
+  section {
+    padding: 40px 15px;
+  }
+
+  .btn-whatsapp {
+    padding: 10px 20px;
+    font-size: 0.95em;
+  }
+}
+
