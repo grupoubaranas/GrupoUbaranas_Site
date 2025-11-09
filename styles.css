@@ -5,7 +5,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f8f9fb;
+  background-color: #babdc2;
   color: #222;
   line-height: 1.6;
   text-align: center;
@@ -123,5 +123,6 @@ footer {
     padding: 12px 0;
   }
 }
+
 
 
