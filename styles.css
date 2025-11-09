@@ -1,130 +1,323 @@
-/* ------------------------------
-   ESTILO GERAL
------------------------------- */
+/* Importação de uma fonte moderna e limpa (opcional, mas recomendado) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
+
+:root {
+    /* Cores da Paleta (ajuste conforme a sua logo/marca) */
+    --color-primary: #007bff; /* Azul primário */
+    --color-cta: #25D366; /* Verde WhatsApp (Destaque máximo) */
+    --color-cta-hover: #1FAA59; 
+    --color-dark: #333;
+    --color-light: #f4f4f4;
+    --color-white: #fff;
+    --color-risk: #dc3545; /* Vermelho para risco */
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #babdc2;
-  color: #222;
-  line-height: 1.6;
-  text-align: left;
+    font-family: 'Poppins', sans-serif;
+    color: var(--color-dark);
+    line-height: 1.6;
+    background-color: var(--color-light);
 }
 
-/* ------------------------------
-   CABEÇALHO E LOGO
------------------------------- */
-header {
-  background-color: #ffffff;
-  padding: 20px 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Header e Logo */
+.header {
+    background-color: var(--color-white);
+    padding: 15px 5%;
+    text-align: center;
+    border-bottom: 2px solid var(--color-primary);
 }
 
 .logo {
-  max-width: 220px;
-  height: auto;
+    max-width: 180px;
+    height: auto;
 }
 
-/* ------------------------------
-   SEÇÕES
------------------------------- */
+/* Estrutura Principal e Seções */
+main {
+    padding: 20px 0;
+}
+
 section {
-  padding: 40px 20px;
-  max-width: 900px;
-  margin: 0 auto;
+    padding: 60px 5%;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Títulos */
+h1 {
+    font-size: 2.5rem;
+    color: var(--color-dark);
+    margin-bottom: 15px;
+    font-weight: 900;
 }
 
 h2 {
-  color: #00274d;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  text-transform: uppercase;
+    font-size: 2rem;
+    color: var(--color-risk);
+    margin-bottom: 30px;
+    font-weight: 700;
 }
 
-p {
-  margin-bottom: 16px;
-  font-size: 1rem;
-  color: #333;
+h3 {
+    color: var(--color-primary);
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 20px 0;
+.subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
 }
 
-ul li {
-  background-color: #fff;
-  margin: 10px 0;
-  padding: 12px;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
+/* --- Botões CTA --- */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
-ul li:hover {
-  transform: scale(1.02);
+.whatsapp-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    /* Imagem do ícone do WhatsApp deve ser baixada e salva como whatsapp-icon.png */
 }
 
-/* ------------------------------
-   BOTÃO WHATSAPP
------------------------------- */
-.btn-whatsapp {
-  display: inline-block;
-  background-color: #25d366;
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 14px 30px;
-  border-radius: 50px;
-  margin-top: 20px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+/* CTA Primário (Foco Máximo) */
+.primary-cta, .final-cta {
+    background-color: var(--color-cta);
+    color: var(--color-white);
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.6);
 }
 
-.btn-whatsapp:hover {
-  background-color: #1ebe57;
-  transform: scale(1.05);
+.primary-cta:hover, .final-cta:hover {
+    background-color: var(--color-cta-hover);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.8);
 }
 
-/* ------------------------------
-   RODAPÉ
------------------------------- */
-footer {
-  background-color: #00274d;
-  color: #fff;
-  padding: 20px;
-  font-size: 0.9rem;
+/* CTA Secundário */
+.secondary-cta {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    margin-top: 20px;
 }
 
-/* ------------------------------
-   RESPONSIVIDADE
------------------------------- */
+.secondary-cta:hover {
+    background-color: #0056b3;
+}
+
+/* --- Seção Hero (Primeira Dobra) --- */
+.hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    background-color: var(--color-white);
+    padding: 80px 5%;
+}
+
+.hero-content, .hero-image {
+    flex: 1;
+    min-width: 300px;
+}
+
+.risk-image {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.caption {
+    font-style: italic;
+    margin-top: 10px;
+    color: var(--color-risk);
+    font-weight: 600;
+}
+
+/* --- Seção de Riscos --- */
+.risks-section {
+    background-color: var(--color-light);
+    border-top: 5px solid var(--color-risk);
+}
+
+.risk-points {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.risk-item {
+    background-color: var(--color-white);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    text-align: left;
+}
+
+/* --- Seção de Solução --- */
+.solution-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    text-align: left;
+    background-color: var(--color-white);
+}
+
+.solution-image, .solution-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.safe-image {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.solution-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 25px;
+}
+
+.solution-content li {
+    background: url('check-icon.png') no-repeat left center; /* Ícone de check deve ser salvo como check-icon.png */
+    background-size: 20px;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+/* --- Depoimentos --- */
+.testimonials-section {
+    background-color: var(--color-light);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.testimonials-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.testimonial-card {
+    background-color: var(--color-white);
+    padding: 30px;
+    border-left: 5px solid var(--color-primary);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    min-width: 250px;
+    text-align: left;
+    font-style: italic;
+}
+
+.client-name {
+    margin-top: 15px;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+/* --- CTA Final --- */
+.final-cta-section {
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    padding: 80px 5%;
+}
+
+.final-cta-section h2 {
+    color: var(--color-white);
+    font-size: 2.2rem;
+}
+
+.final-cta-section p {
+    margin-top: 20px;
+    font-size: 1.1rem;
+}
+
+.final-cta-section a {
+    color: var(--color-light);
+    text-decoration: underline;
+}
+
+.final-cta-section a:hover {
+    color: var(--color-primary);
+}
+
+/* Footer Legal */
+.footer {
+    background-color: #222;
+    color: #aaa;
+    padding: 20px 5%;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+/* Responsividade (Para dispositivos móveis) */
 @media (max-width: 768px) {
-  h2 {
-    font-size: 1.4rem;
-  }
+    h1 {
+        font-size: 2rem;
+    }
 
-  .logo {
-    max-width: 160px;
-  }
+    h2 {
+        font-size: 1.6rem;
+    }
 
-  section {
-    padding: 30px 15px;
-  }
+    .hero, .solution-section {
+        flex-direction: column;
+        padding: 40px 5%;
+    }
 
-  .btn-whatsapp {
-    width: 80%;
-    padding: 12px 0;
-  }
+    .hero-image, .solution-image {
+        order: -1; /* Move a imagem para o topo no mobile */
+    }
+
+    .risk-item {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .solution-content {
+        text-align: center;
+    }
+
+    .solution-content li {
+        text-align: left;
+    }
 }
-
-
-
-
-
