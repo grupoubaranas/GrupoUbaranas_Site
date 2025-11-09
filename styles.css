@@ -10,6 +10,7 @@
   --color-risk: #dc3545;
 }
 
+/* Reset e base */
 * {
   margin: 0;
   padding: 0;
@@ -21,6 +22,7 @@ body {
   color: var(--color-dark);
   line-height: 1.6;
   background-color: var(--color-light);
+  overflow-x: hidden;
 }
 
 /* Header */
@@ -32,11 +34,11 @@ header {
 }
 
 .logo {
-  max-width: 126px;
+  max-width: 160px;
   height: auto;
 }
 
-/* Seções */
+/* Estrutura Principal */
 main {
   padding: 20px 0;
 }
@@ -83,11 +85,15 @@ h3 {
   text-decoration: none;
   font-size: 1.2rem;
   font-weight: 700;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   border: none;
   cursor: pointer;
   color: var(--color-white);
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.cta-button:hover {
+  transform: scale(1.03);
 }
 
 .whatsapp-icon {
@@ -96,7 +102,6 @@ h3 {
   margin-right: 10px;
 }
 
-/* Efeitos CTA */
 .primary-cta, .final-cta {
   background-color: var(--color-cta);
   box-shadow: 0 4px 15px rgba(37,211,102,0.6);
@@ -111,33 +116,46 @@ h3 {
 
 @keyframes pulse {
   0% { transform: scale(1); }
-  50% { transform: scale(1.02); }
+  50% { transform: scale(1.03); }
   100% { transform: scale(1); }
 }
 
-/* Seção Hero */
+.secondary-cta {
+  background-color: var(--color-primary);
+  margin-top: 20px;
+}
+
+.secondary-cta:hover {
+  background-color: #0056b3;
+}
+
+/* HERO SECTION */
 .hero {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: 40px;
   background-color: var(--color-white);
   padding: 80px 5%;
 }
 
-.hero-content, .hero-image {
-  flex: 1;
-  min-width: 300px;
+.hero-content {
+  flex: 1 1 400px;
   text-align: left;
 }
 
-/* Imagens */
-.risk-image, .safe-image {
+.hero-image {
+  flex: 1 1 400px;
+  text-align: center;
+}
+
+.risk-image {
   width: 100%;
   max-width: 450px;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .caption {
@@ -148,22 +166,155 @@ h3 {
   text-align: center;
 }
 
-/* Responsivo */
-@media screen and (max-width: 768px) {
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.5rem; }
+/* Seção de Riscos */
+.risks-section {
+  background-color: var(--color-light);
+  border-top: 5px solid var(--color-risk);
+}
 
+.risk-points {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.risk-item {
+  background-color: var(--color-white);
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  flex: 1 1 300px;
+  max-width: 350px;
+  text-align: left;
+}
+
+/* Seção de Solução */
+.solution-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px;
+  text-align: left;
+  background-color: var(--color-white);
+}
+
+.solution-image, .solution-content {
+  flex: 1 1 400px;
+  min-width: 280px;
+}
+
+.safe-image {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.solution-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 25px;
+}
+
+.solution-content li {
+  background: url('check-icon.png') no-repeat left center;
+  background-size: 20px;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  font-size: 1.05rem;
+}
+
+/* Depoimentos */
+.testimonials-section {
+  background-color: var(--color-light);
+  border-bottom: 2px solid var(--color-primary);
+  padding: 60px 5%;
+}
+
+/* CTA Final */
+.final-cta-section {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  padding: 80px 5%;
+}
+
+.final-cta-section h2 {
+  color: var(--color-white);
+  font-size: 2.2rem;
+}
+
+.final-cta {
+  max-width: 500px;
+  width: 100%;
+  margin: 20px auto;
+}
+
+.final-cta-section p {
+  margin-top: 20px;
+  font-size: 1.1rem;
+}
+
+.final-cta-section a {
+  color: var(--color-light);
+  text-decoration: underline;
+}
+
+.final-cta-section a:hover {
+  color: var(--color-primary);
+}
+
+/* Footer */
+.footer {
+  background-color: #222;
+  color: #aaa;
+  padding: 20px 5%;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* ============================
+   📱 RESPONSIVIDADE
+   ============================ */
+
+@media screen and (max-width: 1024px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.8rem; }
+  .hero, .solution-section {
+    padding: 60px 5%;
+  }
+}
+
+@media screen and (max-width: 768px) {
   .hero, .solution-section {
     flex-direction: column;
+    text-align: center;
     padding: 40px 5%;
   }
 
   .cta-button {
+    width: 100%;
     font-size: 1.1rem;
     padding: 15px 20px;
-    width: 100%;
   }
 
-  .hero-image { order: 1; }
-  .hero-content { order: 0; text-align: center; }
+  .risk-item {
+    max-width: 100%;
+  }
+
+  .solution-content li {
+    text-align: left;
+  }
+
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.5rem; }
+}
+
+@media screen and (max-width: 480px) {
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.3rem; }
+  .logo { max-width: 120px; }
 }
