@@ -34,7 +34,7 @@ body {
 }
 
 .logo-fixa {
-  height: 90px;
+  height: 120px;
   width: auto;
   margin-bottom: 5px;
 }
@@ -163,4 +163,5 @@ footer {
     max-width: 90%;
   }
 }
+
 
