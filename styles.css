@@ -1,173 +1,173 @@
-/* Estilos principais do site Grupo Ubaranas */
-
-/* Reset básico */
+/* ==== RESET E BASE ==== */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", Arial, sans-serif;
-    scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
-    background-color: #f4f4f4;
-    color: #222;
-    line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #222;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
-/* Cabeçalho */
+/* ==== CABEÇALHO FIXO ==== */
 .hero {
-    text-align: center;
-    background: linear-gradient(180deg, #eaeaea, #ffffff);
-    padding: 80px 20px 60px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("images/header-inspecao.jpg") center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+  z-index: 1000;
 }
 
-.logo {
-    width: 180px;
-    margin-bottom: 15px;
+.hero-content {
+  max-width: 700px;
+  z-index: 2;
+  animation: fadeIn 1.5s ease;
 }
 
 .hero h1 {
-    font-size: 1.9rem;
-    color: #2c3e50;
-    font-weight: 700;
-    margin-bottom: 8px;
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin-bottom: 15px;
 }
 
-.tagline {
-    color: #555;
-    font-size: 1rem;
-    margin-bottom: 20px;
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  color: #e6e6e6;
 }
 
-.btn-whatsapp {
-    display: inline-block;
-    background-color: #25d366;
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
+.btn-cta {
+  display: inline-block;
+  background-color: #25d366;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
-.btn-whatsapp:hover {
-    background-color: #1ebd5a;
-    transform: scale(1.05);
+.btn-cta:hover {
+  background-color: #20b759;
 }
 
-/* Sessões */
+/* ==== CONTEÚDO ==== */
+main {
+  margin-top: 100vh; /* espaço para o cabeçalho fixo */
+  padding: 50px 20px;
+}
+
 section {
-    padding: 60px 20px;
-    max-width: 900px;
-    margin: auto;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  gap: 20px;
 }
 
-/* Títulos principais */
-h2 {
-    font-size: 1.7rem;
-    margin-bottom: 15px;
-    text-align: center;
+.text-block {
+  flex: 1 1 450px;
+  padding: 20px;
 }
 
-/* Sessão perigo */
-.peligro h2 {
-    color: #c0392b; /* vermelho forte para chamar atenção */
+.imagem-ilustrativa {
+  flex: 1 1 450px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 550px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
-.peligro ul {
-    list-style: none;
-    padding-left: 0;
+.imagem-ilustrativa:hover {
+  transform: scale(1.02);
 }
 
-.peligro li {
-    padding: 5px 0;
-    font-size: 1.05rem;
+/* ==== TÍTULOS DESTACADOS ==== */
+.titulo-perigo {
+  color: #fff;
+  background-color: #d62828;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
-/* Sessão consequência */
-.consequencia h2 {
-    color: #2c3e50;
+.titulo-atenção {
+  color: #fff;
+  background-color: #fca311;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
-.consequencia p {
-    text-align: justify;
+/* ==== CTA FINAL ==== */
+.cta-final {
+  text-align: center;
 }
 
-/* Sessão solução */
-.solucao h2 {
-    color: #1a5276; /* azul escuro para transmitir confiança */
+.cta-final .destaque {
+  background-color: #0056b3;
 }
 
-.solucao ul {
-    list-style: disc;
-    margin-left: 20px;
+.cta-final .destaque:hover {
+  background-color: #00408a;
 }
 
-/* Sessão CTA */
-.cta {
-    text-align: center;
-    background: linear-gradient(180deg, #ffffff, #e8e8e8);
-}
-
-.cta h2 {
-    color: #1a5276;
-    margin-bottom: 10px;
-}
-
-.cta p {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-}
-
-.btn-whatsapp.destaque {
-    font-size: 1.1rem;
-    background-color: #25d366;
-    animation: pulse 1.8s infinite;
-}
-
-/* Rodapé */
+/* ==== RODAPÉ ==== */
 footer {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #777;
-    padding: 25px 10px;
-    margin-top: 40px;
+  background-color: #111;
+  color: #bbb;
+  text-align: center;
+  padding: 25px 10px;
+  font-size: 0.9rem;
 }
 
-footer a {
-    color: #2c3e50;
-    text-decoration: none;
+/* ==== ANIMAÇÕES ==== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Animação de destaque no botão */
-@keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-    70% { transform: scale(1.08); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-}
-
-/* Responsividade */
+/* ==== RESPONSIVIDADE ==== */
 @media (max-width: 768px) {
-    .hero h1 {
-        font-size: 1.5rem;
-    }
-
-    section {
-        padding: 40px 15px;
-    }
-
-    .btn-whatsapp {
-        padding: 10px 20px;
-        font-size: 0.95rem;
-    }
+  .hero h1 {
+    font-size: 1.9rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  section {
+    flex-direction: column;
+    text-align: center;
+  }
+  .imagem-ilustrativa {
+    max-width: 90%;
+  }
 }
