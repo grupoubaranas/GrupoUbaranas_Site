@@ -1,19 +1,9 @@
-// Este arquivo é reservado para scripts de funcionalidades.
-
-document.addEventListener('DOMContentLoaded', () => {
-  const ctaButtons = document.querySelectorAll('.cta-button');
-
-  ctaButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Rastreamento de evento de Lead customizado no clique do CTA
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead', {
-          content_name: 'Manutencao_Eletrica_WhatsApp',
-          value: 1.00,
-          currency: 'BRL'
-        });
-        console.log('Evento de Lead do Facebook Pixel disparado!');
-      }
+// Script simples para comportamento suave dos botões e destaque visual
+document.querySelectorAll('a[href^="https://wa.me"]').forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+        btn.style.boxShadow = "0 0 10px rgba(37, 211, 102, 0.8)";
     });
-  });
+    btn.addEventListener('mouseleave', () => {
+        btn.style.boxShadow = "none";
+    });
 });
