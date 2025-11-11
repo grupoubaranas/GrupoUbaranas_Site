@@ -1,167 +1,173 @@
-/* ==== RESET E BASE ==== */
+/* Estilos principais do site Grupo Ubaranas */
+
+/* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", Arial, sans-serif;
+    scroll-behavior: smooth;
 }
 
 body {
-  background-color: #f9f9f9;
-  color: #222;
-  line-height: 1.6;
-  overflow-x: hidden;
+    background-color: #f4f4f4;
+    color: #222;
+    line-height: 1.6;
 }
 
-/* ==== CABEÇALHO FIXO ==== */
-.site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(6px);
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 10px 0;
-}
-
-.logo-fixa {
-  height: 120px;
-  width: auto;
-  margin-bottom: 5px;
-}
-
-.slogan h1 {
-  font-size: 1.5rem;
-  color: #333;
-  margin: 0;
-}
-
-.slogan p {
-  font-size: 1rem;
-  color: #555;
-  margin-top: 4px;
-}
-
-/* Cria espaçamento para o conteúdo rolar abaixo do header fixo */
-main, section {
-  padding-top: 140px;
-}
-
-
-/* ==== CONTEÚDO ==== */
-main {
-  margin-top: 100vh; /* espaço para o cabeçalho fixo */
-  padding: 50px 20px;
-}
-
-section {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 60px;
-  gap: 20px;
-}
-
-.text-block {
-  flex: 1 1 450px;
-  padding: 20px;
-}
-
-.imagem-ilustrativa {
-  flex: 1 1 450px;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 550px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-}
-
-.imagem-ilustrativa:hover {
-  transform: scale(1.02);
-}
-
-/* ==== TÍTULOS DESTACADOS ==== */
-.titulo-perigo {
-  color: #fff;
-  background-color: #d62828;
-  padding: 10px 15px;
-  border-radius: 6px;
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-}
-
-.titulo-atenção {
-  color: #fff;
-  background-color: #fca311;
-  padding: 10px 15px;
-  border-radius: 6px;
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-}
-
-/* ==== CTA FINAL ==== */
-.cta-final {
-  text-align: center;
-}
-
-.cta-final .destaque {
-  background-color: #0056b3;
-}
-
-.cta-final .destaque:hover {
-  background-color: #00408a;
-}
-
-/* ==== RODAPÉ ==== */
-footer {
-  background-color: #111;
-  color: #bbb;
-  text-align: center;
-  padding: 25px 10px;
-  font-size: 0.9rem;
-}
-
-/* ==== ANIMAÇÕES ==== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ==== RESPONSIVIDADE ==== */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 1.9rem;
-  }
-  .hero p {
-    font-size: 1rem;
-  }
-  section {
-    flex-direction: column;
+/* Cabeçalho */
+.hero {
     text-align: center;
-  }
-  .imagem-ilustrativa {
-    max-width: 90%;
-  }
+    background: linear-gradient(180deg, #eaeaea, #ffffff);
+    padding: 80px 20px 60px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+.logo {
+    width: 180px;
+    margin-bottom: 15px;
+}
 
+.hero h1 {
+    font-size: 1.9rem;
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.tagline {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.btn-whatsapp {
+    display: inline-block;
+    background-color: #25d366;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1ebd5a;
+    transform: scale(1.05);
+}
+
+/* Sessões */
+section {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-top: 30px;
+}
+
+/* Títulos principais */
+h2 {
+    font-size: 1.7rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Sessão perigo */
+.peligro h2 {
+    color: #c0392b; /* vermelho forte para chamar atenção */
+}
+
+.peligro ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.peligro li {
+    padding: 5px 0;
+    font-size: 1.05rem;
+}
+
+/* Sessão consequência */
+.consequencia h2 {
+    color: #2c3e50;
+}
+
+.consequencia p {
+    text-align: justify;
+}
+
+/* Sessão solução */
+.solucao h2 {
+    color: #1a5276; /* azul escuro para transmitir confiança */
+}
+
+.solucao ul {
+    list-style: disc;
+    margin-left: 20px;
+}
+
+/* Sessão CTA */
+.cta {
+    text-align: center;
+    background: linear-gradient(180deg, #ffffff, #e8e8e8);
+}
+
+.cta h2 {
+    color: #1a5276;
+    margin-bottom: 10px;
+}
+
+.cta p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.btn-whatsapp.destaque {
+    font-size: 1.1rem;
+    background-color: #25d366;
+    animation: pulse 1.8s infinite;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+    padding: 25px 10px;
+    margin-top: 40px;
+}
+
+footer a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Animação de destaque no botão */
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { transform: scale(1.08); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    section {
+        padding: 40px 15px;
+    }
+
+    .btn-whatsapp {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+    }
+}
