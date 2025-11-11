@@ -14,56 +14,48 @@ body {
 }
 
 /* ==== CABEÇALHO FIXO ==== */
-.hero {
+.site-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-    url("images/header-inspecao.jpg") center/cover no-repeat;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  color: #fff;
-  padding: 20px;
-  z-index: 1000;
+  flex-direction: column;
+  padding: 10px 0;
 }
 
-.hero-content {
-  max-width: 700px;
-  z-index: 2;
-  animation: fadeIn 1.5s ease;
+.logo-fixa {
+  height: 90px;
+  width: auto;
+  margin-bottom: 5px;
 }
 
-.hero h1 {
-  font-size: 2.6rem;
-  font-weight: 700;
-  margin-bottom: 15px;
+.slogan h1 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
 }
 
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 25px;
-  color: #e6e6e6;
+.slogan p {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 4px;
 }
 
-.btn-cta {
-  display: inline-block;
-  background-color: #25d366;
-  color: #fff;
-  text-decoration: none;
-  padding: 12px 28px;
-  border-radius: 50px;
-  font-weight: 600;
-  transition: 0.3s;
+/* Cria espaçamento para o conteúdo rolar abaixo do header fixo */
+main, section {
+  padding-top: 140px;
 }
 
-.btn-cta:hover {
-  background-color: #20b759;
-}
 
 /* ==== CONTEÚDO ==== */
 main {
@@ -171,3 +163,4 @@ footer {
     max-width: 90%;
   }
 }
+
