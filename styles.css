@@ -348,3 +348,38 @@ footer {
 .portfolio-grid img:hover {
     transform: scale(1.03);
 }
+/* =====================================================
+   PROCESSO DE TRABALHO
+===================================================== */
+
+.process-list {
+    max-width: 900px;
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+}
+
+.process-list li {
+    background: #F8FAFC;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-left: 4px solid #2563EB;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.process-list li:hover {
+    transform: translateX(5px);
+    border-left: 4px solid #F59E0B;
+}
+
+.process-list strong {
+    font-size: 18px;
+    color: #0F172A;
+}
+
+.process-list p {
+    margin-top: 8px;
+    color: #475569;
+    font-size: 15px;
+}
