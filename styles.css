@@ -383,3 +383,51 @@ footer {
     color: #475569;
     font-size: 15px;
 }
+/* =====================================================
+   CONVERSÃO FINAL (CTA)
+===================================================== */
+
+.cta-box {
+    background: #0F172A;
+    color: white;
+    padding: 60px 30px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 900px;
+    margin: auto;
+}
+
+.cta-box h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.cta-box p {
+    color: #CBD5E1;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.cta-highlight {
+    margin: 25px 0;
+    padding: 20px;
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid #F59E0B;
+    text-align: left;
+    border-radius: 8px;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.cta-button {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 18px;
+    padding: 15px 25px;
+}
+
+.cta-small {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #94A3B8;
+}
