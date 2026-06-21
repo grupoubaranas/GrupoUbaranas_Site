@@ -308,3 +308,43 @@ footer {
         display: none;
     }
 }
+/* =====================================================
+   CASE PORTFÓLIO (ANTES / DEPOIS)
+===================================================== */
+
+.case {
+    margin-top: 50px;
+    padding: 20px;
+    background: #F8FAFC;
+    border-radius: 12px;
+}
+
+.case h3 {
+    margin-bottom: 20px;
+    color: #0F172A;
+    font-size: 20px;
+}
+
+.case-text {
+    margin-top: 15px;
+    font-size: 15px;
+    color: #334155;
+    line-height: 1.5;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+}
+
+.portfolio-grid img {
+    width: 100%;
+    border-radius: 10px;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.portfolio-grid img:hover {
+    transform: scale(1.03);
+}
