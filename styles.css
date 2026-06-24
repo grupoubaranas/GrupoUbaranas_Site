@@ -207,55 +207,81 @@ h2 {
 }
 /* ================= HERO SLIDER ================= */
 
+
 .hero-slider {
   position: relative;
   height: 100vh;
   overflow: hidden;
-  background: linear-gradient(180deg, #020617, #0B2D5B);
+}
+
+/* cada slide é fundo full */
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.slide {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 8%;
-  opacity: 0;
-  transform: translateX(50px);
-  transition: all 0.8s ease;
-}
-
+/* slide ativo */
 .slide.active {
   opacity: 1;
-  transform: translateX(0);
+}
+
+/* overlay escuro */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(2,6,23,0.75),
+    rgba(11,45,91,0.65)
+  );
+}
+
+/* texto central */
+.hero-content {
+  position: relative;
   z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  padding: 20px;
+  color: white;
 }
 
-.slide-text {
-  max-width: 500px;
-}
-
-.slide-title {
-  font-size: 36px;
+.hero-content h1 {
+  font-size: 42px;
   font-weight: 800;
+  text-shadow: 0 0 15px #38BDF8;
   margin-bottom: 15px;
 }
 
-.slide-subtitle {
+.hero-content p {
   font-size: 16px;
-  color: #94A3B8;
-  margin-bottom: 20px;
+  color: #cbd5e1;
 }
 
-.slide-image img {
-  width: 420px;
-  max-width: 100%;
+/* botão canto inferior esquerdo */
+.hero-whatsapp {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  background: #25D366;
+  color: #fff;
+  padding: 14px 18px;
   border-radius: 12px;
-  box-shadow: 0 0 25px rgba(56,189,248,0.25);
+  text-decoration: none;
+  font-weight: 600;
+  z-index: 3;
+  transition: 0.3s;
+}
+
+.hero-whatsapp:hover {
+  transform: scale(1.05);
 }
 
 /* Glow reaproveitado */
