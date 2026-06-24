@@ -200,4 +200,4 @@ console.log(
 "Grupo Ubaranas carregado com sucesso"
 
 );
-
+console.log("SLIDER JS CARREGOU");
