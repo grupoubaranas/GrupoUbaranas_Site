@@ -9,21 +9,15 @@
 
 const header = document.querySelector('.header');
 
-window.addEventListener('scroll', () => {
-
-    if(window.scrollY > 80){
-
-        header.classList.add('header-scroll');
-
-    }
-
-    else{
-
-        header.classList.remove('header-scroll');
-
-    }
-
-});
+if(header){
+    window.addEventListener('scroll', () => {
+        if(window.scrollY > 80){
+            header.classList.add('header-scroll');
+        } else {
+            header.classList.remove('header-scroll');
+        }
+    });
+}
 
 
 
@@ -172,24 +166,31 @@ function abrirWhatsapp(){
 // AOS
 
 // GSAP
-let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
+document.addEventListener("DOMContentLoaded", () => {
 
-function showSlide(index) {
-  slides.forEach((slide, i) => {
-    slide.classList.remove("active");
-    if (i === index) {
-      slide.classList.add("active");
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".slide");
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove("active");
+            if (i === index) {
+                slide.classList.add("active");
+            }
+        });
     }
-  });
-}
 
-function nextSlide() {
-  currentSlide = (currentSlide + 1) % slides.length;
-  showSlide(currentSlide);
-}
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
 
-setInterval(nextSlide, 5000);
+    // inicia primeiro slide corretamente
+    showSlide(0);
+
+    setInterval(nextSlide, 5000);
+
+});
 
 
 
