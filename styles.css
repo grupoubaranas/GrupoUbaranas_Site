@@ -112,12 +112,6 @@ body {
   gap: 15px;
 }
 
-.benefit {
-  background: rgba(255,255,255,0.05);
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid rgba(56,189,248,0.2);
-}
 .icon{
     width:14px;
     height:14px;
