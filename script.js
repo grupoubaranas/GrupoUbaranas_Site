@@ -166,29 +166,28 @@ function abrirWhatsapp(){
 // AOS
 
 // GSAP
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    let currentSlide = 0;
-    const slides = document.querySelectorAll(".slide");
+  let current = 0;
+  const slides = document.querySelectorAll(".slide");
 
-    function showSlide(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.remove("active");
-            if (i === index) {
-                slide.classList.add("active");
-            }
-        });
-    }
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove("active");
+      if (i === index) {
+        slide.classList.add("active");
+      }
+    });
+  }
 
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-    }
+  function nextSlide() {
+    current = (current + 1) % slides.length;
+    showSlide(current);
+  }
 
-    // inicia primeiro slide corretamente
-    showSlide(0);
-
-    setInterval(nextSlide, 5000);
+  showSlide(0);
+  setInterval(nextSlide, 5000);
 
 });
 
