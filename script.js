@@ -172,16 +172,6 @@ function abrirWhatsapp(){
 // AOS
 
 // GSAP
-
-
-
-
-
-console.log(
-
-"Grupo Ubaranas carregado com sucesso"
-
-);
 let currentSlide = 0;
 const slides = document.querySelectorAll(".slide");
 
@@ -200,3 +190,13 @@ function nextSlide() {
 }
 
 setInterval(nextSlide, 5000);
+
+
+
+
+console.log(
+
+"Grupo Ubaranas carregado com sucesso"
+
+);
+
