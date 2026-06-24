@@ -196,3 +196,10 @@ h2 {
 }
   }
 }
+.benefit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  font-weight: 500;
+}
