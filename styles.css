@@ -188,11 +188,12 @@ h2 {
     grid-template-columns: 1fr;
     
   .icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-  vertical-align: middle;
-  filter: drop-shadow(0 0 6px #38BDF8);
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 4px #38BDF8);
 }
   }
 }
