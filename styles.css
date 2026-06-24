@@ -249,5 +249,28 @@ h2 {
 
   .portfolio .grid {
     grid-template-columns: 1fr;
+    
+/* ================= LOGO NO HERO ================= */
+
+.hero-brand {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+}
+
+.hero-logo {
+  width: 90px;   /* 👈 reduzido (ajuste fino aqui) */
+  height: auto;
+  margin-bottom: 5px;
+}
+
+.hero-company {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--gray-light);
+}
   }
 }
