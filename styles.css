@@ -209,10 +209,10 @@ h2 {
 
 
 .hero-slider {
-  position: relative;
   height: 55vh;
-  overflow: hidden;
+  position: relative;
 }
+
 
 /* cada slide é fundo full */
 .slide {
@@ -250,7 +250,7 @@ h2 {
   text-align: center;
   max-width: 800px;
   padding: 20px;
-  color: white;
+  margin-top: 20px; /* 👈 AQUI é o ajuste que você quer */
 }
 
 .hero-content h1 {
