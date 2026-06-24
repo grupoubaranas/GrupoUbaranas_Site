@@ -1,1 +1,190 @@
+:root {
+  --blue-primary: #007BFF;
+  --blue-glow: #38BDF8;
+  --blue-dark: #0B2D5B;
+  --tech-black: #020617;
+  --gray-light: #94A3B8;
+  --white: #FFFFFF;
+}
 
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(180deg, var(--tech-black), var(--blue-dark));
+  color: var(--white);
+  line-height: 1.6;
+}
+
+/* CONTAINER */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-logo {
+  width: 160px;
+  margin-bottom: 20px;
+}
+
+.hero-company {
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--gray-light);
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 15px;
+}
+
+.hero-subtitle {
+  font-size: 16px;
+  color: var(--gray-light);
+  margin-bottom: 25px;
+}
+
+/* GLOW EFFECT */
+.glow {
+  text-shadow: 0 0 10px var(--blue-glow), 0 0 20px var(--blue-primary);
+}
+
+/* ================= BOTÃO ================= */
+
+.btn-primary {
+  background: var(--blue-primary);
+  border: 2px solid var(--blue-glow);
+  color: var(--white);
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--blue-glow);
+}
+
+/* ================= BENEFÍCIOS ================= */
+
+.benefits {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.benefits .container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.benefit {
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(56,189,248,0.2);
+}
+
+/* ================= SEÇÕES ================= */
+
+section {
+  padding: 60px 0;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+/* ================= PORTFÓLIO ================= */
+
+.portfolio .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.portfolio img {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(56,189,248,0.2);
+}
+
+/* ================= PROCESSO ================= */
+
+.process ul {
+  list-style: none;
+  text-align: center;
+}
+
+.process li {
+  margin: 10px 0;
+  padding: 10px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+}
+
+/* ================= CTA FINAL ================= */
+
+.cta {
+  text-align: center;
+  padding: 70px 20px;
+}
+
+.footer-tag {
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--gray-light);
+}
+
+/* ================= WHATSAPP FLUTUANTE ================= */
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  font-size: 26px;
+  padding: 14px 16px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  z-index: 999;
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media (max-width: 768px) {
+
+  .hero-title {
+    font-size: 24px;
+  }
+
+  .benefits .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .portfolio .grid {
+    grid-template-columns: 1fr;
+  }
+}
