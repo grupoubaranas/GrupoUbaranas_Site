@@ -220,11 +220,12 @@ h2 {
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0;
-  transition: opacity 1s ease;
+
   display: flex;
-  align-items: center;
+  align-items: flex-end; /* 👈 MUITO IMPORTANTE */
   justify-content: center;
+
+  padding-top: 120px; /* 👈 cria espaço acima (empurra tudo pra baixo da logo) */
 }
 
 /* slide ativo */
