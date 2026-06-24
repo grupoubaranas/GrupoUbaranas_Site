@@ -21,9 +21,23 @@
 .benefit {
   display: flex;
   align-items: center;
-  gap: 10px;
   justify-content: center;
+  gap: 10px;
+
+  padding: 14px 12px;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+
   font-weight: 500;
+
+  transition: 0.3s;
+}
+
+.benefit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
 }
 
 /* ================= ICON ================= */
