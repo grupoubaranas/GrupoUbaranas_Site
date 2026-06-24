@@ -1,3 +1,8 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(180deg, #020617, #0B2D5B);
+  color: #FFFFFF;
+}
 /* ================= RESPONSIVO ================= */
 
 @media (max-width: 768px) {
