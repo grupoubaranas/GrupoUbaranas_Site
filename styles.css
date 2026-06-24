@@ -205,3 +205,78 @@ h2 {
     grid-template-columns: 1fr;
   }
 }
+/* ================= HERO SLIDER ================= */
+
+.hero-slider {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(180deg, #020617, #0B2D5B);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8%;
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.8s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 2;
+}
+
+.slide-text {
+  max-width: 500px;
+}
+
+.slide-title {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 15px;
+}
+
+.slide-subtitle {
+  font-size: 16px;
+  color: #94A3B8;
+  margin-bottom: 20px;
+}
+
+.slide-image img {
+  width: 420px;
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(56,189,248,0.25);
+}
+
+/* Glow reaproveitado */
+.glow {
+  text-shadow: 0 0 10px #38BDF8, 0 0 20px #007BFF;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+
+  .slide {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .slide-title {
+    font-size: 24px;
+  }
+
+  .slide-image img {
+    width: 90%;
+  }
+}
