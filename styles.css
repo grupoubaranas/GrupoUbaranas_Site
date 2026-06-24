@@ -262,7 +262,7 @@ h2 {
 }
 
 .hero-logo {
-  width: 90px;   /* 👈 reduzido (ajuste fino aqui) */
+  width: 50px;   /* 👈 reduzido (ajuste fino aqui) */
   height: auto;
   margin-bottom: 5px;
 }
