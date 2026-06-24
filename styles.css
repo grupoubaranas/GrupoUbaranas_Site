@@ -186,7 +186,8 @@ h2 {
 
   .portfolio .grid {
     grid-template-columns: 1fr;
-    .icon {
+    
+  .icon {
   width: 20px;
   height: 20px;
   margin-right: 8px;
