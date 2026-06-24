@@ -280,3 +280,22 @@ h2 {
     width: 90%;
   }
 }
+.hero-brand{
+  position:absolute;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  z-index:10;
+}
+
+.hero-brand .hero-logo{
+  width:120px;
+  margin-bottom:5px;
+}
+
+.hero-company{
+  font-size:14px;
+  letter-spacing:3px;
+  color:#94A3B8;
+}
