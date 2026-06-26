@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   show(0);
-  setInterval(next, 5000);
+  setInterval(next, 10000);
 
 });
 
