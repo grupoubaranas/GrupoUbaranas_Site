@@ -86,13 +86,14 @@ function abrirWhatsapp(){
 document.addEventListener("DOMContentLoaded", () => {
 
   const slides = document.querySelectorAll(".slide");
+
+  console.log("Slides encontrados:", slides.length);
+
   let index = 0;
 
   function show(i) {
-    slides.forEach((s, idx) => {
-      s.classList.remove("active");
-      if (idx === i) s.classList.add("active");
-    });
+    slides.forEach((s) => s.classList.remove("active"));
+    slides[i].classList.add("active");
   }
 
   function next() {
@@ -105,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-});
 console.log(
 "Grupo Ubaranas carregado com sucesso"
 );
