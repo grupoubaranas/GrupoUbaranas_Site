@@ -116,3 +116,7 @@ console.log(
 "Grupo Ubaranas carregado com sucesso"
 );
 console.log("SLIDER JS CARREGOU");
+
+setInterval(() => {
+  console.log("TICK SLIDER");
+}, 1000);
