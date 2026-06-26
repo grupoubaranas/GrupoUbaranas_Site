@@ -59,7 +59,7 @@ body {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(2,6,23,0.45),
+    rgba(2,6,23,0.25),
     rgba(11,45,91,0.65)
   );
   z-index: 1;
