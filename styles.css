@@ -218,42 +218,50 @@ h2 {
 }
 
 /* ================= RESPONSIVO ================= */
+
 @media (max-width: 768px) {
 
-  .hero-content h1 {
-    font-size: 24px;
-  }
-
-  .benefits .container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .portfolio .grid {
-    grid-template-columns: 1fr;
+    .hero-content h1{
+        font-size:24px;
     }
-/* ================= LOGO NO HERO ================= */
+
+    .benefits .container{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .portfolio .grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+
+/* ================= LOGO HERO ================= */
 
 .hero-brand{
 
-position:absolute;
-top:15px;
-left:50%;
-transform:translateX(-50%);
-text-align:center;
-z-index:100;
-width:100%;
+    position:absolute;
+    top:15px;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    z-index:100;
 
 }
+
+
 .hero-brand img{
 
-width:80px;
-
-height:auto;
+    width:80px;
+    height:auto;
 
 }
 
-.hero-company {
-  font-size: 12px;
-  letter-spacing: 3px;
-  color: var(--gray-light);
+
+.hero-company{
+
+    font-size:12px;
+    letter-spacing:3px;
+    color:var(--gray-light);
+
 }
