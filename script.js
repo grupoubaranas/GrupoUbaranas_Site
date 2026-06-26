@@ -84,19 +84,33 @@ function abrirWhatsapp(){
 
 // GSAP
 document.addEventListener("DOMContentLoaded", () => {
- let currentSlide = 0;
-const slides = document.querySelectorAll(".slide");
-function showSlide(index) {
-  slides.forEach((slide, i) => {
-    slide.classList.remove("active");
-    if (i === index) slide.classList.add("active");
-  });
-}
-function nextSlide() {
-  currentSlide = (currentSlide + 1) % slides.length;
-  showSlide(currentSlide);
-}
-setInterval(nextSlide, 5000);
+
+  let current = 0;
+
+  function slides() {
+    return document.querySelectorAll(".slide");
+  }
+
+  function show(i) {
+    const all = slides();
+
+    all.forEach(s => s.classList.remove("active"));
+
+    if (all[i]) {
+      all[i].classList.add("active");
+    }
+  }
+
+  function next() {
+    const all = slides();
+
+    current = (current + 1) % all.length;
+    show(current);
+  }
+
+  show(0);
+  setInterval(next, 5000);
+
 });
 console.log(
 "Grupo Ubaranas carregado com sucesso"
