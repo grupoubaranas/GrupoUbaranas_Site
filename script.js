@@ -85,31 +85,25 @@ function abrirWhatsapp(){
 // GSAP
 document.addEventListener("DOMContentLoaded", () => {
 
-  let current = 0;
-
-  function slides() {
-    return document.querySelectorAll(".slide");
-  }
+  const slides = document.querySelectorAll(".slide");
+  let index = 0;
 
   function show(i) {
-    const all = slides();
-
-    all.forEach(s => s.classList.remove("active"));
-
-    if (all[i]) {
-      all[i].classList.add("active");
-    }
+    slides.forEach((s, idx) => {
+      s.classList.remove("active");
+      if (idx === i) s.classList.add("active");
+    });
   }
 
   function next() {
-    const all = slides();
-
-    current = (current + 1) % all.length;
-    show(current);
+    index = (index + 1) % slides.length;
+    show(index);
   }
 
   show(0);
   setInterval(next, 5000);
+
+});
 
 });
 console.log(
