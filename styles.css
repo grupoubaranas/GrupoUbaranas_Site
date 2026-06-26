@@ -101,6 +101,13 @@ cursor:pointer;
 z-index:9999;
 transition:0.3s ease;
 }
+
+.hero-whatsapp:hover {
+  transform: scale(1.06);
+  box-shadow:
+    0 0 15px rgba(56,189,248,0.6),
+    0 0 35px rgba(0,123,255,0.4);
+}
 /* ================= BOTÃO PADRÃO ================= */
 .btn-primary {
   background: var(--blue-primary);
