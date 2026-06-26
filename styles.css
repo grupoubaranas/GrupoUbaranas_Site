@@ -88,18 +88,18 @@ body {
 }
 
 /* BOTÃO WHATSAPP */
-.hero-whatsapp {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  background: #25D366;
-  color: #fff;
-  padding: 14px 18px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 200;
-  z-index: 3;
-  transition: 0.3s;
+.hero-whatsapp{
+
+position:absolute;
+bottom:30px;
+left:30px;
+padding:14px 25px;
+font-size:15px;
+font-weight:600;
+border-radius:14px;
+box-shadow:
+0 0 15px rgba(37,211,102,.4);
+
 }
 
 .hero-whatsapp:hover {
@@ -267,5 +267,13 @@ font-weight:700;
 letter-spacing:4px;
 margin-top:5px;
 color:#CBD5E1;
+
+}
+.hero-slogan{
+
+font-size:13px;
+color:#94A3B8;
+margin-top:6px;
+letter-spacing:2px;
 
 }
