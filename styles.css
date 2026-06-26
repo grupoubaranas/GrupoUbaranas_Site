@@ -240,28 +240,32 @@ h2 {
 
 .hero-brand{
 
-    position:absolute;
-    top:15px;
-    left:50%;
-    transform:translateX(-50%);
-    text-align:center;
-    z-index:100;
+position:absolute;
+top:15px;
+left:50%;
+transform:translateX(-50%);
+text-align:center;
+z-index:100;
+width:auto;
 
 }
 
 
 .hero-brand img{
 
-    width:80px;
-    height:auto;
+width:95px;
+height:auto;
+filter:drop-shadow(0 0 8px rgba(56,189,248,.35));
 
 }
 
 
 .hero-company{
 
-    font-size:12px;
-    letter-spacing:3px;
-    color:var(--gray-light);
+font-size:14px;
+font-weight:700;
+letter-spacing:4px;
+margin-top:5px;
+color:#CBD5E1;
 
 }
