@@ -55,14 +55,7 @@ body {
 
 /* OVERLAY */
 .hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(2,6,23,0.25),
-    rgba(11,45,91,0.65)
-  );
-  z-index: 1;
+  pointer-events: none;
 }
 
 /* CONTEÚDO CENTRAL */
@@ -88,24 +81,21 @@ body {
 }
 
 /* BOTÃO WHATSAPP */
-.hero-whatsapp{
+.hero-whatsapp {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
 
-position:absolute;
-bottom:30px;
-left:30px;
-padding:14px 25px;
-font-size:15px;
-font-weight:600;
-border-radius:14px;
-box-shadow:
-0 0 15px rgba(37,211,102,.4);
+  padding: 14px 25px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 14px;
 
+  box-shadow: 0 0 15px rgba(37,211,102,.4);
+
+  z-index: 9999;   /* 👈 ESSENCIAL */
+  cursor: pointer; /* 👈 garante interação */
 }
-
-.hero-whatsapp:hover {
-  transform: scale(1.05);
-}
-
 /* ================= BOTÃO PADRÃO ================= */
 .btn-primary {
   background: var(--blue-primary);
