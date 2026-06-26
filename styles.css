@@ -269,9 +269,12 @@ z-index:100;
 width:100%;
 
 }
-.hero-brand img {
-  width: 70px;
-  height: auto;
+.hero-brand img{
+
+width:80px;
+
+height:auto;
+
 }
 
 .hero-company {
