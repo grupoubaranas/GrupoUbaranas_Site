@@ -1,1 +1,358 @@
+/* ==========================================================
+   GRUPO UBARANAS
+   Central de Suporte
+========================================================== */
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --azul:#07213D;
+    --azul2:#0B2E56;
+    --azul3:#1E88E5;
+    --azul4:#2E9BFF;
+
+    --branco:#FFFFFF;
+
+    --cinza:#D9D9D9;
+    --cinza2:#BDBDBD;
+
+    --preto:#111111;
+
+    --sombra:0 8px 30px rgba(0,0,0,.35);
+
+}
+
+body{
+
+    font-family:Segoe UI,Arial,sans-serif;
+
+    background:
+
+    linear-gradient(
+        180deg,
+        var(--azul),
+        #041729
+    );
+
+    color:white;
+
+    min-height:100vh;
+
+}
+
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.container{
+
+    width:100%;
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:40px 20px;
+
+}
+
+
+/* ==========================================================
+   CABEÇALHO
+========================================================== */
+
+.cabecalho{
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:35px;
+
+    box-shadow:var(--sombra);
+
+    margin-bottom:40px;
+
+}
+
+.logo img{
+
+    width:220px;
+
+}
+
+.titulo{
+
+    flex:1;
+
+}
+
+.titulo h1{
+
+    font-size:42px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+}
+
+.titulo p{
+
+    margin-top:12px;
+
+    color:#B8D7FF;
+
+    font-size:18px;
+
+}
+
+
+/* ==========================================================
+   CONSULTA
+========================================================== */
+
+.consulta{
+
+    background:white;
+
+    border-radius:20px;
+
+    color:#222;
+
+    padding:35px;
+
+    box-shadow:var(--sombra);
+
+    margin-bottom:35px;
+
+}
+
+.consulta h2{
+
+    color:var(--azul);
+
+    font-size:32px;
+
+    margin-bottom:15px;
+
+}
+
+.consulta p{
+
+    color:#666;
+
+    margin-bottom:25px;
+
+    line-height:1.6;
+
+}
+
+.form-consulta{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+.form-consulta input{
+
+    flex:1;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    border:2px solid #DDD;
+
+    font-size:18px;
+
+    outline:none;
+
+}
+
+.form-consulta input:focus{
+
+    border-color:var(--azul3);
+
+}
+
+.form-consulta button{
+
+    width:220px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:var(--azul3);
+
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.form-consulta button:hover{
+
+    background:#156CC5;
+
+}
+
+
+/* ==========================================================
+   RESULTADO
+========================================================== */
+
+.resultado{
+
+    display:none;
+
+    background:white;
+
+    color:#222;
+
+    border-radius:20px;
+
+    padding:35px;
+
+    margin-bottom:35px;
+
+    box-shadow:var(--sombra);
+
+}
+
+
+/* ==========================================================
+   CARDS
+========================================================== */
+
+.atalhos{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:25px;
+
+}
+
+.card{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    padding:35px;
+
+    text-decoration:none;
+
+    color:white;
+
+    text-align:center;
+
+    transition:.30s;
+
+    box-shadow:var(--sombra);
+
+    font-size:22px;
+
+    font-weight:bold;
+
+}
+
+.card:hover{
+
+    background:var(--azul3);
+
+    transform:translateY(-6px);
+
+}
+
+
+/* ==========================================================
+   RODAPÉ
+========================================================== */
+
+footer{
+
+    margin-top:50px;
+
+    padding:25px;
+
+    text-align:center;
+
+    color:#BFD8F5;
+
+    font-size:15px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+footer p{
+
+    margin:4px;
+
+}
+
+
+/* ==========================================================
+   RESPONSIVO
+========================================================== */
+
+@media(max-width:900px){
+
+.cabecalho{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.logo img{
+
+    width:180px;
+
+}
+
+.titulo h1{
+
+    font-size:32px;
+
+}
+
+.form-consulta{
+
+    flex-direction:column;
+
+}
+
+.form-consulta button{
+
+    width:100%;
+
+}
+
+}
