@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Login Administrativo | Grupo Ubaranas</title>
 
@@ -13,10 +16,15 @@
         content="Acesso restrito ao painel administrativo do Grupo Ubaranas."
     >
 
+    <meta
+        name="robots"
+        content="noindex, nofollow"
+    >
+
     <link
         rel="icon"
         type="image/png"
-        href="../faviconubaranas.png"
+        href="/faviconubaranas.png"
     >
 
     <link
@@ -26,7 +34,7 @@
 
     <link
         rel="stylesheet"
-        href="login.css?v=1.0"
+        href="/admin/login.css?v=1.0"
     >
 </head>
 
@@ -37,20 +45,27 @@
         <section class="login-card">
 
             <div class="login-logo">
+
                 <img
-                    src="../atendimentos/logo/logo.png"
+                    src="/assets/logo/logo.png"
                     alt="Logo do Grupo Ubaranas"
                 >
+
             </div>
 
             <div class="login-header">
 
                 <span class="login-badge">
+
                     <i class="fa-solid fa-shield-halved"></i>
+
                     ACESSO RESTRITO
+
                 </span>
 
-                <h1>Painel Administrativo</h1>
+                <h1>
+                    Painel Administrativo
+                </h1>
 
                 <p>
                     Entre com suas credenciais para gerenciar clientes,
@@ -112,8 +127,11 @@
                             id="btnMostrarSenha"
                             class="btn-show-password"
                             aria-label="Mostrar senha"
+                            title="Mostrar senha"
                         >
+
                             <i class="fa-solid fa-eye"></i>
+
                         </button>
 
                     </div>
@@ -124,6 +142,7 @@
                     id="mensagemLogin"
                     class="login-message"
                     aria-live="polite"
+                    hidden
                 ></div>
 
                 <button
@@ -131,17 +150,23 @@
                     id="btnEntrar"
                     class="btn-login"
                 >
+
                     <i class="fa-solid fa-right-to-bracket"></i>
+
                     Entrar
+
                 </button>
 
             </form>
 
             <div class="login-footer">
 
-                <a href="../index.html">
+                <a href="/">
+
                     <i class="fa-solid fa-arrow-left"></i>
+
                     Voltar ao site
+
                 </a>
 
                 <p>
@@ -158,20 +183,20 @@
 
     </main>
 
-   <script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-    defer
-></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+        defer
+    ></script>
 
-<script
-    src="/admin/supabase-config.js?v=2"
-    defer
-></script>
+    <script
+        src="/admin/supabase-config.js?v=2"
+        defer
+    ></script>
 
-<script
-    src="/admin/login.js?v=1"
-    defer
-></script>
+    <script
+        src="/admin/login.js?v=1"
+        defer
+    ></script>
 
 </body>
 
