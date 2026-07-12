@@ -2,51 +2,108 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Central de Suporte | Grupo Ubaranas</title>
 
     <meta name="description"
-        content="Central de Suporte do Grupo Ubaranas. Consulte sua Ordem de Serviço, Garantia e entre em contato com nossa equipe.">
+        content="Central de Suporte Grupo Ubaranas. Consulte sua Ordem de Serviço, Garantia e entre em contato com nossa equipe.">
 
     <link rel="icon" href="../faviconubaranas.png">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="css/atendimentos.css">
+
 </head>
 
 <body>
 
     <main class="container">
 
-        <!-- CABEÇALHO -->
+        <!-- =======================================================
+            CABEÇALHO
+        ======================================================== -->
+
         <header class="cabecalho">
 
             <div class="logo">
+
                 <img src="../assets/logo/logo.png" alt="Grupo Ubaranas">
+
             </div>
 
             <div class="titulo">
 
-                <h1>CENTRAL DE SUPORTE</h1>
+                <span class="selo">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    MANUTENÇÃO CERTIFICADA
+
+                </span>
+
+                <h1>
+
+                    CENTRAL DE SUPORTE
+
+                </h1>
 
                 <p>
+
                     Conectando tecnologia, segurança e confiança.
+
                 </p>
 
             </div>
 
         </header>
 
-        <!-- CONSULTA -->
+        <!-- =======================================================
+            APRESENTAÇÃO
+        ======================================================== -->
+
+        <section class="hero">
+
+            <h2>
+
+                Bem-vindo à Central de Suporte Técnico
+
+            </h2>
+
+            <p>
+
+                Consulte sua Ordem de Serviço, acompanhe informações da manutenção
+                realizada e entre em contato rapidamente com nossa equipe técnica.
+
+            </p>
+
+        </section>
+
+        <!-- =======================================================
+            CONSULTA
+        ======================================================== -->
 
         <section class="consulta">
 
-            <h2>Consultar Ordem de Serviço</h2>
+            <h2>
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                Consultar Ordem de Serviço
+
+            </h2>
 
             <p>
-                Informe o número da Ordem de Serviço para visualizar
-                o histórico da manutenção realizada.
+
+                Digite o número da Ordem de Serviço informado na etiqueta de manutenção.
+
             </p>
 
             <div class="form-consulta">
@@ -58,6 +115,8 @@
 
                 <button id="btnConsultar">
 
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
                     Consultar
 
                 </button>
@@ -66,40 +125,80 @@
 
         </section>
 
-        <!-- RESULTADO -->
+        <!-- =======================================================
+            RESULTADO
+        ======================================================== -->
 
         <section id="resultado" class="resultado">
 
-            <!-- Conteúdo será carregado pelo JavaScript -->
+            <!-- O JavaScript irá preencher automaticamente -->
 
         </section>
 
-        <!-- ACESSO RÁPIDO -->
+        <!-- =======================================================
+            ACESSO RÁPIDO
+        ======================================================== -->
 
         <section class="atalhos">
 
-            <a
-                href="https://wa.me/5521977433837"
+            <a href="https://wa.me/5521977433837"
                 target="_blank"
                 class="card">
 
-                WhatsApp
+                <i class="fa-brands fa-whatsapp"></i>
+
+                <h3>WhatsApp</h3>
+
+                <p>
+
+                    Atendimento rápido com nossa equipe.
+
+                </p>
 
             </a>
 
-            <a
-                href="mailto:contato@grupoubaranas.com.br"
+            <a href="mailto:contato@grupoubaranas.com.br"
                 class="card">
 
-                E-mail
+                <i class="fa-solid fa-envelope"></i>
+
+                <h3>E-mail</h3>
+
+                <p>
+
+                    Entre em contato por e-mail.
+
+                </p>
 
             </a>
 
-            <a
-                href="/"
+            <a href="/"
                 class="card">
 
-                Site Oficial
+                <i class="fa-solid fa-globe"></i>
+
+                <h3>Site Oficial</h3>
+
+                <p>
+
+                    Conheça todos os nossos serviços.
+
+                </p>
+
+            </a>
+
+            <a href="#"
+                class="card">
+
+                <i class="fa-solid fa-file-circle-check"></i>
+
+                <h3>Garantia</h3>
+
+                <p>
+
+                    Consulte informações da garantia do serviço.
+
+                </p>
 
             </a>
 
@@ -107,11 +206,21 @@
 
     </main>
 
+    <!-- =======================================================
+        RODAPÉ
+    ======================================================== -->
+
     <footer>
+
+        <h3>
+
+            Grupo Ubaranas
+
+        </h3>
 
         <p>
 
-            Grupo Ubaranas
+            Manutenção Elétrica • Segurança Eletrônica • Automação
 
         </p>
 
@@ -122,6 +231,8 @@
         </p>
 
     </footer>
+
+    <!-- JavaScript -->
 
     <script src="js/atendimentos.js"></script>
 
