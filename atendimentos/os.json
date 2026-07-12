@@ -1,1 +1,103 @@
+{
+  "ordens": [
+    {
+      "os": "UB-260001",
+      "status": "em_dia",
 
+      "cliente": {
+        "nome": "Condomínio Empresarial Alpha",
+        "contato": "Administrador",
+        "telefone": "(21) 97743-3837",
+        "email": "cliente@empresa.com.br"
+      },
+
+      "equipamento": {
+        "nome": "Quadro Geral de Distribuição",
+        "modelo": "QGBT",
+        "patrimonio": "QDG-001",
+        "local": "Recepção"
+      },
+
+      "servico": {
+        "tipo": "Manutenção Preventiva",
+        "descricao": "Inspeção completa do quadro elétrico, reaperto de conexões, limpeza interna e testes de funcionamento."
+      },
+
+      "datas": {
+        "execucao": "2026-07-12",
+        "proxima_manutencao": "2027-01-12",
+        "garantia": "2026-10-12"
+      },
+
+      "tecnico": {
+        "nome": "Felipe Augusto"
+      },
+
+      "servicos_executados": [
+        "Inspeção visual do quadro elétrico",
+        "Reaperto dos barramentos",
+        "Reaperto dos disjuntores",
+        "Medição das tensões",
+        "Medição das correntes",
+        "Limpeza interna",
+        "Teste funcional"
+      ],
+
+      "observacoes": "Equipamento funcionando normalmente. Não foram encontradas irregularidades durante a manutenção.",
+
+      "documentos": {
+        "pdf": "",
+        "fotos": []
+      }
+    },
+
+    {
+      "os": "UB-260002",
+      "status": "atencao",
+
+      "cliente": {
+        "nome": "Restaurante Exemplo",
+        "contato": "Gerente",
+        "telefone": "(21) 98888-9999",
+        "email": "gerente@restaurante.com.br"
+      },
+
+      "equipamento": {
+        "nome": "Nobreak 3 kVA",
+        "modelo": "NHS Premium",
+        "patrimonio": "NB-003",
+        "local": "Sala de TI"
+      },
+
+      "servico": {
+        "tipo": "Troca de baterias",
+        "descricao": "Substituição completa do banco de baterias e testes de autonomia."
+      },
+
+      "datas": {
+        "execucao": "2026-07-08",
+        "proxima_manutencao": "2026-10-08",
+        "garantia": "2026-10-08"
+      },
+
+      "tecnico": {
+        "nome": "Felipe Augusto"
+      },
+
+      "servicos_executados": [
+        "Substituição de 8 baterias 12V 9Ah",
+        "Limpeza interna",
+        "Aperto dos conectores",
+        "Teste de autonomia",
+        "Teste de transferência"
+      ],
+
+      "observacoes": "Equipamento entregue funcionando normalmente.",
+
+      "documentos": {
+        "pdf": "",
+        "fotos": []
+      }
+    }
+  ]
+}
