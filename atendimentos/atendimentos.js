@@ -1,14 +1,11 @@
 /* ==========================================================
    GRUPO UBARANAS
-   PORTAL DO CLIENTE — JAVASCRIPT V1.0
+   PORTAL DO CLIENTE — JAVASCRIPT V2.0
    Arquivo: atendimentos/atendimentos.js
+   Consulta pública pelo Supabase
 ========================================================== */
 
 "use strict";
-
-/* ==========================================================
-   ELEMENTOS DA PÁGINA
-========================================================== */
 
 const campoNumeroOS = document.getElementById("numeroOS");
 const botaoConsultar = document.getElementById("btnConsultar");
@@ -17,262 +14,366 @@ const areaDadosOS = document.getElementById("dadosOS");
 const areaStatusOS = document.getElementById("statusOS");
 const cardGarantia = document.getElementById("cardGarantia");
 
-/* Armazena as ordens carregadas do os.json */
-let ordensDeServico = [];
 
 /* ==========================================================
    INICIALIZAÇÃO
 ========================================================== */
 
 async function inicializarPortal() {
-    campoNumeroOS.addEventListener("input", formatarCampoOS);
-    campoNumeroOS.addEventListener("keydown", consultarComEnter);
-    botaoConsultar.addEventListener("click", consultarOrdemDeServico);
+    if (
+        !campoNumeroOS ||
+        !botaoConsultar ||
+        !areaResultado ||
+        !areaDadosOS ||
+        !areaStatusOS
+    ) {
+        console.error(
+            "Elementos obrigatórios do portal não foram encontrados no HTML."
+        );
 
-    if (cardGarantia) {
-        cardGarantia.addEventListener("click", abrirConsultaGarantia);
+        return;
     }
 
-    botaoConsultar.disabled = true;
-    botaoConsultar.innerHTML = `
-        <i class="fa-solid fa-spinner fa-spin"></i>
-        Carregando
-    `;
+    campoNumeroOS.addEventListener(
+        "input",
+        formatarCampoOS
+    );
 
-    await carregarOrdensDeServico();
+    campoNumeroOS.addEventListener(
+        "keydown",
+        consultarComEnter
+    );
 
-    botaoConsultar.disabled = false;
-    botaoConsultar.innerHTML = `
-        <i class="fa-solid fa-magnifying-glass"></i>
-        Consultar
-    `;
+    botaoConsultar.addEventListener(
+        "click",
+        consultarOrdemDeServico
+    );
 
-    consultarOSPelaURL();
+    if (cardGarantia) {
+        cardGarantia.addEventListener(
+            "click",
+            abrirConsultaGarantia
+        );
+    }
+
+    if (!window.supabaseClient) {
+        botaoConsultar.disabled = true;
+
+        mostrarErro(
+            "Não foi possível conectar ao sistema de consulta. " +
+            "Atualize a página e tente novamente."
+        );
+
+        console.error(
+            "supabaseClient não foi encontrado."
+        );
+
+        return;
+    }
+
+    await consultarOSPelaURL();
 }
 
+
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", inicializarPortal);
+    document.addEventListener(
+        "DOMContentLoaded",
+        inicializarPortal
+    );
 } else {
     inicializarPortal();
 }
 
-/* ==========================================================
-   CARREGAMENTO DO ARQUIVO JSON
-========================================================== */
-
-async function carregarOrdensDeServico() {
-    try {
-        const resposta = await fetch("os.json", {
-            cache: "no-store"
-        });
-
-        if (!resposta.ok) {
-            throw new Error(
-                `Não foi possível carregar o arquivo os.json. Código: ${resposta.status}`
-            );
-        }
-
-        const dados = await resposta.json();
-
-        if (!dados || !Array.isArray(dados.ordens)) {
-            throw new Error(
-                "O arquivo os.json não possui uma estrutura válida."
-            );
-        }
-
-        ordensDeServico = dados.ordens;
-    } catch (erro) {
-        console.error("Erro ao carregar as Ordens de Serviço:", erro);
-
-        mostrarErro(
-            "Não foi possível acessar o sistema de consulta neste momento. " +
-            "Tente novamente mais tarde ou entre em contato pelo WhatsApp."
-        );
-    }
-}
 
 /* ==========================================================
    FORMATAÇÃO DO CAMPO
 ========================================================== */
 
 function formatarCampoOS(evento) {
-    const valorFormatado = evento.target.value
+    evento.target.value = evento.target.value
         .toUpperCase()
         .replace(/\s+/g, "")
         .replace(/[^A-Z0-9-]/g, "");
-
-    evento.target.value = valorFormatado;
 }
 
-function normalizarNumeroOS(numeroOS) {
-    return String(numeroOS || "")
+
+function normalizarCodigo(valor) {
+    return String(valor || "")
         .trim()
         .toUpperCase()
         .replace(/\s+/g, "");
 }
 
+
 /* ==========================================================
-   CONSULTA PELO BOTÃO OU TECLA ENTER
+   CONSULTA
 ========================================================== */
 
 function consultarComEnter(evento) {
     if (evento.key === "Enter") {
         evento.preventDefault();
+
         consultarOrdemDeServico();
     }
 }
 
-function consultarOrdemDeServico(evento) {
+
+async function consultarOrdemDeServico(evento) {
     if (evento) {
         evento.preventDefault();
     }
 
-    const numeroInformado = normalizarNumeroOS(campoNumeroOS.value);
+    const codigo = normalizarCodigo(
+        campoNumeroOS.value
+    );
 
     limparResultado();
 
-    if (!numeroInformado) {
+    if (!codigo) {
         mostrarErro(
-            "Digite o número da Ordem de Serviço para realizar a consulta."
+            "Digite o código de consulta da Ordem de Serviço."
         );
 
         campoNumeroOS.focus();
+
         return;
     }
 
-    if (ordensDeServico.length === 0) {
-        mostrarErro(
-            "As informações das Ordens de Serviço ainda não foram carregadas. " +
-            "Atualize a página e tente novamente."
+    alterarEstadoConsulta(true);
+
+    try {
+        const {
+            data,
+            error
+        } = await window.supabaseClient.rpc(
+            "consultar_ordem_publica",
+            {
+                p_codigo: codigo
+            }
         );
 
-        return;
-    }
+        if (error) {
+            throw error;
+        }
 
-    const ordemEncontrada = ordensDeServico.find((ordem) => {
-        return normalizarNumeroOS(ordem.os) === numeroInformado;
-    });
+        const ordem = Array.isArray(data)
+            ? data[0]
+            : data;
 
-    if (!ordemEncontrada) {
-        mostrarErro(
-            `Não encontramos a Ordem de Serviço ${numeroInformado}. ` +
-            "Confira o número informado na etiqueta e tente novamente."
+        if (!ordem) {
+            mostrarErro(
+                `Não encontramos uma Ordem de Serviço para o código ${codigo}. ` +
+                "Confira o código e tente novamente."
+            );
+
+            atualizarEnderecoURL("");
+
+            return;
+        }
+
+        exibirOrdemDeServico(ordem);
+
+        atualizarEnderecoURL(
+            ordem.codigo_consulta || codigo
+        );
+    } catch (erro) {
+        console.error(
+            "Erro ao consultar a Ordem de Serviço:",
+            erro
         );
 
-        atualizarEnderecoURL("");
-        return;
+        mostrarErro(
+            "Não foi possível acessar o sistema de consulta neste momento. " +
+            "Tente novamente mais tarde ou entre em contato pelo WhatsApp."
+        );
+    } finally {
+        alterarEstadoConsulta(false);
     }
-
-    exibirOrdemDeServico(ordemEncontrada);
-    atualizarEnderecoURL(ordemEncontrada.os);
 }
 
+
+function alterarEstadoConsulta(carregando) {
+    botaoConsultar.disabled = carregando;
+    campoNumeroOS.disabled = carregando;
+
+    if (carregando) {
+        botaoConsultar.innerHTML = `
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            Consultando
+        `;
+
+        return;
+    }
+
+    botaoConsultar.innerHTML = `
+        <i class="fa-solid fa-magnifying-glass"></i>
+        Consultar
+    `;
+}
+
+
 /* ==========================================================
-   EXIBIÇÃO DA ORDEM DE SERVIÇO
+   EXIBIÇÃO DA ORDEM
 ========================================================== */
 
 function exibirOrdemDeServico(ordem) {
-    const status = calcularStatusManutencao(
-        ordem?.datas?.proxima_manutencao,
-        ordem?.status
+    const status = calcularStatus(
+        ordem.status,
+        ordem.proxima_manutencao
     );
 
     exibirStatus(status);
 
-    const servicosExecutados = criarListaServicos(
-        ordem.servicos_executados
-    );
-
-    const documentos = criarAreaDocumentos(ordem.documentos);
-
     areaDadosOS.innerHTML = `
         <div class="os-cabecalho">
+
             <div>
-                <h3>${escaparHTML(
-                    ordem?.servico?.tipo || "Ordem de Serviço"
-                )}</h3>
+
+                <h3>
+                    ${escaparHTML(
+                        formatarCategoria(
+                            ordem.categoria
+                        )
+                    )}
+                </h3>
 
                 <p>
                     ${escaparHTML(
-                        ordem?.servico?.descricao ||
+                        ordem.servico ||
                         "Informações do serviço realizado."
                     )}
                 </p>
+
             </div>
 
             <span class="os-numero">
+
                 <i class="fa-solid fa-file-circle-check"></i>
-                ${escaparHTML(ordem.os)}
+
+                ${escaparHTML(
+                    ordem.numero ||
+                    "OS não informada"
+                )}
+
             </span>
+
         </div>
+
 
         <div class="os-grade">
 
             ${criarItemOS(
                 "Cliente",
-                ordem?.cliente?.nome || "Não informado"
-            )}
-
-            ${criarItemOS(
-                "Local",
-                ordem?.equipamento?.local || "Não informado"
+                ordem.cliente ||
+                "Não informado"
             )}
 
             ${criarItemOS(
                 "Equipamento",
-                ordem?.equipamento?.nome || "Não informado"
+                ordem.equipamento ||
+                "Não informado"
             )}
 
             ${criarItemOS(
-                "Modelo ou identificação",
-                montarIdentificacaoEquipamento(ordem.equipamento)
+                "Marca ou modelo",
+                ordem.marca_modelo ||
+                "Não informado"
             )}
 
             ${criarItemOS(
-                "Data da execução",
-                formatarData(ordem?.datas?.execucao)
+                "Data de abertura",
+                formatarData(
+                    ordem.data_abertura
+                )
+            )}
+
+            ${criarItemOS(
+                "Data de conclusão",
+                formatarData(
+                    ordem.data_conclusao
+                )
             )}
 
             ${criarItemOS(
                 "Próxima manutenção",
-                formatarData(ordem?.datas?.proxima_manutencao)
+                formatarData(
+                    ordem.proxima_manutencao
+                )
             )}
 
             ${criarItemOS(
                 "Garantia",
-                criarTextoGarantia(ordem?.datas?.garantia)
+                criarTextoGarantia(
+                    ordem.garantia_ate
+                )
             )}
 
             ${criarItemOS(
                 "Técnico responsável",
-                ordem?.tecnico?.nome || "Não informado"
+                ordem.tecnico ||
+                "Não informado"
+            )}
+
+            ${criarItemOS(
+                "Status da OS",
+                formatarStatus(
+                    ordem.status
+                )
+            )}
+
+            ${criarItemOS(
+                "Prioridade",
+                formatarPrioridade(
+                    ordem.prioridade
+                )
             )}
 
         </div>
 
+
+        ${criarBlocoTexto(
+            "Problema relatado",
+            "fa-solid fa-circle-exclamation",
+            ordem.problema_relatado
+        )}
+
+
+        ${criarBlocoTexto(
+            "Diagnóstico técnico",
+            "fa-solid fa-magnifying-glass",
+            ordem.diagnostico
+        )}
+
+
         <div class="os-bloco">
+
             <h3>
+
                 <i class="fa-solid fa-screwdriver-wrench"></i>
+
                 Serviços executados
+
             </h3>
 
-            ${servicosExecutados}
+            ${criarListaServicos(
+                ordem.servico_executado
+            )}
+
         </div>
 
-        <div class="os-bloco">
-            <h3>
-                <i class="fa-solid fa-clipboard-list"></i>
-                Observações técnicas
-            </h3>
 
-            <p>
-                ${escaparHTML(
-                    ordem.observacoes || "Nenhuma observação registrada."
-                )}
-            </p>
-        </div>
+        ${criarBlocoTexto(
+            "Materiais utilizados",
+            "fa-solid fa-toolbox",
+            ordem.materiais
+        )}
 
-        ${documentos}
+
+        ${criarBlocoTexto(
+            "Observações técnicas",
+            "fa-solid fa-clipboard-list",
+            ordem.observacoes
+        )}
     `;
 
     areaResultado.style.display = "block";
@@ -283,6 +384,7 @@ function exibirOrdemDeServico(ordem) {
     });
 }
 
+
 /* ==========================================================
    COMPONENTES DO RESULTADO
 ========================================================== */
@@ -290,215 +392,370 @@ function exibirOrdemDeServico(ordem) {
 function criarItemOS(titulo, valor) {
     return `
         <div class="os-item">
-            <span>${escaparHTML(titulo)}</span>
-            <strong>${escaparHTML(valor)}</strong>
+
+            <span>
+                ${escaparHTML(titulo)}
+            </span>
+
+            <strong>
+                ${escaparHTML(valor)}
+            </strong>
+
         </div>
     `;
 }
 
-function montarIdentificacaoEquipamento(equipamento) {
-    if (!equipamento) {
-        return "Não informado";
-    }
 
-    const partes = [];
+function criarBlocoTexto(
+    titulo,
+    icone,
+    texto
+) {
+    const conteudo = String(
+        texto || ""
+    ).trim();
 
-    if (equipamento.modelo) {
-        partes.push(equipamento.modelo);
-    }
-
-    if (equipamento.patrimonio) {
-        partes.push(`Patrimônio: ${equipamento.patrimonio}`);
-    }
-
-    return partes.length > 0
-        ? partes.join(" • ")
-        : "Não informado";
-}
-
-function criarListaServicos(servicos) {
-    if (!Array.isArray(servicos) || servicos.length === 0) {
-        return "<p>Nenhum serviço detalhado foi registrado.</p>";
-    }
-
-    const itens = servicos
-        .map((servico) => `<li>${escaparHTML(servico)}</li>`)
-        .join("");
-
-    return `<ul>${itens}</ul>`;
-}
-
-function criarAreaDocumentos(documentos) {
-    if (!documentos) {
+    if (!conteudo) {
         return "";
-    }
-
-    const possuiPDF = Boolean(documentos.pdf);
-    const possuiFotos =
-        Array.isArray(documentos.fotos) &&
-        documentos.fotos.length > 0;
-
-    if (!possuiPDF && !possuiFotos) {
-        return "";
-    }
-
-    let conteudo = "";
-
-    if (possuiPDF) {
-        conteudo += `
-            <p>
-                <a
-                    href="${escaparAtributo(documentos.pdf)}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <i class="fa-solid fa-file-pdf"></i>
-                    Abrir relatório em PDF
-                </a>
-            </p>
-        `;
-    }
-
-    if (possuiFotos) {
-        conteudo += `
-            <p>
-                <i class="fa-solid fa-images"></i>
-                ${documentos.fotos.length}
-                ${documentos.fotos.length === 1 ? "foto disponível" : "fotos disponíveis"}
-            </p>
-        `;
     }
 
     return `
         <div class="os-bloco">
+
             <h3>
-                <i class="fa-solid fa-folder-open"></i>
-                Documentos do serviço
+
+                <i class="${escaparHTML(icone)}"></i>
+
+                ${escaparHTML(titulo)}
+
             </h3>
 
-            ${conteudo}
+            <p>
+                ${formatarTextoComQuebras(
+                    conteudo
+                )}
+            </p>
+
         </div>
     `;
 }
 
+
+function criarListaServicos(valor) {
+    const texto = String(
+        valor || ""
+    ).trim();
+
+    if (!texto) {
+        return `
+            <p>
+                Nenhum serviço detalhado foi registrado.
+            </p>
+        `;
+    }
+
+    const itens = texto
+        .split(/\r?\n|;\s*/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+
+    if (itens.length === 1) {
+        return `
+            <p>
+                ${escaparHTML(itens[0])}
+            </p>
+        `;
+    }
+
+    const lista = itens
+        .map((item) => {
+            return `
+                <li>
+                    ${escaparHTML(item)}
+                </li>
+            `;
+        })
+        .join("");
+
+    return `
+        <ul>
+            ${lista}
+        </ul>
+    `;
+}
+
+
 /* ==========================================================
-   STATUS DA MANUTENÇÃO
+   STATUS DA ORDEM E MANUTENÇÃO
 ========================================================== */
 
-function calcularStatusManutencao(dataProximaManutencao, statusSalvo) {
-    const dataManutencao = converterDataISO(dataProximaManutencao);
+function calcularStatus(
+    statusSalvo,
+    proximaManutencao
+) {
+    const status = String(
+        statusSalvo || ""
+    ).toLowerCase();
+
+    if (status === "cancelada") {
+        return {
+            tipo: "vencida",
+
+            titulo:
+                "Ordem de Serviço cancelada",
+
+            mensagem:
+                "Entre em contato com nossa equipe para mais informações.",
+
+            icone:
+                "fa-solid fa-circle-xmark"
+        };
+    }
+
+    if (
+        status === "pendente" ||
+        status === "andamento" ||
+        status === "rascunho"
+    ) {
+        return {
+            tipo: "atencao",
+
+            titulo:
+                status === "andamento"
+                    ? "Atendimento em andamento"
+                    : "Atendimento pendente",
+
+            mensagem:
+                "As informações desta Ordem de Serviço ainda estão sendo atualizadas.",
+
+            icone:
+                "fa-solid fa-clock"
+        };
+    }
+
+    const dataManutencao = converterDataISO(
+        proximaManutencao
+    );
 
     if (!dataManutencao) {
-        return statusPeloCadastro(statusSalvo);
+        return {
+            tipo: "em-dia",
+
+            titulo:
+                "Serviço concluído",
+
+            mensagem:
+                "O atendimento desta Ordem de Serviço foi concluído.",
+
+            icone:
+                "fa-solid fa-circle-check"
+        };
     }
 
     const hoje = obterDataAtualSemHorario();
-    const diferenca = dataManutencao.getTime() - hoje.getTime();
-    const diasRestantes = Math.ceil(
-        diferenca / (1000 * 60 * 60 * 24)
+
+    const diferenca =
+        dataManutencao.getTime() -
+        hoje.getTime();
+
+    const dias = Math.ceil(
+        diferenca /
+        (
+            1000 *
+            60 *
+            60 *
+            24
+        )
     );
 
-    if (diasRestantes < 0) {
+    if (dias < 0) {
         return {
             tipo: "vencida",
-            titulo: "Manutenção vencida",
+
+            titulo:
+                "Manutenção vencida",
+
             mensagem:
-                `A manutenção recomendada venceu há ${Math.abs(diasRestantes)} ` +
-                `${Math.abs(diasRestantes) === 1 ? "dia" : "dias"}.`,
-            icone: "fa-solid fa-triangle-exclamation"
+                `A manutenção recomendada venceu há ${Math.abs(dias)} ` +
+                `${Math.abs(dias) === 1 ? "dia" : "dias"}.`,
+
+            icone:
+                "fa-solid fa-triangle-exclamation"
         };
     }
 
-    if (diasRestantes === 0) {
+    if (dias <= 30) {
         return {
             tipo: "atencao",
-            titulo: "Manutenção prevista para hoje",
-            mensagem:
-                "Entre em contato com nossa equipe para programar o atendimento.",
-            icone: "fa-solid fa-calendar-day"
-        };
-    }
 
-    if (diasRestantes <= 30) {
-        return {
-            tipo: "atencao",
-            titulo: "Próxima manutenção se aproximando",
+            titulo:
+                dias === 0
+                    ? "Manutenção prevista para hoje"
+                    : "Próxima manutenção se aproximando",
+
             mensagem:
-                `Faltam ${diasRestantes} ` +
-                `${diasRestantes === 1 ? "dia" : "dias"} para a manutenção recomendada.`,
-            icone: "fa-solid fa-clock"
+                dias === 0
+                    ? "Entre em contato com nossa equipe para programar o atendimento."
+                    : `Faltam ${dias} ${dias === 1 ? "dia" : "dias"} para a manutenção recomendada.`,
+
+            icone:
+                dias === 0
+                    ? "fa-solid fa-calendar-day"
+                    : "fa-solid fa-clock"
         };
     }
 
     return {
         tipo: "em-dia",
-        titulo: "Manutenção em dia",
+
+        titulo:
+            "Manutenção em dia",
+
         mensagem:
             `A próxima manutenção está prevista para ` +
-            `${formatarData(dataProximaManutencao)}.`,
-        icone: "fa-solid fa-circle-check"
+            `${formatarData(proximaManutencao)}.`,
+
+        icone:
+            "fa-solid fa-circle-check"
     };
 }
 
-function statusPeloCadastro(statusSalvo) {
-    const status = String(statusSalvo || "").toLowerCase();
-
-    if (status === "vencida") {
-        return {
-            tipo: "vencida",
-            titulo: "Manutenção vencida",
-            mensagem:
-                "Entre em contato para programar uma nova manutenção.",
-            icone: "fa-solid fa-triangle-exclamation"
-        };
-    }
-
-    if (status === "atencao") {
-        return {
-            tipo: "atencao",
-            titulo: "Atenção à manutenção",
-            mensagem:
-                "Verifique a data recomendada e entre em contato com nossa equipe.",
-            icone: "fa-solid fa-clock"
-        };
-    }
-
-    return {
-        tipo: "em-dia",
-        titulo: "Manutenção em dia",
-        mensagem:
-            "O equipamento possui registro de manutenção ativo.",
-        icone: "fa-solid fa-circle-check"
-    };
-}
 
 function exibirStatus(status) {
-    const classeStatus = {
-        "em-dia": "status-em-dia",
-        "atencao": "status-atencao",
-        "vencida": "status-vencida"
+    const classes = {
+        "em-dia":
+            "status-em-dia",
+
+        "atencao":
+            "status-atencao",
+
+        "vencida":
+            "status-vencida"
     };
 
     areaStatusOS.innerHTML = `
-        <div class="status-box ${classeStatus[status.tipo]}">
-            <i class="${status.icone}"></i>
+        <div class="status-box ${classes[status.tipo] || "status-em-dia"}">
+
+            <i class="${escaparHTML(status.icone)}"></i>
 
             <div>
-                <strong>${escaparHTML(status.titulo)}</strong>
-                <span>${escaparHTML(status.mensagem)}</span>
+
+                <strong>
+                    ${escaparHTML(status.titulo)}
+                </strong>
+
+                <span>
+                    ${escaparHTML(status.mensagem)}
+                </span>
+
             </div>
+
         </div>
     `;
 
     areaStatusOS.style.display = "block";
 }
 
+
+/* ==========================================================
+   FORMATAÇÃO DOS DADOS
+========================================================== */
+
+function formatarCategoria(categoria) {
+    const categorias = {
+        "eletrica":
+            "Serviços elétricos",
+
+        "automacao":
+            "Automação",
+
+        "seguranca-eletronica":
+            "Segurança eletrônica",
+
+        "rede":
+            "Redes e infraestrutura",
+
+        "controle-acesso":
+            "Controle de acesso",
+
+        "manutencao":
+            "Manutenção",
+
+        "civil":
+            "Serviços civis",
+
+        "outro":
+            "Ordem de Serviço"
+    };
+
+    const chave = String(
+        categoria || ""
+    ).toLowerCase();
+
+    return categorias[chave] ||
+        "Ordem de Serviço";
+}
+
+
+function formatarStatus(status) {
+    const nomes = {
+        "rascunho":
+            "Rascunho",
+
+        "pendente":
+            "Pendente",
+
+        "andamento":
+            "Em andamento",
+
+        "concluida":
+            "Concluída",
+
+        "cancelada":
+            "Cancelada"
+    };
+
+    const chave = String(
+        status || ""
+    ).toLowerCase();
+
+    return nomes[chave] ||
+        "Não informado";
+}
+
+
+function formatarPrioridade(prioridade) {
+    const nomes = {
+        "baixa":
+            "Baixa",
+
+        "normal":
+            "Normal",
+
+        "alta":
+            "Alta",
+
+        "urgente":
+            "Urgente"
+    };
+
+    const chave = String(
+        prioridade || ""
+    ).toLowerCase();
+
+    return nomes[chave] ||
+        "Não informada";
+}
+
+
 /* ==========================================================
    GARANTIA
 ========================================================== */
 
 function criarTextoGarantia(dataGarantia) {
-    const data = converterDataISO(dataGarantia);
+    const data = converterDataISO(
+        dataGarantia
+    );
 
     if (!data) {
         return "Não informada";
@@ -506,23 +763,30 @@ function criarTextoGarantia(dataGarantia) {
 
     const hoje = obterDataAtualSemHorario();
 
-    if (data.getTime() < hoje.getTime()) {
+    if (
+        data.getTime() <
+        hoje.getTime()
+    ) {
         return `Encerrada em ${formatarData(dataGarantia)}`;
     }
 
     return `Válida até ${formatarData(dataGarantia)}`;
 }
 
+
 function abrirConsultaGarantia(evento) {
     evento.preventDefault();
 
     campoNumeroOS.focus();
 
-    document.querySelector(".consulta").scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
+    document
+        .querySelector(".consulta")
+        ?.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
 }
+
 
 /* ==========================================================
    DATAS
@@ -533,7 +797,9 @@ function converterDataISO(dataISO) {
         return null;
     }
 
-    const partes = String(dataISO).split("-");
+    const partes = String(dataISO)
+        .slice(0, 10)
+        .split("-");
 
     if (partes.length !== 3) {
         return null;
@@ -543,11 +809,11 @@ function converterDataISO(dataISO) {
     const mes = Number(partes[1]);
     const dia = Number(partes[2]);
 
-    if (!ano || !mes || !dia) {
-        return null;
-    }
-
-    const data = new Date(ano, mes - 1, dia);
+    const data = new Date(
+        ano,
+        mes - 1,
+        dia
+    );
 
     if (
         data.getFullYear() !== ano ||
@@ -560,15 +826,21 @@ function converterDataISO(dataISO) {
     return data;
 }
 
+
 function formatarData(dataISO) {
-    const data = converterDataISO(dataISO);
+    const data = converterDataISO(
+        dataISO
+    );
 
     if (!data) {
         return "Não informada";
     }
 
-    return new Intl.DateTimeFormat("pt-BR").format(data);
+    return new Intl.DateTimeFormat(
+        "pt-BR"
+    ).format(data);
 }
+
 
 function obterDataAtualSemHorario() {
     const agora = new Date();
@@ -580,8 +852,9 @@ function obterDataAtualSemHorario() {
     );
 }
 
+
 /* ==========================================================
-   MENSAGENS E LIMPEZA
+   MENSAGENS
 ========================================================== */
 
 function limparResultado() {
@@ -592,18 +865,26 @@ function limparResultado() {
     areaStatusOS.innerHTML = "";
 }
 
+
 function mostrarErro(mensagem) {
     areaStatusOS.style.display = "none";
     areaStatusOS.innerHTML = "";
 
     areaDadosOS.innerHTML = `
         <div class="mensagem-erro">
+
             <strong>
+
                 <i class="fa-solid fa-circle-exclamation"></i>
+
                 Não foi possível concluir a consulta
+
             </strong>
 
-            <p>${escaparHTML(mensagem)}</p>
+            <p>
+                ${escaparHTML(mensagem)}
+            </p>
+
         </div>
     `;
 
@@ -615,31 +896,46 @@ function mostrarErro(mensagem) {
     });
 }
 
+
 /* ==========================================================
-   CONSULTA DIRETA PELA URL
+   CONSULTA PELA URL
    Exemplo:
-   /atendimentos/?os=UB-260001
+   /atendimentos/?os=CODIGO-DE-CONSULTA
 ========================================================== */
 
-function consultarOSPelaURL() {
-    const parametros = new URLSearchParams(window.location.search);
-    const numeroOS = parametros.get("os");
+async function consultarOSPelaURL() {
+    const parametros = new URLSearchParams(
+        window.location.search
+    );
 
-    if (!numeroOS) {
+    const codigo = parametros.get("os");
+
+    if (!codigo) {
         return;
     }
 
-    campoNumeroOS.value = normalizarNumeroOS(numeroOS);
-    consultarOrdemDeServico();
+    campoNumeroOS.value = normalizarCodigo(
+        codigo
+    );
+
+    await consultarOrdemDeServico();
 }
 
-function atualizarEnderecoURL(numeroOS) {
-    const endereco = new URL(window.location.href);
 
-    if (numeroOS) {
-        endereco.searchParams.set("os", numeroOS);
+function atualizarEnderecoURL(codigo) {
+    const endereco = new URL(
+        window.location.href
+    );
+
+    if (codigo) {
+        endereco.searchParams.set(
+            "os",
+            codigo
+        );
     } else {
-        endereco.searchParams.delete("os");
+        endereco.searchParams.delete(
+            "os"
+        );
     }
 
     window.history.replaceState(
@@ -649,19 +945,40 @@ function atualizarEnderecoURL(numeroOS) {
     );
 }
 
+
 /* ==========================================================
    SEGURANÇA DOS DADOS EXIBIDOS
 ========================================================== */
 
-function escaparHTML(valor) {
-    return String(valor ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+function formatarTextoComQuebras(valor) {
+    return escaparHTML(valor)
+        .replace(
+            /\r?\n/g,
+            "<br>"
+        );
 }
 
-function escaparAtributo(valor) {
-    return escaparHTML(valor);
+
+function escaparHTML(valor) {
+    return String(valor ?? "")
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 }
