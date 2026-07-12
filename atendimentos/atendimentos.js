@@ -122,7 +122,11 @@ function consultarComEnter(evento) {
     }
 }
 
-function consultarOrdemDeServico() {
+function consultarOrdemDeServico(evento) {
+    if (evento) {
+        evento.preventDefault();
+    }
+
     const numeroInformado = normalizarNumeroOS(campoNumeroOS.value);
 
     limparResultado();
