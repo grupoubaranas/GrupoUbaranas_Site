@@ -1,1 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login Administrativo | Grupo Ubaranas</title>
+
+    <meta
+        name="description"
+        content="Acesso restrito ao painel administrativo do Grupo Ubaranas."
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../faviconubaranas.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="login.css?v=1.0"
+    >
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <section class="login-card">
+
+            <div class="login-logo">
+                <img
+                    src="../atendimentos/logo/logo.png"
+                    alt="Logo do Grupo Ubaranas"
+                >
+            </div>
+
+            <div class="login-header">
+
+                <span class="login-badge">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    ACESSO RESTRITO
+                </span>
+
+                <h1>Painel Administrativo</h1>
+
+                <p>
+                    Entre com suas credenciais para gerenciar clientes,
+                    equipamentos e Ordens de Serviço.
+                </p>
+
+            </div>
+
+            <form
+                id="formLogin"
+                class="login-form"
+                novalidate
+            >
+
+                <div class="form-group">
+
+                    <label for="email">
+                        E-mail
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="seuemail@grupoubaranas.com.br"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="senha">
+                        Senha
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            placeholder="Digite sua senha"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            id="btnMostrarSenha"
+                            class="btn-show-password"
+                            aria-label="Mostrar senha"
+                        >
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="mensagemLogin"
+                    class="login-message"
+                    aria-live="polite"
+                ></div>
+
+                <button
+                    type="submit"
+                    id="btnEntrar"
+                    class="btn-login"
+                >
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    Entrar
+                </button>
+
+            </form>
+
+            <div class="login-footer">
+
+                <a href="../index.html">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Voltar ao site
+                </a>
+
+                <p>
+                    Grupo Ubaranas
+                </p>
+
+                <p>
+                    CNPJ: 49.187.630/0001-06
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="login.js?v=1.0"></script>
+
+</body>
+
+</html>
