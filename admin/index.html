@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Painel administrativo do Portal de Atendimento do Grupo Ubaranas.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Painel Administrativo | Grupo Ubaranas</title>
+
+    <link rel="icon" type="image/png" href="../faviconubaranas.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+
+    <script src="admin.js" defer></script>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- MENU LATERAL -->
+        <aside class="sidebar" id="sidebar" aria-label="Menu administrativo">
+            <div class="sidebar-header">
+                <a class="sidebar-logo" href="index.html" aria-label="Página inicial do painel">
+                    <img
+                        src="../atendimentos/logo/logo.png"
+                        alt="Grupo Ubaranas"
+                    >
+                </a>
+
+                <div class="sidebar-title">
+                    <strong>Painel Administrativo</strong>
+                    <span>Central de Atendimento</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <p class="sidebar-section-title">Principal</p>
+
+                <ul class="sidebar-menu">
+                    <li>
+                        <a class="menu-item active" href="#dashboard" data-section="dashboard">
+                            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                            <span>Visão geral</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="menu-item" href="#ordens-servico" data-section="ordens-servico">
+                            <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                            <span>Ordens de serviço</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="menu-item" href="#clientes" data-section="clientes">
+                            <i class="fa-solid fa-users" aria-hidden="true"></i>
+                            <span>Clientes</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="menu-item" href="#equipamentos" data-section="equipamentos">
+                            <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+                            <span>Equipamentos</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <p class="sidebar-section-title" style="margin-top: 25px;">Gestão</p>
+
+                <ul class="sidebar-menu">
+                    <li>
+                        <a class="menu-item" href="#manutencoes" data-section="manutencoes">
+                            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                            <span>Manutenções</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="menu-item" href="#documentos" data-section="documentos">
+                            <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+                            <span>Documentos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="menu-item" href="#relatorios" data-section="relatorios">
+                            <i class="fa-solid fa-chart-pie" aria-hidden="true"></i>
+                            <span>Relatórios</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="menu-item" href="#configuracoes" data-section="configuracoes">
+                            <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                            <span>Configurações</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar" id="userAvatar" aria-hidden="true">FA</div>
+
+                    <div class="user-info">
+                        <strong id="userName">Felipe Augusto</strong>
+                        <span id="userRole">Administrador</span>
+                    </div>
+                </div>
+
+                <a class="btn-logout" id="btnLogout" href="login.html">
+                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                    <span>Sair do painel</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="admin-main">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button
+                        class="menu-toggle"
+                        id="menuToggle"
+                        type="button"
+                        aria-label="Abrir menu"
+                        aria-controls="sidebar"
+                        aria-expanded="false"
+                    >
+                        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="topbar-title">
+                        <h1>Central de Atendimento</h1>
+                        <p>Gestão de clientes, serviços e manutenções</p>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <span class="topbar-date" id="currentDate">Carregando data...</span>
+
+                    <a
+                        class="topbar-action"
+                        href="../atendimentos/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Abrir portal do cliente"
+                        title="Abrir portal do cliente"
+                    >
+                        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </a>
+
+                    <button
+                        class="topbar-action"
+                        id="notificationButton"
+                        type="button"
+                        aria-label="Ver notificações"
+                        title="Notificações"
+                    >
+                        <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                        <span class="notification-dot" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- CABEÇALHO -->
+                <section class="page-header" id="dashboard">
+                    <div>
+                        <h2>Visão geral</h2>
+                        <p>
+                            Acompanhe as ordens de serviço, os atendimentos em andamento
+                            e as próximas manutenções cadastradas no portal.
+                        </p>
+                    </div>
+
+                    <div class="page-actions">
+                        <button class="btn btn-secondary" id="refreshDashboard" type="button">
+                            <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                            Atualizar
+                        </button>
+
+                        <button class="btn btn-primary" id="newOrderButton" type="button">
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                            Nova ordem de serviço
+                        </button>
+                    </div>
+                </section>
+
+                <div class="alert alert-info" id="demoAlert">
+                    <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                    <div>
+                        <strong>Estrutura inicial do painel.</strong>
+                        Os registros exibidos nesta versão são demonstrativos e serão substituídos
+                        pelos dados reais quando conectarmos o arquivo JavaScript ao banco de dados.
+                    </div>
+                </div>
+
+                <!-- INDICADORES -->
+                <section class="stats-grid" aria-label="Indicadores das ordens de serviço">
+                    <article class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">Total de OS</span>
+                            <span class="stat-icon">
+                                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                            </span>
+                        </div>
+
+                        <strong class="stat-value" id="totalOrders">4</strong>
+
+                        <span class="stat-footer positive">
+                            <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i>
+                            Registros cadastrados
+                        </span>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">Em andamento</span>
+                            <span class="stat-icon">
+                                <i class="fa-solid fa-gears" aria-hidden="true"></i>
+                            </span>
+                        </div>
+
+                        <strong class="stat-value" id="ordersInProgress">1</strong>
+
+                        <span class="stat-footer warning">
+                            <i class="fa-solid fa-clock" aria-hidden="true"></i>
+                            Atendimento em execução
+                        </span>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">Pendentes</span>
+                            <span class="stat-icon">
+                                <i class="fa-solid fa-hourglass-half" aria-hidden="true"></i>
+                            </span>
+                        </div>
+
+                        <strong class="stat-value" id="pendingOrders">1</strong>
+
+                        <span class="stat-footer warning">
+                            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                            Aguardando atualização
+                        </span>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-card-top">
+                            <span class="stat-label">Concluídas</span>
+                            <span class="stat-icon">
+                                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                            </span>
+                        </div>
+
+                        <strong class="stat-value" id="completedOrders">2</strong>
+
+                        <span class="stat-footer positive">
+                            <i class="fa-solid fa-check" aria-hidden="true"></i>
+                            Serviços finalizados
+                        </span>
+                    </article>
+                </section>
+
+                <!-- TABELA DE ORDENS DE SERVIÇO -->
+                <section class="panel" id="ordens-servico">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <h3>
+                                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i>
+                                Ordens de serviço
+                            </h3>
+                            <p>Consulte, edite e acompanhe os registros cadastrados.</p>
+                        </div>
+
+                        <div class="panel-actions">
+                            <button class="btn btn-sm btn-secondary" id="exportOrders" type="button">
+                                <i class="fa-solid fa-file-export" aria-hidden="true"></i>
+                                Exportar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filters-bar">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <input
+                                class="form-control"
+                                id="searchOrder"
+                                type="search"
+                                placeholder="Buscar por OS, cliente ou serviço..."
+                                aria-label="Buscar ordem de serviço"
+                            >
+                        </div>
+
+                        <select class="form-select" id="statusFilter" aria-label="Filtrar por status">
+                            <option value="">Todos os status</option>
+                            <option value="rascunho">Rascunho</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="andamento">Em andamento</option>
+                            <option value="concluida">Concluída</option>
+                            <option value="cancelada">Cancelada</option>
+                        </select>
+
+                        <select class="form-select" id="priorityFilter" aria-label="Filtrar por prioridade">
+                            <option value="">Todas as prioridades</option>
+                            <option value="baixa">Baixa</option>
+                            <option value="normal">Normal</option>
+                            <option value="alta">Alta</option>
+                            <option value="urgente">Urgente</option>
+                        </select>
+
+                        <button class="btn btn-light" id="clearFilters" type="button">
+                            <i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i>
+                            Limpar
+                        </button>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Número</th>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">Serviço</th>
+                                    <th scope="col">Abertura</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Prioridade</th>
+                                    <th scope="col" class="text-right">Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="ordersTableBody">
+                                <tr data-order-id="OS-2026-0004">
+                                    <td>
+                                        <span class="table-primary">OS-2026-0004</span>
+                                        <span class="table-secondary">Atualizada hoje</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-primary">Cliente demonstrativo</span>
+                                        <span class="table-secondary">Comercial</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-primary">Manutenção de nobreak</span>
+                                        <span class="table-secondary">Equipamento elétrico</span>
+                                    </td>
+                                    <td>12/07/2026</td>
+                                    <td><span class="badge status-andamento">Em andamento</span></td>
+                                    <td><span class="badge badge-warning">Alta</span></td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="btn btn-icon btn-sm view-order" type="button" title="Visualizar" aria-label="Visualizar OS-2026-0004">
+                                                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-sm edit-order" type="button" title="Editar" aria-label="Editar OS-2026-0004">
+                                                <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-sm danger delete-order" type="button" title="Excluir" aria-label="Excluir OS-2026-0004">
+                                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-order-id="OS-2026-0003">
+                                    <td>
+                                        <span class="table-primary">OS-2026-0003</span>
+                                        <span class="table-secondary">Atualizada ontem</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-primary">Cliente demonstrativo</span>
+                                        <span class="table-secondary">Condomínio</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-primary">Adequação elétrica</span>
+                                        <span class="table-secondary">Quadro de distribuição</span>
+                                    </td>
+                                    <td>11/07/2026</td>
+                                    <td><span class="badge status-pendente">Pendente</span></td>
+                                    <td><span class="badge badge-neutral">Normal</span></td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="btn btn-icon btn-sm view-order" type="button" title="Visualizar" aria-label="Visualizar OS-2026-0003">
+                                                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-sm edit-order" type="button" title="Editar" aria-label="Editar OS-2026-0003">
+                                                <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-sm danger delete-order" type="button" title="Excluir" aria-label="Excluir OS-2026-0003">
+                                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-order-id="OS-2026-0002">
+                                    <td>
+                                        <span class="table-primary">OS-2026-0002</span>
+                                        <span class="table-secondary">Finalizada</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-primary">Cliente demonstrativo</span>
+                                        <span class="table-secondary">Empresarial</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-primary">Organização de rack</span>
+                                        <span class="table-secondary">Infraestrutura de rede</span>
+                                    </td>
+                                    <td>08/07/2026</td>
+                                    <td><span class="badge status-concluida">Concluída</span></td>
+                                    <td><span class="badge badge-neutral">Normal</span></td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="btn btn-icon btn-sm view-order" type="button" title="Visualizar" aria-label="Visualizar OS-2026-0002">
+                                                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-sm edit-order" type="button" title="Editar" aria-label="Editar OS-2026-0002">
+                                                <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-sm danger delete-order" type="button" title="Excluir" aria-label="Excluir OS-2026-0002">
+                                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-order-id="OS-2026-0001">
+                                    <td>
+                                        <span class="table-primary">OS-2026-0001</span>
+                                        <span class="table-secondary">Finalizada</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-primary">Cliente demonstrativo</span>
+                                        <span class="table-secondary">Residencial</span>
+                                    </td>
+                                    <td>
+                                        <span class="table-primary">Instalação de câmeras</span>
+                                        <span class="table-secondary">Segurança eletrônica</span>
+                                    </td>
+                                    <td>05/07/2026</td>
+                                    <td><span class="badge status-concluida">Concluída</span></td>
+                                    <td><span class="badge badge-info">Baixa</span></td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="btn btn-icon btn-sm view-order" type="button" title="Visualizar" aria-label="Visualizar OS-2026-0001">
+                                                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-sm edit-order" type="button" title="Editar" aria-label="Editar OS-2026-0001">
+                                                <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-icon btn-sm danger delete-order" type="button" title="Excluir" aria-label="Excluir OS-2026-0001">
+                                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <span class="pagination-info" id="paginationInfo">Exibindo 1 a 4 de 4 registros</span>
+
+                        <div class="pagination-buttons">
+                            <button class="page-button" id="previousPage" type="button" disabled aria-label="Página anterior">
+                                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                            </button>
+
+                            <button class="page-button active" type="button" aria-label="Página 1">1</button>
+
+                            <button class="page-button" id="nextPage" type="button" disabled aria-label="Próxima página">
+                                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONTEÚDO SECUNDÁRIO -->
+                <div class="content-grid">
+                    <section class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <h3>
+                                    <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+                                    Atividades recentes
+                                </h3>
+                                <p>Últimas movimentações realizadas no painel.</p>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="activity-list" id="activityList">
+                                <article class="activity-item">
+                                    <span class="activity-icon">
+                                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                                    </span>
+
+                                    <div class="activity-content">
+                                        <strong>Nova ordem de serviço cadastrada</strong>
+                                        <p>A OS-2026-0004 foi adicionada ao sistema.</p>
+                                        <span class="activity-time">Hoje, às 10:35</span>
+                                    </div>
+                                </article>
+
+                                <article class="activity-item">
+                                    <span class="activity-icon">
+                                        <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                    </span>
+
+                                    <div class="activity-content">
+                                        <strong>Status atualizado</strong>
+                                        <p>A OS-2026-0003 foi alterada para pendente.</p>
+                                        <span class="activity-time">Ontem, às 17:20</span>
+                                    </div>
+                                </article>
+
+                                <article class="activity-item">
+                                    <span class="activity-icon">
+                                        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                                    </span>
+
+                                    <div class="activity-content">
+                                        <strong>Serviço concluído</strong>
+                                        <p>A OS-2026-0002 foi finalizada e liberada para consulta.</p>
+                                        <span class="activity-time">08/07/2026, às 16:10</span>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <h3>
+                                    <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                                    Ações rápidas
+                                </h3>
+                                <p>Acesso aos recursos mais utilizados.</p>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="quick-actions">
+                                <button class="quick-action" id="quickNewOrder" type="button">
+                                    <i class="fa-solid fa-file-circle-plus" aria-hidden="true"></i>
+                                    <strong>Nova OS</strong>
+                                    <span>Cadastrar uma nova ordem de serviço.</span>
+                                </button>
+
+                                <button class="quick-action" id="quickNewClient" type="button">
+                                    <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+                                    <strong>Novo cliente</strong>
+                                    <span>Adicionar os dados de um cliente.</span>
+                                </button>
+
+                                <button class="quick-action" id="quickMaintenance" type="button">
+                                    <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+                                    <strong>Manutenção</strong>
+                                    <span>Programar uma próxima manutenção.</span>
+                                </button>
+
+                                <button class="quick-action" id="quickReport" type="button">
+                                    <i class="fa-solid fa-chart-column" aria-hidden="true"></i>
+                                    <strong>Relatório</strong>
+                                    <span>Gerar resumo dos atendimentos.</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: CADASTRO E EDIÇÃO DE OS -->
+    <div class="modal-overlay" id="orderModal" aria-hidden="true">
+        <section class="modal" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+            <div class="modal-header">
+                <h3 id="orderModalTitle">Nova ordem de serviço</h3>
+
+                <button class="modal-close" id="closeOrderModal" type="button" aria-label="Fechar janela">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <form id="orderForm" novalidate>
+                <div class="modal-body">
+                    <input id="orderId" name="orderId" type="hidden">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="orderNumber">
+                                Número da OS <span class="required">*</span>
+                            </label>
+                            <input
+                                class="form-control"
+                                id="orderNumber"
+                                name="numero"
+                                type="text"
+                                placeholder="Ex.: OS-2026-0005"
+                                required
+                            >
+                            <span class="form-help">O número poderá ser gerado automaticamente.</span>
+                            <span class="form-error hidden" id="orderNumberError">Informe o número da OS.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="openingDate">
+                                Data de abertura <span class="required">*</span>
+                            </label>
+                            <input
+                                class="form-control"
+                                id="openingDate"
+                                name="dataAbertura"
+                                type="date"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clientName">
+                                Cliente <span class="required">*</span>
+                            </label>
+                            <input
+                                class="form-control"
+                                id="clientName"
+                                name="cliente"
+                                type="text"
+                                placeholder="Nome do cliente ou empresa"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clientType">Tipo de cliente</label>
+                            <select class="form-select" id="clientType" name="tipoCliente">
+                                <option value="residencial">Residencial</option>
+                                <option value="comercial">Comercial</option>
+                                <option value="condominio">Condomínio</option>
+                                <option value="industrial">Industrial</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clientPhone">Telefone / WhatsApp</label>
+                            <input
+                                class="form-control"
+                                id="clientPhone"
+                                name="telefone"
+                                type="tel"
+                                placeholder="(21) 99999-9999"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clientEmail">E-mail</label>
+                            <input
+                                class="form-control"
+                                id="clientEmail"
+                                name="email"
+                                type="email"
+                                placeholder="cliente@email.com"
+                            >
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="serviceAddress">Local do atendimento</label>
+                            <input
+                                class="form-control"
+                                id="serviceAddress"
+                                name="endereco"
+                                type="text"
+                                placeholder="Endereço ou identificação do local"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serviceCategory">
+                                Categoria do serviço <span class="required">*</span>
+                            </label>
+                            <select class="form-select" id="serviceCategory" name="categoria" required>
+                                <option value="">Selecione</option>
+                                <option value="eletrica">Elétrica</option>
+                                <option value="automacao">Automação</option>
+                                <option value="seguranca-eletronica">Segurança eletrônica</option>
+                                <option value="rede">Infraestrutura de rede</option>
+                                <option value="controle-acesso">Controle de acesso</option>
+                                <option value="manutencao">Manutenção de equipamentos</option>
+                                <option value="civil">Manutenção civil</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serviceTitle">
+                                Serviço <span class="required">*</span>
+                            </label>
+                            <input
+                                class="form-control"
+                                id="serviceTitle"
+                                name="servico"
+                                type="text"
+                                placeholder="Título resumido do serviço"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="orderStatus">Status</label>
+                            <select class="form-select" id="orderStatus" name="status">
+                                <option value="rascunho">Rascunho</option>
+                                <option value="pendente">Pendente</option>
+                                <option value="andamento">Em andamento</option>
+                                <option value="concluida">Concluída</option>
+                                <option value="cancelada">Cancelada</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="orderPriority">Prioridade</label>
+                            <select class="form-select" id="orderPriority" name="prioridade">
+                                <option value="baixa">Baixa</option>
+                                <option value="normal" selected>Normal</option>
+                                <option value="alta">Alta</option>
+                                <option value="urgente">Urgente</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="technicianName">Técnico responsável</label>
+                            <input
+                                class="form-control"
+                                id="technicianName"
+                                name="tecnico"
+                                type="text"
+                                placeholder="Nome do responsável"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="equipmentName">Equipamento</label>
+                            <input
+                                class="form-control"
+                                id="equipmentName"
+                                name="equipamento"
+                                type="text"
+                                placeholder="Ex.: Nobreak 3 kVA"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="equipmentModel">Marca / modelo</label>
+                            <input
+                                class="form-control"
+                                id="equipmentModel"
+                                name="marcaModelo"
+                                type="text"
+                                placeholder="Marca e modelo"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serialNumber">Número de série</label>
+                            <input
+                                class="form-control"
+                                id="serialNumber"
+                                name="numeroSerie"
+                                type="text"
+                                placeholder="Número de série ou patrimônio"
+                            >
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="reportedProblem">Problema relatado / solicitação</label>
+                            <textarea
+                                class="form-textarea"
+                                id="reportedProblem"
+                                name="problemaRelatado"
+                                placeholder="Descreva o problema informado pelo cliente ou a solicitação do serviço."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="technicalDiagnosis">Diagnóstico técnico</label>
+                            <textarea
+                                class="form-textarea"
+                                id="technicalDiagnosis"
+                                name="diagnostico"
+                                placeholder="Informe o diagnóstico encontrado durante a análise."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="performedService">Serviço executado</label>
+                            <textarea
+                                class="form-textarea"
+                                id="performedService"
+                                name="servicoExecutado"
+                                placeholder="Descreva os procedimentos e serviços realizados."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="materialsUsed">Materiais utilizados</label>
+                            <textarea
+                                class="form-textarea"
+                                id="materialsUsed"
+                                name="materiais"
+                                placeholder="Liste peças, materiais ou componentes utilizados."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="orderNotes">Observações</label>
+                            <textarea
+                                class="form-textarea"
+                                id="orderNotes"
+                                name="observacoes"
+                                placeholder="Informações adicionais visíveis no histórico da OS."
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-grid form-grid-3" style="margin-top: 18px;">
+                        <div class="form-group">
+                            <label for="completionDate">Data de conclusão</label>
+                            <input class="form-control" id="completionDate" name="dataConclusao" type="date">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nextMaintenance">Próxima manutenção</label>
+                            <input class="form-control" id="nextMaintenance" name="proximaManutencao" type="date">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="warrantyDate">Garantia até</label>
+                            <input class="form-control" id="warrantyDate" name="garantiaAte" type="date">
+                        </div>
+                    </div>
+
+                    <div class="checkbox-row" style="margin-top: 20px;">
+                        <input id="visibleInPortal" name="visivelNoPortal" type="checkbox" checked>
+                        <label for="visibleInPortal">
+                            Disponibilizar esta ordem de serviço para consulta no Portal do Cliente
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancelOrderModal" type="button">
+                        Cancelar
+                    </button>
+
+                    <button class="btn btn-primary" id="saveOrderButton" type="submit">
+                        <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+                        Salvar ordem de serviço
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <!-- MODAL: CONFIRMAÇÃO DE EXCLUSÃO -->
+    <div class="modal-overlay" id="deleteModal" aria-hidden="true">
+        <section class="modal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+            <div class="modal-header">
+                <h3 id="deleteModalTitle">Excluir ordem de serviço</h3>
+
+                <button class="modal-close" id="closeDeleteModal" type="button" aria-label="Fechar janela">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="alert alert-danger mb-0">
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                    <div>
+                        <strong>Esta ação precisa de confirmação.</strong>
+                        A ordem de serviço <strong id="deleteOrderNumber">selecionada</strong>
+                        será removida do painel e deixará de aparecer no Portal do Cliente.
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelDelete" type="button">Cancelar</button>
+                <button class="btn btn-danger" id="confirmDelete" type="button">
+                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                    Confirmar exclusão
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- NOTIFICAÇÕES -->
+    <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
