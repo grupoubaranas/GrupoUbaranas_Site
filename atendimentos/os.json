@@ -56,17 +56,17 @@
       "status": "atencao",
 
       "cliente": {
-        "nome": "Restaurante Exemplo",
-        "contato": "Gerente",
-        "telefone": "(21) 98888-9999",
-        "email": "gerente@restaurante.com.br"
+        "nome": "BK - Nova Belford Roxo",
+        "contato": "Erica",
+        "telefone": "(21) 99999-9999",
+        "email": "gerente@bk.com.br"
       },
 
       "equipamento": {
         "nome": "Nobreak 3 kVA",
-        "modelo": "NHS Premium",
-        "patrimonio": "NB-003",
-        "local": "Sala de TI"
+        "modelo": "Solution Digital Signal Processor",
+        "patrimonio": "BK00012",
+        "local": "Restaurante BK"
       },
 
       "servico": {
@@ -76,7 +76,7 @@
 
       "datas": {
         "execucao": "2026-07-08",
-        "proxima_manutencao": "2026-10-08",
+        "proxima_manutencao": "2027-01-08",
         "garantia": "2026-10-08"
       },
 
@@ -92,7 +92,7 @@
         "Teste de transferência"
       ],
 
-      "observacoes": "Equipamento entregue funcionando normalmente.",
+      "observacoes": "Equipamento entregue funcionando normalmente, testes feitos na presença do Gerente Robson",
 
       "documentos": {
         "pdf": "",
