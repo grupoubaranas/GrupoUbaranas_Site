@@ -24,9 +24,7 @@ let ordensDeServico = [];
    INICIALIZAÇÃO
 ========================================================== */
 
-document.addEventListener("DOMContentLoaded", async () => {
-    await carregarOrdensDeServico();
-
+async function inicializarPortal() {
     campoNumeroOS.addEventListener("input", formatarCampoOS);
     campoNumeroOS.addEventListener("keydown", consultarComEnter);
     botaoConsultar.addEventListener("click", consultarOrdemDeServico);
@@ -35,8 +33,28 @@ document.addEventListener("DOMContentLoaded", async () => {
         cardGarantia.addEventListener("click", abrirConsultaGarantia);
     }
 
+    botaoConsultar.disabled = true;
+    botaoConsultar.innerHTML = `
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Carregando
+    `;
+
+    await carregarOrdensDeServico();
+
+    botaoConsultar.disabled = false;
+    botaoConsultar.innerHTML = `
+        <i class="fa-solid fa-magnifying-glass"></i>
+        Consultar
+    `;
+
     consultarOSPelaURL();
-});
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", inicializarPortal);
+} else {
+    inicializarPortal();
+}
 
 /* ==========================================================
    CARREGAMENTO DO ARQUIVO JSON
