@@ -2,25 +2,34 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Portal do Cliente | Grupo Ubaranas</title>
 
-    <meta name="description"
-        content="Portal do Cliente Grupo Ubaranas. Consulte Ordens de Serviço, Garantia e acompanhe o histórico de manutenção dos seus equipamentos.">
+    <meta
+        name="description"
+        content="Portal do Cliente Grupo Ubaranas. Consulte Ordens de Serviço, garantias e acompanhe o histórico de manutenção dos seus equipamentos."
+    >
 
-    <link rel="icon" href="../faviconubaranas.png">
+    <link
+        rel="icon"
+        type="image/png"
+        href="../faviconubaranas.png"
+    >
 
     <!-- Font Awesome -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="/atendimentos/atendimentos.css">
-
+    <!-- CSS da página -->
+    <link
+        rel="stylesheet"
+        href="atendimentos.css"
+    >
 </head>
 
 <body>
@@ -34,37 +43,26 @@
         <header class="cabecalho">
 
             <div class="logo">
-
-                <img src="../assets/logo/logo.png" alt="Grupo Ubaranas">
-
+                <img
+                    src="logo/logo.png"
+                    alt="Logo do Grupo Ubaranas"
+                >
             </div>
 
             <div class="titulo">
 
                 <span class="selo">
-
                     <i class="fa-solid fa-shield-halved"></i>
-
                     MANUTENÇÃO CERTIFICADA
-
                 </span>
 
-                <h1>
+                <h1>PORTAL DO CLIENTE</h1>
 
-                    PORTAL DO CLIENTE
-
-                </h1>
-
-                <h2>
-
-                    Central de Suporte Técnico
-
-                </h2>
+                <h2>Central de Suporte Técnico</h2>
 
                 <p>
-
-                    Manutenção Elétrica • Segurança Eletrônica • Automação • Infraestruturas
-
+                    Manutenção Elétrica • Segurança Eletrônica •
+                    Automação • Infraestrutura
                 </p>
 
             </div>
@@ -72,85 +70,66 @@
         </header>
 
         <!-- ==========================================================
-             HERO
+             APRESENTAÇÃO
         =========================================================== -->
 
         <section class="hero">
 
-            <h2>
-
-                Bem-vindo ao Portal do Cliente
-
-            </h2>
+            <h2>Bem-vindo ao Portal do Cliente</h2>
 
             <p>
-
                 Consulte sua Ordem de Serviço, acompanhe garantias,
                 histórico de manutenção e tenha acesso rápido à equipe
                 técnica do Grupo Ubaranas.
-
             </p>
 
         </section>
 
         <!-- ==========================================================
-            BARRA DE SERVIÇOS
+             BARRA DE SERVIÇOS
         =========================================================== -->
 
-        <section class="barra-servicos">
+        <section
+            class="barra-servicos"
+            aria-label="Recursos disponíveis"
+        >
 
             <div>
-
                 <i class="fa-solid fa-screwdriver-wrench"></i>
-
-                Atendimento Técnico
-
+                <span>Atendimento Técnico</span>
             </div>
 
             <div>
-
                 <i class="fa-solid fa-file-circle-check"></i>
-
-                Consulta de O.S.
-
+                <span>Consulta de O.S.</span>
             </div>
 
             <div>
-
                 <i class="fa-solid fa-shield-halved"></i>
-
-                Garantia
-
+                <span>Garantia</span>
             </div>
 
             <div>
-
                 <i class="fa-solid fa-calendar-check"></i>
-
-                Manutenção Preventiva
-
+                <span>Manutenção Preventiva</span>
             </div>
 
         </section>
 
         <!-- ==========================================================
-            CONSULTA
+             CONSULTA DA ORDEM DE SERVIÇO
         =========================================================== -->
 
         <section class="consulta">
 
             <h2>
-
                 <i class="fa-solid fa-magnifying-glass"></i>
-
                 Consultar Ordem de Serviço
-
             </h2>
 
             <p>
-
-                Digite o número da Ordem de Serviço informado na etiqueta de manutenção.
-
+                Digite o número da Ordem de Serviço informado na
+                etiqueta de manutenção.
             </p>
 
             <div class="form-consulta">
@@ -158,14 +137,19 @@
                 <input
                     type="text"
                     id="numeroOS"
-                    placeholder="Ex.: UB-260001">
+                    name="numeroOS"
+                    placeholder="Ex.: UB-260001"
+                    aria-label="Número da Ordem de Serviço"
+                    autocomplete="off"
+                    maxlength="30"
+                >
 
-                <button id="btnConsultar">
-
+                <button
+                    type="button"
+                    id="btnConsultar"
+                >
                     <i class="fa-solid fa-magnifying-glass"></i>
-
                     Consultar
-
                 </button>
 
             </div>
@@ -173,96 +157,92 @@
         </section>
 
         <!-- ==========================================================
-            STATUS DA OS
+             STATUS DA ORDEM DE SERVIÇO
         =========================================================== -->
 
-        <section id="statusOS">
+        <section
+            id="statusOS"
+            aria-live="polite"
+        ></section>
+
+        <!-- ==========================================================
+             RESULTADO DA CONSULTA
+        =========================================================== -->
+
+        <section
+            id="resultado"
+            class="resultado"
+            aria-live="polite"
+        >
+
+            <h2>Resultado da Consulta</h2>
+
+            <div id="dadosOS"></div>
 
         </section>
 
         <!-- ==========================================================
-            RESULTADO
+             ACESSO RÁPIDO
         =========================================================== -->
 
-        <section id="resultado" class="resultado">
+        <section
+            class="atalhos"
+            aria-label="Acessos rápidos"
+        >
 
-            <h2>
-
-                Resultado da Consulta
-
-            </h2>
-
-            <div id="dadosOS">
-
-            </div>
-
-        </section>
-
-        <!-- ==========================================================
-            ACESSO RÁPIDO
-        =========================================================== -->
-
-        <section class="atalhos">
-
-            <a href="https://wa.me/5521977433837"
+            <a
+                href="https://wa.me/5521977433837"
                 target="_blank"
-                class="card">
-
+                rel="noopener noreferrer"
+                class="card"
+            >
                 <i class="fa-brands fa-whatsapp"></i>
 
                 <h3>WhatsApp</h3>
 
                 <p>
-
                     Atendimento rápido com nossa equipe técnica.
-
                 </p>
-
             </a>
 
-            <a href="mailto:contato@grupoubaranas.com.br"
-                class="card">
-
+            <a
+                href="mailto:contato@grupoubaranas.com.br"
+                class="card"
+            >
                 <i class="fa-solid fa-envelope"></i>
 
                 <h3>E-mail</h3>
 
                 <p>
-
-                    Entre em contato por e-mail.
-
+                    Envie sua solicitação ou documentação por e-mail.
                 </p>
-
             </a>
 
-            <a href="/"
-                class="card">
-
+            <a
+                href="../index.html"
+                class="card"
+            >
                 <i class="fa-solid fa-globe"></i>
 
                 <h3>Site Oficial</h3>
 
                 <p>
-
-                    Conheça todos os nossos serviços.
-
+                    Conheça todos os serviços do Grupo Ubaranas.
                 </p>
-
             </a>
 
-            <a href="#"
-                class="card">
-
+            <a
+                href="#consulta-garantia"
+                class="card"
+                id="cardGarantia"
+            >
                 <i class="fa-solid fa-file-circle-check"></i>
 
                 <h3>Garantia</h3>
 
                 <p>
-
-                    Consulte informações sobre a garantia do serviço executado.
-
+                    Consulte a garantia vinculada à sua Ordem de Serviço.
                 </p>
-
             </a>
 
         </section>
@@ -270,37 +250,29 @@
     </main>
 
     <!-- ==========================================================
-        RODAPÉ
+         RODAPÉ
     =========================================================== -->
 
     <footer>
 
-        <h3>
-
-            Grupo Ubaranas
-
-        </h3>
+        <h3>Grupo Ubaranas</h3>
 
         <p>
-
-            Manutenção Elétrica • Segurança Eletrônica • Automação • Infraestruturas
-
+            Manutenção Elétrica • Segurança Eletrônica •
+            Automação • Infraestrutura
         </p>
 
         <p>
-
             CNPJ: 49.187.630/0001-06
-
         </p>
 
         <p>
-
             Portal do Cliente • Versão 1.0
-
         </p>
 
     </footer>
 
+    <!-- JavaScript da página -->
     <script src="atendimentos.js"></script>
 
 </body>
