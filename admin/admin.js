@@ -122,12 +122,22 @@
         }
 
         state.user = user;
+        const {data: profile, error: profileError} = await window.supabaseClient.from("equipe_usuarios").select("nome,papel,ativo").eq("id",user.id).maybeSingle();
+        if (profileError || !profile?.ativo) {
+            await window.supabaseClient.auth.signOut({scope:"local"});
+            window.location.replace("/admin/login.html");
+            return;
+        }
+        state.profile = profile;
+        document.querySelectorAll("[data-admin-only]").forEach(item => {item.hidden = profile.papel !== "administrador";});
 
         updateUserInfo(user);
         registerAuthWatcher();
 
         await loadOrdersFromDatabase();
 
+        await window.UbaranasQuotes?.init({user,profile,getOrders:()=>state.orders,notify:showToast});
+        await window.UbaranasTeam?.init(profile);
         setPageLoading(false);
     }
 
@@ -580,7 +590,7 @@
             : "Administrador";
 
         const displayName =
-            metadataName || emailName;
+            state.profile?.nome || metadataName || emailName;
 
         if (dom.userName) {
             dom.userName.textContent =
@@ -588,8 +598,7 @@
         }
 
         if (dom.userRole) {
-            dom.userRole.textContent =
-                "Administrador";
+            dom.userRole.textContent = state.profile?.papel === "tecnico" ? "Técnico" : "Administrador";
         }
 
         if (dom.userAvatar) {
@@ -688,6 +697,10 @@
     function mapDatabaseOrder(row) {
         return {
             id: row.id,
+            criadoPor: row.criado_por || null,
+            criadoPorNome: row.criado_por_nome || "Registro anterior à identificação por usuário",
+            atualizadoPor: row.atualizado_por || null,
+            atualizadoPorNome: row.atualizado_por_nome || "Não informado",
 
             numero:
                 row.numero || "",
@@ -1082,9 +1095,8 @@
             return;
         }
 
-        await loadOrdersFromDatabase({
-            notify: true
-        });
+        await loadOrdersFromDatabase({notify:true});
+        await window.UbaranasQuotes?.load();
     }
 
 
@@ -1132,8 +1144,8 @@
 
             dom.orderId.value = "";
 
-            dom.orderNumber.value =
-                generateNextOrderNumber();
+            dom.orderNumber.value = "";
+            dom.orderNumber.placeholder = "Gerado automaticamente ao salvar";
 
             dom.openingDate.value =
                 todayIso();
@@ -1160,6 +1172,10 @@
             }
         }
 
+        if (mode === "edit" && state.profile?.papel === "tecnico" && !["rascunho","pendente","andamento"].includes(order.status)) {
+            showToast("OS encerrada", "Esta OS está disponível apenas para consulta.", "warning");
+            return;
+        }
         if (mode === "edit") {
             dom.orderModalTitle.textContent =
                 `Editar ${order.numero}`;
@@ -1202,7 +1218,7 @@
             const info = document.createElement("p");
             info.id = "orderConsultationInfo";
             info.className = "document-help consultation-info";
-            info.textContent = `Código de consulta: ${order.codigoConsulta || "não gerado"} · ${order.visivelNoPortal ? "Disponível no portal" : "Consulta pública desativada"}`;
+            info.textContent = `Cadastrado por: ${order.criadoPorNome} · Última alteração: ${order.atualizadoPorNome}. Código de consulta: ${order.codigoConsulta || "não gerado"} · ${order.visivelNoPortal ? "Disponível no portal" : "Consulta pública desativada"}`;
             footer?.before(info);
             if (order.codigoConsulta && order.visivelNoPortal) {
                 const button = document.createElement("button");
@@ -1235,6 +1251,7 @@
             }
         }
 
+        dom.orderNumber.readOnly = true;
         dom.orderModal.classList.add(
             "active"
         );
@@ -1672,13 +1689,6 @@
         const requiredFields = [
             {
                 field:
-                    dom.orderNumber,
-
-                message:
-                    "Informe o número da Ordem de Serviço."
-            },
-            {
-                field:
                     dom.openingDate,
 
                 message:
@@ -1873,6 +1883,7 @@
 
 
     function openDeleteModal(orderId) {
+        if (state.profile?.papel !== "administrador") return;
         const order =
             state.orders.find(
                 (item) =>
@@ -2066,54 +2077,6 @@
     }
 
 
-    function generateNextOrderNumber() {
-        const year =
-            new Date().getFullYear();
-
-        const prefix =
-            `OS-${year}-`;
-
-        const numbers =
-            state.orders
-                .map((order) => {
-                    const number =
-                        String(
-                            order.numero || ""
-                        ).toUpperCase();
-
-                    if (
-                        !number.startsWith(
-                            prefix
-                        )
-                    ) {
-                        return 0;
-                    }
-
-                    return Number(
-                        number.replace(
-                            prefix,
-                            ""
-                        )
-                    ) || 0;
-                });
-
-        const nextNumber =
-            Math.max(
-                0,
-                ...numbers
-            ) + 1;
-
-        return (
-            prefix +
-            String(nextNumber)
-                .padStart(
-                    4,
-                    "0"
-                )
-        );
-    }
-
-
     function showOrderNumberError(
         message
     ) {
@@ -2230,6 +2193,7 @@
         updateStats();
         updatePagination();
         renderMaintenanceSchedule();
+        window.UbaranasQuotes?.refreshOrders();
         const scope = document.getElementById("reportScope");
         if (scope) scope.textContent = `${state.filteredOrders.length} de ${state.orders.length} registro(s) incluídos nos relatórios com os filtros atuais.`;
     }
@@ -2313,6 +2277,10 @@
             pageOrders
                 .map(createOrderRow)
                 .join("");
+        dom.ordersTableBody.querySelectorAll('[data-action="delete"]').forEach(button => {button.hidden = state.profile?.papel !== "administrador";});
+        if (state.profile?.papel === "tecnico") {
+            dom.ordersTableBody.querySelectorAll('[data-action="edit"]').forEach(button => {const order = state.orders.find(item=>String(item.id)===button.dataset.id);button.hidden = !order || !["rascunho","pendente","andamento"].includes(order.status);});
+        }
     }
 
 

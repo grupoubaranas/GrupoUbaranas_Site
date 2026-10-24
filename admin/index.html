@@ -17,7 +17,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="/admin/painel-admin.css?v=2" />
+    <link rel="stylesheet" href="/admin/painel-admin.css?v=3" />
 
     <script
       src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"
@@ -26,8 +26,10 @@
 
     <script src="/admin/supabase-config.js?v=2" defer></script>
 
-    <script src="/admin/documents.js?v=1" defer></script>
-    <script src="/admin/admin.js?v=4" defer></script>
+    <script src="/admin/documents.js?v=2" defer></script>
+    <script src="/admin/quotes.js?v=1" defer></script>
+    <script src="/admin/team.js?v=1" defer></script>
+    <script src="/admin/admin.js?v=5" defer></script>
   </head>
   <body>
     <div class="admin-layout">
@@ -103,6 +105,7 @@
               </a>
             </li>
           </ul>
+          <ul class="sidebar-menu"><li><a class="menu-item" href="#orcamentos" data-section="orcamentos"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i><span>Orçamentos</span></a></li><li data-admin-only hidden><a class="menu-item" href="#equipe" data-section="equipe"><i class="fa-solid fa-users" aria-hidden="true"></i><span>Equipe</span></a></li></ul>
         </nav>
 
         <div class="sidebar-footer">
@@ -540,6 +543,31 @@
               </p>
             </div>
           </section>
+
+          <section class="panel" id="orcamentos">
+            <div class="panel-header"><div class="panel-title"><h3>Orçamentos / propostas</h3><p>Selecione uma OS em aberto. O modelo visual da proposta será validado em uma próxima etapa.</p></div></div>
+            <div class="panel-body">
+              <details class="order-details" id="quoteEditor"><summary>Novo orçamento</summary>
+                <form id="quoteForm"><input type="hidden" id="quoteId">
+                  <div class="form-grid"><div class="form-group"><label for="quoteOrder">OS em aberto</label><select class="form-select" id="quoteOrder" required><option value="">Carregando OS...</option></select></div><div class="form-group"><label for="quoteValidity">Válido até</label><input class="form-control" id="quoteValidity" type="date" required></div></div>
+                  <div id="quoteItems"></div><button type="button" id="addQuoteItem" class="btn btn-secondary">Adicionar item</button>
+                  <div class="form-group"><label for="quoteNotes">Observações e condições</label><textarea class="form-textarea" id="quoteNotes" maxlength="5000" placeholder="Informe condições comerciais ou observações que precisam constar na proposta."></textarea></div>
+                  <p class="quote-total">Total: <output id="quoteTotal">R$ 0,00</output></p>
+                  <div class="form-actions"><button type="button" id="resetQuote" class="btn btn-secondary">Limpar formulário</button><button type="submit" id="saveQuote" class="btn btn-primary">Salvar orçamento</button></div>
+                </form>
+              </details>
+              <div id="quoteList" aria-live="polite"><p>Carregando orçamentos...</p></div>
+            </div>
+          </section>
+          <section class="panel" id="equipe" data-admin-only hidden>
+            <div class="panel-header"><div class="panel-title"><h3>Equipe técnica</h3><p>Técnicos cadastram OS e geram orçamentos apenas para as próprias OS em aberto.</p></div></div>
+            <div class="panel-body">
+              <form id="teamForm" class="form-grid"><div class="form-group"><label for="teamName">Nome do técnico</label><input class="form-control" id="teamName" maxlength="100" required autocomplete="name"></div><div class="form-group"><label for="teamEmail">E-mail do técnico</label><input class="form-control" id="teamEmail" type="email" maxlength="254" required autocomplete="email"></div><button class="btn btn-primary" id="createTechnician" type="submit">Criar técnico e gerar ativação</button></form>
+              <p id="teamMessage" class="document-help" role="status"></p>
+              <div id="activationResult" hidden><label for="activationLink">Link privado de ativação (uso único)</label><input class="form-control" type="password" id="activationLink" readonly autocomplete="off"><button class="btn btn-secondary" type="button" id="copyActivation">Copiar link privado</button><p class="document-help">Encaminhe este link somente ao técnico correspondente. Ele define a própria senha. Nenhum e-mail é enviado automaticamente.</p></div>
+              <div id="teamList"></div>
+            </div>
+          </section>
         </div>
       </main>
     </div>
@@ -569,8 +597,8 @@
           <div class="modal-body">
             <input id="orderId" name="orderId" type="hidden" />
             <p class="quick-form-help">
-              Para iniciar, informe cliente, categoria e serviço. O número e a
-              data já vêm sugeridos. Você pode completar os detalhes durante o
+              Para iniciar, informe cliente, categoria e serviço. O número é gerado ao salvar e a
+              data já vem preenchida. Você pode completar os detalhes durante o
               atendimento.
             </p>
             <div class="form-grid">
@@ -658,18 +686,18 @@
               </div>
               <div class="form-group">
                 <label for="orderNumber">
-                  Número da OS <span class="required">*</span>
+                  Número da OS
                 </label>
                 <input
                   class="form-control"
                   id="orderNumber"
                   name="numero"
                   type="text"
-                  placeholder="Ex.: OS-2026-0005"
-                  required
+                  placeholder="Gerado ao salvar"
+                  readonly
                 />
                 <span class="form-help"
-                  >O número poderá ser gerado automaticamente.</span
+                  >O número é gerado pelo servidor ao salvar.</span
                 >
                 <span class="form-error hidden" id="orderNumberError"
                   >Informe o número da OS.</span

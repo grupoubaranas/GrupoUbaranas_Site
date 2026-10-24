@@ -6,6 +6,7 @@ const pages = [
   "index.html",
   "admin/index.html",
   "admin/login.html",
+  "admin/ativar-conta.html",
   "atendimentos/index.html",
 ];
 for (const page of pages) {

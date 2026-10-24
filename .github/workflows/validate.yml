@@ -17,3 +17,5 @@ jobs:
       - run: node tests/verify-site.cjs
       - run: node tests/verify-documents.cjs
       - run: node tests/verify-portal.cjs
+      - run: node --check admin/quotes.js && node --check admin/team.js && node --check admin/ativar-conta.js
+      - run: node tests/verify-quotes.cjs

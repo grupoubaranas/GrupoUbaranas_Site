@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     );
                 }
 
+                if (!await permitirAcesso(data.user)) return;
                 mostrarMensagem(
                     "Login realizado com sucesso. Redirecionando...",
                     "sucesso"
@@ -177,6 +178,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     /*
      * Verifica uma sessão que já esteja salva no navegador.
      */
+    async function permitirAcesso(user) {
+        const {data,error} = await window.supabaseClient.from("equipe_usuarios").select("ativo").eq("id",user.id).maybeSingle();
+        if (error) throw error;
+        if (!data?.ativo) {
+            await window.supabaseClient.auth.signOut({scope:"local"});
+            mostrarMensagem("Seu acesso ainda não foi habilitado. Fale com o administrador.", "erro");
+            return false;
+        }
+        return true;
+    }
+
     async function verificarSessaoExistente() {
         try {
             const {
@@ -189,6 +201,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             if (data.session) {
+                if (!await permitirAcesso(data.session.user)) return;
                 mostrarMensagem(
                     "Sessão encontrada. Abrindo o painel...",
                     "sucesso"

@@ -849,3 +849,5 @@ body::after {
         transition-duration: 0.01ms !important;
     }
 }
+/* Campos de ativação, sem fontes ou dependências externas adicionais. */
+#activationForm{display:grid;gap:12px;margin:22px 0;text-align:left}#activationForm[hidden]{display:none}#activationForm input{width:100%;padding:13px;border:1px solid #9dbed2;border-radius:8px;font:inherit}#activationMessage{margin:18px 0;line-height:1.6}#validateInvite[hidden]{display:none}

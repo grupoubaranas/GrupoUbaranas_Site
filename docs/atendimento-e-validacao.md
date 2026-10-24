@@ -3,14 +3,18 @@
 ## Fluxo de trabalho
 
 1. A equipe entra em `/admin/login.html` e seleciona **Nova ordem de serviço**.
-2. Para abrir o registro, informa cliente, categoria e serviço. Número, data, status e prioridade já têm sugestões.
+2. Para abrir o registro, informa cliente, categoria e serviço. Data, status e prioridade já têm sugestões; o número é gerado pelo servidor ao salvar.
 3. Os grupos expansíveis permitem registrar contato, equipamento, diagnóstico, execução, materiais, conclusão, garantia e próxima manutenção.
 4. Ao salvar, o banco gera um código de consulta aleatório. Os detalhes da OS exibem o código e a situação da consulta pública.
 5. Para disponibilizar a consulta, marque **Disponibilizar esta ordem de serviço no Portal do Cliente**.
 6. Nos detalhes da OS salva, a equipe pode copiar o link, gerar relatório/PDF e imprimir a etiqueta preenchida.
 7. O QR da etiqueta abre `/atendimentos/`. O cliente informa o código de consulta. O número sequencial da OS não permite consultar o registro.
 
-O acesso atual à gestão é restrito à conta administradora configurada nas políticas do banco. Contas individuais de técnicos exigem um projeto separado de permissões; não são criadas automaticamente pelo formulário.
+O administrador gerencia a equipe. Técnicos podem cadastrar OS, consultar somente as próprias e editar as próprias enquanto estiverem em aberto. Registros encerrados permanecem disponíveis para leitura do autor. Autoria e última alteração são registradas pelo banco, separadas do campo técnico responsável.
+
+Orçamentos são vinculados a OS em aberto. O técnico só pode usar as próprias OS. Os totais são recalculados no servidor. A proposta pode ser impressa ou salva em PDF; seu layout será validado pelo proprietário posteriormente.
+
+O formulário Equipe cria um técnico e gera um link privado de uso único. Não envia e-mail automaticamente. O destinatário valida o convite e define a própria senha. O administrador pode gerar outra ativação na lista da equipe. Nunca registre links de ativação em arquivos, commits ou chamados públicos.
 
 ## Etiquetas e documentos
 
@@ -36,7 +40,7 @@ O acesso atual à gestão é restrito à conta administradora configurada nas po
 
 ### Estado para liberação
 
-O login com a conta real ainda precisa ser confirmado pelo proprietário. O teste físico de leitura e tamanho da etiqueta será feito pelo proprietário após a conclusão do site. A validação local não representa um teste de credenciais reais nem impressão física.
+O proprietário confirmou o login com a conta real na prévia. O teste físico de leitura e tamanho da etiqueta será feito pelo proprietário após a conclusão do site. A validação local não representa um teste de credenciais reais nem impressão física.
 
 ### Segurança do banco
 
@@ -49,3 +53,9 @@ A proteção do Supabase contra senhas vazadas está desativada na configuraçã
 ## Imagens
 
 Os banners são imagens conceituais geradas por IA e estão identificados como ilustrativos. O portfólio usa registros reais do repositório. As fontes originais foram preservadas; as versões WebP são usadas no carregamento da página.
+
+## Equipe e orçamentos
+
+Migrações adicionais aplicadas: equipe/autoria/orçamentos, numeração de OS pelo servidor e preservação de sequências maiores que quatro dígitos. A função create-technician verifica o token com Auth e exige perfil administrador ativo; a chave privilegiada permanece no ambiente da função. As tabelas de equipe e orçamentos usam RLS. A consulta pública não expõe dados de autoria.
+
+`node tests/verify-quotes.cjs` confere precisão decimal, arredondamento, limites e entradas inválidas.
