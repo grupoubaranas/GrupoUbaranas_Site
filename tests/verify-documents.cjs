@@ -1,0 +1,24 @@
+const fs=require('node:fs');
+const vm=require('node:vm');
+const assert=require('node:assert/strict');
+let html='', notice='',printHandler;
+const popup={opener:{},document:{open(){},write(v){html=v},close(){},getElementById(){return {addEventListener(t,f){printHandler=f}}}},print(){this.printed=true}};
+const source=fs.readFileSync('admin/admin.js','utf8').replace(/\}\)\(\);\s*$/, 'globalThis.testApi = {printSavedOrder}; })();');
+const ctx={document:{addEventListener(){}},window:{location:{origin:'https://grupoubaranas.com.br'},open:()=>popup},URL,Intl,console};
+vm.runInNewContext(source,ctx);
+const sample={numero:'OS-TESTE',codigoConsulta:'COD-TESTE',visivelNoPortal:true,cliente:'<img src=x onerror=alert(1)>',equipamento:'Quadro A',servicoExecutado:'Inspeção\nOrganização',status:'concluida',dataAbertura:'2026-10-24'};
+ctx.testApi.printSavedOrder(sample,'report');
+assert(html.includes('&lt;img src=x onerror=alert(1)&gt;'));
+assert(!html.includes('<img src=x'));
+assert(html.includes('OS-TESTE'));
+assert(html.includes('Inspeção\nOrganização'));
+assert(html.includes('24/10/2026'));
+printHandler();assert(popup.printed);
+ctx.testApi.printSavedOrder(sample,'label');
+assert(html.includes('https://grupoubaranas.com.br/atendimentos/?os=COD-TESTE'));
+assert(!html.includes(sample.cliente));
+assert.equal(popup.opener,null);
+// Ramo de bloqueio: nenhuma janela é aberta para etiqueta sem acesso público.
+ctx.window.open=()=>{throw Error('Não deveria abrir etiqueta privada')};
+ctx.testApi.printSavedOrder({...sample,visivelNoPortal:false},'label');
+console.log('PASS: relatório, escape de HTML, datas, impressão, link da etiqueta e bloqueio de OS privada.');

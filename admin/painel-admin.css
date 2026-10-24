@@ -1803,3 +1803,6 @@ ul {
     }
 }
 
+
+/* Ações de documentos em telas menores. */
+.modal-footer{flex-wrap:wrap}
