@@ -21,6 +21,11 @@ document.addEventListener("keydown", (event) => {
 const slides = [...document.querySelectorAll(".slide")];
 const pauseButton = document.getElementById("pauseSlider");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const slideLabels = [
+  "ELÉTRICA · PRECISÃO E ORGANIZAÇÃO",
+  "AUTOMAÇÃO · CONTROLE E INTEGRAÇÃO",
+  "SEGURANÇA ELETRÔNICA · CFTV",
+];
 let index = 0,
   timer = null,
   paused = reducedMotion.matches;
@@ -34,6 +39,8 @@ function updateSlider() {
       slides[index].classList.remove("active");
       index = (index + 1) % slides.length;
       slides[index].classList.add("active");
+      const label = document.getElementById("slideLabel");
+      if (label) label.textContent = slideLabels[index] || "SOLUÇÕES TÉCNICAS";
     }, 6500);
 }
 pauseButton?.addEventListener("click", () => {

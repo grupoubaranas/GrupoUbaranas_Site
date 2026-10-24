@@ -1806,3 +1806,12 @@ ul {
 
 /* Ações de documentos em telas menores. */
 .modal-footer{flex-wrap:wrap}
+
+.document-help{font-size:13px;line-height:1.6;color:var(--cinza-300);margin-top:14px}.consultation-info{padding:0 24px 16px;margin:0}.report-actions{display:flex;flex-wrap:wrap;gap:12px}.report-actions p{flex-basis:100%;margin:0}.maintenance-item{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;padding:16px;margin-bottom:10px;border:1px solid var(--borda);border-radius:10px;background:rgba(255,255,255,.04);color:white;cursor:pointer;font:inherit}.maintenance-item:hover{border-color:var(--azul-claro)}.maintenance-item small{display:block;margin-top:5px;color:var(--cinza-300);font-size:12px}section[id]{scroll-margin-top:95px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--azul-claro);outline-offset:3px}@media(max-width:600px){.maintenance-item{align-items:flex-start;flex-direction:column}.modal-footer .btn{flex:1 1 145px}}
+
+/* Conteúdo sobre os painéis claros. */
+.document-help{color:#536477}.maintenance-item{background:#f2f7fb;color:#15344d;border-color:#bdd0df}.maintenance-item small{color:#536477}
+
+.modal{display:flex;flex-direction:column;overflow:hidden}.modal-header,.modal-footer{flex-shrink:0}.modal form{display:flex;flex-direction:column;min-height:0;overflow:hidden}.modal-body{overflow-y:auto;min-height:0}.modal-footer{background:white}.quick-form-help{font-size:13px;color:#536477;line-height:1.6;margin:0 0 20px;padding:12px 14px;background:#eef6fc;border-radius:8px}.order-details{margin:20px 0;border:1px solid #c5d8e7;border-radius:9px;padding:0 14px}.order-details summary{cursor:pointer;font-weight:650;font-size:14px;padding:14px 0;color:#155783}.order-details[open]>.form-grid{padding:8px 0 16px}.order-details:has(.input-error){border-color:#b23841}
+
+.modal .btn-secondary{color:#155783;background:#edf5fb;border-color:#bdd0df}.modal-footer .btn{min-height:44px}@media(max-width:600px){.modal-footer{padding:14px;gap:10px}.modal-footer .btn{font-size:13px;flex:1 1 130px}}

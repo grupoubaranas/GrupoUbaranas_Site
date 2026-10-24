@@ -587,3 +587,49 @@ section:not(.hero-slider):not(.benefits) {
     animation: none !important;
   }
 }
+
+.brand {
+  min-width: 0;
+}
+.brand small {
+  letter-spacing: 0.5px;
+}
+@media (max-width: 380px) {
+  .brand {
+    gap: 8px;
+    font-size: 11px;
+  }
+  .brand small {
+    font-size: 7px;
+  }
+  .brand img {
+    width: 36px;
+    height: 36px;
+  }
+  .menu-toggle {
+    padding: 7px 9px;
+  }
+  .nav-wrap {
+    gap: 10px;
+  }
+}
+
+.illustration-note {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0;
+  line-height: 1.5;
+  margin-top: 5px;
+  color: #c0ccdc;
+}
+.slider-controls > span {
+  max-width: 70%;
+}
+@media (max-width: 640px) {
+  .slider-controls > span {
+    max-width: 62%;
+  }
+  .illustration-note {
+    font-size: 8px;
+  }
+}

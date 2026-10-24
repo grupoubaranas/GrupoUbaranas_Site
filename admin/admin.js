@@ -274,8 +274,11 @@
                 openOrderModal("create");
 
                 window.setTimeout(
-                    () =>
-                        dom.nextMaintenance?.focus(),
+                    () => {
+                        const detail = dom.nextMaintenance?.closest("details");
+                        if (detail) detail.open = true;
+                        dom.nextMaintenance?.focus();
+                    },
                     80
                 );
 
@@ -287,10 +290,10 @@
             }
         );
 
-        dom.quickReport?.addEventListener(
-            "click",
-            exportOrdersToCsv
-        );
+        dom.quickReport?.addEventListener("click", printSummary);
+        document.getElementById("printSummary")?.addEventListener("click", printSummary);
+        document.getElementById("exportReportCsv")?.addEventListener("click", exportOrdersToCsv);
+        document.getElementById("maintenanceList")?.addEventListener("click", event => { const button = event.target.closest("[data-order]"); if (button) openOrderModal("view", button.dataset.order); });
 
         dom.exportOrders?.addEventListener(
             "click",
@@ -666,6 +669,7 @@
 
             state.orders = [];
             state.activities = [];
+            if (dom.demoAlert) dom.demoAlert.textContent = "Não foi possível carregar os dados. Verifique a conexão e use Atualizar para tentar novamente.";
 
             applyFilters();
             renderActivities();
@@ -1095,7 +1099,9 @@
             return;
         }
 
+        state.previousFocus = document.activeElement;
         state.modalMode = mode;
+        dom.orderForm.querySelectorAll("details").forEach(detail => { detail.open = mode !== "create"; });
 
         resetOrderForm();
 
@@ -1148,8 +1154,8 @@
                     "";
 
                 dom.saveOrderButton.innerHTML = `
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    Salvar Ordem de Serviço
+                    <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+                    Salvar OS
                 `;
             }
         }
@@ -1167,7 +1173,7 @@
                     "";
 
                 dom.saveOrderButton.innerHTML = `
-                    <i class="fa-solid fa-floppy-disk"></i>
+                    <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
                     Salvar alterações
                 `;
             }
@@ -1187,10 +1193,34 @@
             }
         }
 
+        document.getElementById("copyConsultationButton")?.remove();
+        document.getElementById("orderConsultationInfo")?.remove();
         document.getElementById("printOrderButton")?.remove();
         document.getElementById("printLabelButton")?.remove();
         if (order) {
             const footer = dom.orderForm.querySelector(".modal-footer");
+            const info = document.createElement("p");
+            info.id = "orderConsultationInfo";
+            info.className = "document-help consultation-info";
+            info.textContent = `Código de consulta: ${order.codigoConsulta || "não gerado"} · ${order.visivelNoPortal ? "Disponível no portal" : "Consulta pública desativada"}`;
+            footer?.before(info);
+            if (order.codigoConsulta && order.visivelNoPortal) {
+                const button = document.createElement("button");
+                button.id = "copyConsultationButton";
+                button.type = "button";
+                button.className = "btn btn-secondary";
+                button.textContent = "Copiar link de consulta";
+                button.addEventListener("click", async () => {
+                    try {
+                        await navigator.clipboard.writeText(window.UbaranasDocuments.consultationUrl(order));
+                        showToast("Link copiado", "Envie o link ao cliente para abrir esta OS no portal.", "success");
+                    } catch {
+                        showToast("Não foi possível copiar", "Use o código de consulta exibido nos detalhes da OS.", "warning");
+                    }
+                });
+                footer?.prepend(button);
+            }
+
             for (const [id, label, kind] of [
                 ["printOrderButton", "Relatório / PDF", "report"],
                 ["printLabelButton", "Imprimir etiqueta", "label"]
@@ -1234,28 +1264,33 @@
             showToast("Etiqueta indisponível", "Salve a OS com um código de consulta e habilite sua exibição no portal antes de imprimir a etiqueta.", "warning");
             return;
         }
-        const popup = window.open("", "_blank", "width=960,height=800");
-        if (!popup) {
-            showToast("Janela bloqueada", "Permita a abertura da janela para visualizar e imprimir o documento.", "warning");
+        const documents = window.UbaranasDocuments;
+        if (!documents || !documents.open(kind === "label" ? documents.label(order) : documents.report(order), kind, `${kind === "label" ? "Etiqueta" : "Relatório"} ${order.numero}`)) {
+            showToast("Documento indisponível", "Permita a abertura da janela de impressão e tente novamente.", "warning");
+        }
+    }
+
+    function printSummary() {
+        if (!state.filteredOrders.length) {
+            showToast("Nenhum registro", "Ajuste os filtros ou cadastre uma OS antes de gerar o relatório.", "warning");
             return;
         }
-        popup.opener = null;
-        const e = escapeHtml;
-        const url = new URL("/atendimentos/", window.location.origin);
-        url.searchParams.set("os", order.codigoConsulta);
-        const field = (title, value) => `<div class="field"><dt>${e(title)}</dt><dd>${e(value || "Não informado")}</dd></div>`;
-        const block = (title, value) => `<section><h2>${e(title)}</h2><p>${e(value || "Não informado")}</p></section>`;
-        const label = `<div class="label"><strong>GRUPO UBARANAS</strong><h1>Registro de serviço</h1><p>${e(order.numero)} · ${e(order.equipamento || order.servico)}</p><p>Consulte o serviço com o código:</p><div class="code">${e(order.codigoConsulta)}</div><p><a href="${e(url.href)}">${e(url.href)}</a></p><p>Atendimento: (21) 97743-3837</p><small>Guarde esta etiqueta. O código dá acesso às informações disponibilizadas da OS.</small></div>`;
-        const report = `<header><strong>GRUPO UBARANAS</strong><p>Elétrica · Automação · Segurança eletrônica<br>CNPJ: 49.187.630/0001-06 · (21) 97743-3837</p></header><h1>Relatório de serviço · ${e(order.numero)}</h1><p>Documento gerado a partir da OS salva em ${e(new Intl.DateTimeFormat("pt-BR", {dateStyle:"short", timeStyle:"short"}).format(new Date()))}.</p><dl>${field("Cliente", order.cliente)}${field("Endereço do serviço", order.endereco)}${field("Serviço", order.servico)}${field("Status", statusLabels[order.status] || order.status)}${field("Equipamento", order.equipamento)}${field("Marca / modelo", order.marcaModelo)}${field("Número de série", order.numeroSerie)}${field("Técnico responsável", order.tecnico)}${field("Abertura", formatDate(order.dataAbertura))}${field("Conclusão", formatDate(order.dataConclusao))}${field("Próxima manutenção", formatDate(order.proximaManutencao))}${field("Garantia até", formatDate(order.garantiaAte))}</dl>${block("Problema relatado",order.problemaRelatado)}${block("Diagnóstico técnico",order.diagnostico)}${block("Serviços executados",order.servicoExecutado)}${block("Materiais utilizados",order.materiais)}${block("Observações",order.observacoes)}<footer>Registro dos serviços informados na OS. Este documento não constitui laudo ou certificação técnica.</footer>`;
-        popup.document.open();
-        popup.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>${kind === "label" ? "Etiqueta" : "Relatório"} ${e(order.numero)}</title><style>
-        *{box-sizing:border-box}body{font:14px/1.55 Arial,sans-serif;color:#142238;margin:30px auto;padding:24px;max-width:900px}header{border-bottom:3px solid #126ba5;padding-bottom:16px}header strong{font-size:24px}h1{font-size:23px}h2{font-size:15px;margin-bottom:8px}p,dd{white-space:pre-wrap;overflow-wrap:anywhere}dl{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0}.field{border-bottom:1px solid #ddd;padding:8px 0;break-inside:avoid}dt{font-size:11px;color:#536477}dd{margin:3px 0 0}section{margin:22px 0}footer{border-top:1px solid #ddd;padding-top:14px;font-size:11px;color:#536477}.toolbar{padding:18px;background:#eef5fa;margin-bottom:28px}.toolbar button{padding:10px 18px;cursor:pointer}.toolbar p{font-size:12px}.label{max-width:105mm;border:2px solid #142238;padding:18px;break-inside:avoid}.label h1{font-size:16px}.label p{font-size:12px}.label small{font-size:10px}.code{font:bold 22px monospace;letter-spacing:1px}.label a{color:inherit;word-break:break-all}@media print{@page{margin:15mm}body{margin:0;padding:0;max-width:none}.toolbar{display:none}a{text-decoration:none}h2{break-after:avoid}p{orphans:3;widows:3}}@media(max-width:500px){dl{grid-template-columns:1fr}}
-        </style></head><body><div class="toolbar"><button id="print" type="button">Imprimir / Salvar em PDF</button><p>Use a opção “Salvar como PDF” na janela de impressão. O documento contém os dados salvos; salve alterações na OS antes de gerar uma nova versão.${kind === "label" ? " Ajuste a escala ao papel da sua etiqueta e confira a prévia antes de imprimir." : ""}</p></div>${kind === "label" ? label : report}</body></html>`);
-        popup.document.close();
-        popup.document.getElementById("print").addEventListener("click", () => popup.print());
+        const filters = [dom.searchOrder?.value && `Busca: ${dom.searchOrder.value}`, dom.statusFilter?.value && `Status: ${statusLabels[dom.statusFilter.value]}`, dom.priorityFilter?.value && `Prioridade: ${priorityLabels[dom.priorityFilter.value]}`].filter(Boolean).join(" · ");
+        if (!window.UbaranasDocuments?.open(window.UbaranasDocuments.summary(state.filteredOrders, filters), "report", "Relatório de atendimentos")) {
+            showToast("Janela bloqueada", "Permita a abertura da janela para visualizar o relatório.", "warning");
+        }
+    }
+
+    function renderMaintenanceSchedule() {
+        const target = document.getElementById("maintenanceList");
+        if (!target) return;
+        const orders = state.orders.filter(order => order.proximaManutencao && order.status !== "cancelada").sort((a,b) => a.proximaManutencao.localeCompare(b.proximaManutencao));
+        const today = todayIso();
+        target.innerHTML = orders.length ? orders.map(order => `<button class="maintenance-item" type="button" data-order="${escapeHtml(order.id)}"><span><strong>${escapeHtml(order.numero)} · ${escapeHtml(order.cliente)}</strong><small>${escapeHtml(order.equipamento || order.servico)}</small></span><span>${formatDate(order.proximaManutencao)}<small>${order.proximaManutencao < today ? "Data recomendada vencida" : order.proximaManutencao === today ? "Prevista para hoje" : "Programada"}</small></span></button>`).join("") : "<p>Nenhuma próxima manutenção informada. Preencha a data na OS para incluí-la na agenda.</p>";
     }
 
     function closeOrderModal() {
+        if (state.saving) return;
         if (!dom.orderModal) {
             return;
         }
@@ -1274,6 +1309,7 @@
         );
 
         state.modalMode = "create";
+        state.previousFocus?.focus();
 
         resetOrderForm();
     }
@@ -1298,8 +1334,8 @@
                 "";
 
             dom.saveOrderButton.innerHTML = `
-                <i class="fa-solid fa-floppy-disk"></i>
-                Salvar Ordem de Serviço
+                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+                Salvar OS
             `;
         }
     }
@@ -1422,6 +1458,7 @@
     async function saveOrder(event) {
         event.preventDefault();
 
+        if (state.saving) return;
         if (
             state.modalMode === "view"
         ) {
@@ -1440,6 +1477,8 @@
                 "warning"
             );
 
+            const detail = validation.field?.closest("details");
+            if (detail) detail.open = true;
             validation.field?.focus();
 
             return;
@@ -1492,6 +1531,7 @@
             return;
         }
 
+        state.saving = true;
         setSaveButtonLoading(true);
 
         try {
@@ -1594,6 +1634,7 @@
             applyFilters();
             renderActivities();
 
+            state.saving = false;
             closeOrderModal();
         } catch (error) {
             console.error(
@@ -1621,6 +1662,7 @@
                 );
             }
         } finally {
+            state.saving = false;
             setSaveButtonLoading(false);
         }
     }
@@ -1730,6 +1772,18 @@
             };
         }
 
+        const opening = dom.openingDate?.value;
+        const completion = dom.completionDate?.value;
+        if (opening && completion && completion < opening) {
+            return {valid:false, message:"A conclusão não pode ser anterior à abertura da OS.", field:dom.completionDate};
+        }
+        const reference = completion || opening;
+        if (reference && dom.nextMaintenance?.value && dom.nextMaintenance.value < reference) {
+            return {valid:false, message:"A próxima manutenção não pode ser anterior à data do atendimento.", field:dom.nextMaintenance};
+        }
+        if (completion && dom.warrantyDate?.value && dom.warrantyDate.value < completion) {
+            return {valid:false, message:"A garantia não pode terminar antes da conclusão do serviço.", field:dom.warrantyDate};
+        }
         return {
             valid: true,
             message: "",
@@ -1755,7 +1809,7 @@
                     .innerHTML;
 
             dom.saveOrderButton.innerHTML = `
-                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                <i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>
                 Salvando...
             `;
 
@@ -1898,7 +1952,7 @@
                 false;
 
             dom.confirmDelete.innerHTML = `
-                <i class="fa-solid fa-trash"></i>
+                <i class="fa-solid fa-trash" aria-hidden="true"></i>
                 Excluir
             `;
         }
@@ -2002,11 +2056,11 @@
         dom.confirmDelete.innerHTML =
             loading
                 ? `
-                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                    <i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>
                     Excluindo...
                 `
                 : `
-                    <i class="fa-solid fa-trash"></i>
+                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
                     Excluir
                 `;
     }
@@ -2175,6 +2229,9 @@
         renderOrders();
         updateStats();
         updatePagination();
+        renderMaintenanceSchedule();
+        const scope = document.getElementById("reportScope");
+        if (scope) scope.textContent = `${state.filteredOrders.length} de ${state.orders.length} registro(s) incluídos nos relatórios com os filtros atuais.`;
     }
 
 
@@ -3042,6 +3099,16 @@
 
 
     function handleEscapeKey(event) {
+        if (event.key === "Tab") {
+            const modal = [dom.deleteModal, dom.orderModal].find(item => item?.classList.contains("active"));
+            if (modal) {
+                const controls = [...modal.querySelectorAll('button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), a[href], summary')].filter(item => item.getClientRects().length);
+                const first = controls[0], last = controls.at(-1);
+                if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+                else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+            }
+            return;
+        }
         if (event.key !== "Escape") {
             return;
         }

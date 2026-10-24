@@ -136,10 +136,10 @@
                     type="text"
                     id="numeroOS"
                     name="numeroOS"
-                    placeholder="Ex.: UB-260001"
+                    placeholder="Código de consulta da etiqueta"
                     aria-label="Código de consulta da Ordem de Serviço"
                     autocomplete="off"
-                    maxlength="30"
+                    maxlength="64" autocapitalize="characters" spellcheck="false"
                 >
 
                 <button
@@ -168,7 +168,7 @@
         =========================================================== -->
 
         <section
-            id="resultado" aria-live="polite"
+            id="resultado"
             class="resultado"
             aria-live="polite"
         >
@@ -230,7 +230,7 @@
             </a>
 
             <a
-                href="#consulta-garantia"
+                href="#numeroOS"
                 class="card"
                 id="cardGarantia"
             >
@@ -272,7 +272,7 @@
 
     <!-- JavaScript da página -->
     <script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"
     defer
 ></script>
 
@@ -282,7 +282,7 @@
 ></script>
 
 <script
-    src="/atendimentos/atendimentos.js?v=2"
+    src="/atendimentos/atendimentos.js?v=3"
     defer
 ></script>
 
