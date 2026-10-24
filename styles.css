@@ -276,6 +276,8 @@ section:not(.hero-slider):not(.benefits) {
   margin-top: 36px;
 }
 .service-card {
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(145deg, #101d33, #071020);
   border: 1px solid var(--line);
   padding: 30px;
@@ -290,6 +292,23 @@ section:not(.hero-slider):not(.benefits) {
 .service-card h3 {
   margin: 24px 0 14px;
 }
+.service-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.service-icon { width: 30px; height: 30px; flex-shrink: 0; fill: none; stroke: var(--blue); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.service-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding: 7px 0 19px; }
+.service-tag { font-size: 10px; color: #cad8ea; border: 1px solid var(--line); border-radius: 4px; padding: 3px 7px; }
+.service-card details { border-top: 1px solid var(--line); padding-top: 13px; }
+.service-card summary { cursor: pointer; font-size: 12px; color: var(--blue); font-weight: 700; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.service-card summary::-webkit-details-marker { display: none; }
+.service-card summary::after { content: "+"; font-size: 20px; font-weight: 400; }
+.service-card details[open] summary::after { content: "−"; }
+.service-card details ul { padding-left: 17px; font-size: 12px; color: var(--muted); margin: 14px 0 0; }
+.service-card details li { margin-bottom: 7px; }
+.service-cta { margin-top: 32px; border: 1px solid var(--line); border-radius: 10px; padding: 22px 25px; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: #0b1729; }
+.service-cta strong { font-size: 17px; }
+.service-cta p { margin: 3px 0 0; font-size: 12px; color: var(--muted); }
+.service-cta a { background: #087fb8; color: white; text-decoration: none; white-space: nowrap; padding: 11px 18px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+@media (min-width: 641px) and (max-width: 950px) { .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .service-cta { align-items: flex-start; flex-direction: column; } }
 .service-card p,
 .process p {
   font-size: 13px;
