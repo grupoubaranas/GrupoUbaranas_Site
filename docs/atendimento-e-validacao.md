@@ -59,3 +59,5 @@ Os banners são imagens conceituais geradas por IA e estão identificados como i
 Migrações adicionais aplicadas: equipe/autoria/orçamentos, numeração de OS pelo servidor e preservação de sequências maiores que quatro dígitos. A função create-technician verifica o token com Auth e exige perfil administrador ativo; a chave privilegiada permanece no ambiente da função. As tabelas de equipe e orçamentos usam RLS. A consulta pública não expõe dados de autoria.
 
 `node tests/verify-quotes.cjs` confere precisão decimal, arredondamento, limites e entradas inválidas.
+
+Teste transacional com o perfil técnico real: isolamento de OS e perfis, autoria resistente a adulteração, histórico encerrado somente para leitura, orçamento apenas para OS própria aberta e total recalculado. Resultado aprovado; rollback sem registros de teste persistidos. A função sem autenticação responde 401. Criação do perfil técnico e geração do convite conferidas na prévia; a ativação pelo destinatário permanece pendente.
