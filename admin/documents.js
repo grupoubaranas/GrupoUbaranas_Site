@@ -49,11 +49,11 @@ window.UbaranasDocuments = (() => {
     const popup = window.open("", "_blank", "width=1000,height=800");
     if (!popup) return false;
     popup.opener = null;
-    const stylesheet = new URL("/admin/documents.css", window.location.origin)
+    const stylesheet = new URL(kind === "proposal" ? "/admin/proposal.css?v=1" : "/admin/documents.css", window.location.origin)
       .href;
     popup.document.open();
     popup.document.write(
-      `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>${escape(title)}</title><link rel="stylesheet" href="${escape(stylesheet)}"></head><body class="${kind === "label" ? "label-page" : "report-page"}"><div class="print-toolbar"><button type="button" id="printDocument">Imprimir / Salvar em PDF</button><p>${kind === "label" ? "Etiqueta de 18 × 12 cm. Imprima em escala 100%, sem cabeçalhos ou rodapés. Ative a impressão dos gráficos de fundo para manter as cores. Confira se o papel comporta a etiqueta. Observações extensas ficam disponíveis no relatório." : "Escolha Salvar como PDF na janela de impressão. O documento contém os dados já salvos na OS."}</p></div>${content}</body></html>`,
+      `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>${escape(title)}</title><link rel="stylesheet" href="${escape(stylesheet)}"></head><body class="${kind === "label" ? "label-page" : kind === "proposal" ? "proposal-page" : "report-page"}"><div class="print-toolbar"><button type="button" id="printDocument">Imprimir / Salvar em PDF</button><p>${kind === "label" ? "Etiqueta de 18 × 12 cm. Imprima em escala 100%, sem cabeçalhos ou rodapés. Ative a impressão dos gráficos de fundo para manter as cores. Confira se o papel comporta a etiqueta. Observações extensas ficam disponíveis no relatório." : "Escolha Salvar como PDF na janela de impressão. O documento contém os dados já salvos na OS."}</p></div>${content}</body></html>`,
     );
     popup.document.close();
     popup.document
