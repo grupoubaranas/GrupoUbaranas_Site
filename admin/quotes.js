@@ -63,7 +63,7 @@ window.UbaranasQuotes = (() => {
   try{
    const calculated=math.calculate(readItems());const orderId=byId("quoteOrder").value;
    if(!context.getOrders().some(order=>order.id===orderId&&open(order)))throw new Error("Selecione uma OS em aberto.");
-   const payload={ordem_id:orderId,validade:byId("quoteValidity").value,itens:calculated.items.map(({descricao,quantidade,valor_unitario})=>({descricao,quantidade,valor_unitario})),observacoes:byId("quoteNotes").value.trim()||null};
+   const payload={ordem_id:orderId,validade:byId("quoteValidity").value,itens:calculated.items.map(({descricao,quantidade,valor_unitario})=>({descricao,quantidade,valor_unitario})),observacoes:byId("quoteNotes").value.trim()||null,condicoes:Object.fromEntries(["escopo","pagamento","prazo","materiais","garantia"].map(key=>[key,byId("quoteCondition_"+key).value.trim()]))};
    saving=true;byId("saveQuote").disabled=true;
    const id=byId("quoteId").value;
    const query=id?window.supabaseClient.from("orcamentos").update(payload).eq("id",id):window.supabaseClient.from("orcamentos").insert(payload);
@@ -72,11 +72,6 @@ window.UbaranasQuotes = (() => {
    await load();reset();context.notify("Orçamento salvo","O total e a autoria foram registrados no banco.","success");
   }catch(error){context.notify("Revise o orçamento",error.message,"warning");}
   finally{saving=false;byId("saveQuote").disabled=false;}
- }
- function proposal(quote){
-  const order=context.getOrders().find(order=>order.id===quote.ordem_id);
-  const calculated=math.calculate(quote.itens);
-  return `<article class="service-report"><header><strong>GRUPO UBARANAS</strong><p>Elétrica · Automação · Segurança eletrônica<br>CNPJ: 49.187.630/0001-06 · (21) 97743-3837</p></header><h1>Orçamento / proposta · ${escape(quote.numero)}</h1><dl><div class="report-field"><dt>Cliente</dt><dd>${escape(quote.cliente)}</dd></div><div class="report-field"><dt>OS de referência</dt><dd>${escape(order?.numero||"OS vinculada")}</dd></div><div class="report-field"><dt>Serviço</dt><dd>${escape(quote.servico)}</dd></div><div class="report-field"><dt>Validade</dt><dd>${escape(String(quote.validade).split("-").reverse().join("/"))}</dd></div></dl><table><thead><tr><th>Descrição</th><th>Qtd.</th><th>Valor unitário</th><th>Total</th></tr></thead><tbody>${calculated.items.map(item=>`<tr><td>${escape(item.descricao)}</td><td>${escape(item.quantidade)}</td><td>${math.money(item.valor_unitario)}</td><td>${math.money(item.total_centavos/100)}</td></tr>`).join("")}</tbody></table><h2>Total: ${math.money(quote.total)}</h2>${quote.observacoes?`<section><h2>Observações e condições</h2><p>${escape(quote.observacoes)}</p></section>`:""}<footer>Elaborado por ${escape(quote.criado_por_nome)}. Valores referentes aos itens discriminados nesta proposta.</footer></article>`;
  }
  async function init(options){
   context=options;
@@ -88,9 +83,9 @@ window.UbaranasQuotes = (() => {
    const button=event.target.closest("[data-quote-action]");if(!button)return;
    const quote=quotes.find(quote=>quote.id===button.dataset.quoteId);if(!quote)return;
    if(button.dataset.quoteAction==="pdf"){
-    if(!window.UbaranasDocuments.open(proposal(quote),"report",`Proposta ${quote.numero}`))context.notify("Janela bloqueada","Permita a abertura da proposta para imprimir ou salvar em PDF.","warning");
+    if(!window.UbaranasDocuments.open(window.UbaranasProposal.render(quote,context.getOrders().find(order=>order.id===quote.ordem_id)),"proposal",`Proposta ${quote.numero}`))context.notify("Janela bloqueada","Permita a abertura da proposta para imprimir ou salvar em PDF.","warning");
    }else{
-    reset();byId("quoteId").value=quote.id;byId("quoteOrder").value=quote.ordem_id;byId("quoteOrder").disabled=true;byId("quoteValidity").value=quote.validade;byId("quoteNotes").value=quote.observacoes||"";byId("quoteItems").replaceChildren();quote.itens.forEach(addItem);byId("quoteEditor").open=true;byId("quoteEditor").scrollIntoView({behavior:"smooth",block:"start"});
+    reset();byId("quoteId").value=quote.id;byId("quoteOrder").value=quote.ordem_id;byId("quoteOrder").disabled=true;byId("quoteValidity").value=quote.validade;byId("quoteNotes").value=quote.observacoes||"";["escopo","pagamento","prazo","materiais","garantia"].forEach(key=>{byId("quoteCondition_"+key).value=quote.condicoes?.[key]||"";});byId("quoteItems").replaceChildren();quote.itens.forEach(addItem);byId("quoteEditor").open=true;byId("quoteEditor").scrollIntoView({behavior:"smooth",block:"start"});
    }
   });
   reset();await load();

@@ -12,7 +12,7 @@
 
 O administrador gerencia a equipe. Técnicos podem cadastrar OS, consultar somente as próprias e editar as próprias enquanto estiverem em aberto. Registros encerrados permanecem disponíveis para leitura do autor. Autoria e última alteração são registradas pelo banco, separadas do campo técnico responsável.
 
-Orçamentos são vinculados a OS em aberto. O técnico só pode usar as próprias OS. Os totais são recalculados no servidor. A proposta pode ser impressa ou salva em PDF; seu layout será validado pelo proprietário posteriormente.
+Orçamentos são vinculados a OS em aberto. O técnico só pode usar as próprias OS. Os totais são recalculados no servidor. A proposta pode ser impressa ou salva em PDF com o layout aprovado pelo proprietário.
 
 O formulário Equipe cria um técnico e gera um link privado de uso único. Não envia e-mail automaticamente. O destinatário valida o convite e define a própria senha. O administrador pode gerar outra ativação na lista da equipe. Nunca registre links de ativação em arquivos, commits ou chamados públicos.
 
@@ -61,3 +61,9 @@ Migrações adicionais aplicadas: equipe/autoria/orçamentos, numeração de OS 
 `node tests/verify-quotes.cjs` confere precisão decimal, arredondamento, limites e entradas inválidas.
 
 Teste transacional com o perfil técnico real: isolamento de OS e perfis, autoria resistente a adulteração, histórico encerrado somente para leitura, orçamento apenas para OS própria aberta e total recalculado. Resultado aprovado; rollback sem registros de teste persistidos. A função sem autenticação responde 401. Criação do perfil técnico e geração do convite conferidas na prévia; a ativação pelo destinatário permanece pendente.
+
+## Modelo de proposta aprovado
+
+O orçamento permite registrar escopo, pagamento, prazo, materiais, garantia e observações. A emissão usa os dados salvos e o layout A4 aprovado, com identidade visual, itens, total, condições e aceite. Dados bancários ficam na configuração privada do banco e são copiados para cada orçamento por um trigger; o navegador não define ou altera esse snapshot. Eles não são publicados no código do site nem no portal público.
+
+A configuração bancária precisa ser preenchida no banco ao instalar em outro ambiente. Não inclua valores reais em migrações ou fixtures públicas. Testes: verify-proposal.cjs e transação real com o perfil técnico, revertida sem registros persistidos. Propostas extensas seguem em outras páginas, com cabeçalho da tabela repetido e sem cortar itens.

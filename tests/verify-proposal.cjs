@@ -1,0 +1,16 @@
+"use strict";
+const fs=require("node:fs"),vm=require("node:vm"),assert=require("node:assert/strict");
+const ctx={window:{location:{origin:"https://grupoubaranas.com.br"}},URL,Intl,console};
+for(const file of ["admin/quotes.js","admin/proposal.js"])vm.runInNewContext(fs.readFileSync(file,"utf8"),ctx);
+const render=ctx.window.UbaranasProposal.render;
+const quote={numero:"ORC-TESTE",cliente:'Cliente <img src=x onerror="alert(1)">',servico:"Rede & telefonia",criado_em:"2026-10-24T12:00:00Z",validade:"2026-11-08",criado_por_nome:"Técnico de teste",itens:[{descricao:"Instalação <teste>",quantidade:6,valor_unitario:85},{descricao:"Organização",quantidade:1,valor_unitario:320},{descricao:"Materiais",quantidade:1,valor_unitario:450}],total:1280,condicoes:{escopo:"Escopo salvo",pagamento:"Na conclusão",prazo:"A agendar",materiais:"Conforme itens",garantia:"Conforme serviço"},dados_pagamento:{favorecido:"FAVORECIDO TESTE",pix:"CHAVE-TESTE",banco:"BANCO TESTE",agencia:"0000",conta:"00000-0"},observacoes:"Observação <script>alert(1)</script>"};
+const html=render(quote,{numero:"OS-TESTE",endereco:"Local <teste>"});
+for(const text of ["ORC-TESTE","OS-TESTE","Escopo salvo","Na conclusão","FAVORECIDO TESTE","CHAVE-TESTE","BANCO TESTE","00000-0","1.280,00","510,00","08/11/2026"])assert(html.includes(text),text);
+assert(!html.includes("<script>"));assert(!html.includes("<img src=x"));assert(html.includes("&lt;script&gt;"));assert(html.includes("Instalação &lt;teste&gt;"));
+assert(!html.includes("EXEMPLO"));assert(!html.includes("Página 1"));
+const legacy=render({...quote,condicoes:undefined,dados_pagamento:undefined,observacoes:null},undefined);
+assert(legacy.includes("Não informado nesta proposta."));assert(!legacy.includes('class="payment"'));
+const long=render({...quote,itens:Array.from({length:100},(_,i)=>({descricao:`Item ${i} `+"Texto ".repeat(70),quantidade:1,valor_unitario:1})),total:100},{});
+assert.equal((long.match(/class="item-no"/g)||[]).length,100);
+const css=fs.readFileSync("admin/proposal.css","utf8");assert(css.includes("break-inside:avoid"));assert(css.includes("table-header-group"));
+console.log("PASS: proposta, campos salvos, dados de pagamento, totais, datas, escape HTML, registros anteriores e 100 itens sem truncamento.");

@@ -19,3 +19,4 @@ jobs:
       - run: node tests/verify-portal.cjs
       - run: node --check admin/quotes.js && node --check admin/team.js && node --check admin/ativar-conta.js
       - run: node tests/verify-quotes.cjs
+      - run: node --check admin/proposal.js && node tests/verify-proposal.cjs

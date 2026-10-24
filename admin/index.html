@@ -26,8 +26,8 @@
 
     <script src="/admin/supabase-config.js?v=2" defer></script>
 
-    <script src="/admin/documents.js?v=2" defer></script>
-    <script src="/admin/quotes.js?v=1" defer></script>
+    <script src="/admin/documents.js?v=3" defer></script>
+    <script src="/admin/quotes.js?v=2" defer></script><script src="/admin/proposal.js?v=1" defer></script>
     <script src="/admin/team.js?v=1" defer></script>
     <script src="/admin/admin.js?v=5" defer></script>
   </head>
@@ -545,13 +545,13 @@
           </section>
 
           <section class="panel" id="orcamentos">
-            <div class="panel-header"><div class="panel-title"><h3>Orçamentos / propostas</h3><p>Selecione uma OS em aberto. O modelo visual da proposta será validado em uma próxima etapa.</p></div></div>
+            <div class="panel-header"><div class="panel-title"><h3>Orçamentos / propostas</h3><p>Selecione uma OS em aberto. Preencha o escopo e as condições antes de emitir a proposta para o cliente.</p></div></div>
             <div class="panel-body">
               <details class="order-details" id="quoteEditor"><summary>Novo orçamento</summary>
                 <form id="quoteForm"><input type="hidden" id="quoteId">
                   <div class="form-grid"><div class="form-group"><label for="quoteOrder">OS em aberto</label><select class="form-select" id="quoteOrder" required><option value="">Carregando OS...</option></select></div><div class="form-group"><label for="quoteValidity">Válido até</label><input class="form-control" id="quoteValidity" type="date" required></div></div>
                   <div id="quoteItems"></div><button type="button" id="addQuoteItem" class="btn btn-secondary">Adicionar item</button>
-                  <div class="form-group"><label for="quoteNotes">Observações e condições</label><textarea class="form-textarea" id="quoteNotes" maxlength="5000" placeholder="Informe condições comerciais ou observações que precisam constar na proposta."></textarea></div>
+                  <div class="form-group"><label for="quoteCondition_escopo">O que será realizado</label><textarea class="form-textarea" id="quoteCondition_escopo" maxlength="3000" placeholder="Descreva o escopo. Se vazio, será usado o serviço da OS."></textarea></div><div class="form-group"><label for="quoteCondition_pagamento">Condições de pagamento</label><textarea class="form-textarea" id="quoteCondition_pagamento" maxlength="3000" placeholder="Informe entrada, parcelas e vencimentos acordados."></textarea></div><div class="form-group"><label for="quoteCondition_prazo">Prazo de execução</label><textarea class="form-textarea" id="quoteCondition_prazo" maxlength="3000" placeholder="Informe prazo e condições de agendamento."></textarea></div><div class="form-group"><label for="quoteCondition_materiais">Materiais e equipamentos</label><textarea class="form-textarea" id="quoteCondition_materiais" maxlength="3000" placeholder="Descreva o que está incluído e o que não está previsto."></textarea></div><div class="form-group"><label for="quoteCondition_garantia">Garantia e atendimento</label><textarea class="form-textarea" id="quoteCondition_garantia" maxlength="3000" placeholder="Informe as condições aplicáveis ao serviço."></textarea></div><p class="document-help">Os dados para pagamento são incluídos automaticamente na proposta salva. Revise as condições comerciais antes de enviar.</p><div class="form-group"><label for="quoteNotes">Observações adicionais</label><textarea class="form-textarea" id="quoteNotes" maxlength="5000" placeholder="Informe condições comerciais ou observações que precisam constar na proposta."></textarea></div>
                   <p class="quote-total">Total: <output id="quoteTotal">R$ 0,00</output></p>
                   <div class="form-actions"><button type="button" id="resetQuote" class="btn btn-secondary">Limpar formulário</button><button type="submit" id="saveQuote" class="btn btn-primary">Salvar orçamento</button></div>
                 </form>
