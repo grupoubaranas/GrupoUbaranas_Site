@@ -1,0 +1,10 @@
+"use strict";
+const fs=require("node:fs"),vm=require("node:vm"),assert=require("node:assert/strict");
+const ctx={window:{},Intl,URL,console};vm.runInNewContext(fs.readFileSync("admin/quotes.js","utf8"),ctx);
+const calc=ctx.window.UbaranasQuoteMath.calculate;
+assert.equal(calc([{descricao:"Arredondamento",quantidade:"1.005",valor_unitario:"1.01"}]).total,1.02);
+assert.equal(calc([{descricao:"Material",quantidade:"3",valor_unitario:"0.10"},{descricao:"Serviço",quantidade:"1",valor_unitario:"99.90"}]).total,100.20);
+assert.equal(calc([{descricao:"Meia unidade",quantidade:"0.5",valor_unitario:"0.01"}]).total,0.01);
+for(const items of [[],[{descricao:"",quantidade:1,valor_unitario:1}],[{descricao:"Teste",quantidade:-1,valor_unitario:1}],[{descricao:"Teste",quantidade:1,valor_unitario:-1}],[{descricao:"Teste",quantidade:"1e3",valor_unitario:1}],[{descricao:"Teste",quantidade:"1.0001",valor_unitario:1}]])assert.throws(()=>calc(items));
+assert.throws(()=>calc([{descricao:"Limite",quantidade:"1000000",valor_unitario:"10000000"}]));
+console.log("PASS: cálculos decimais, arredondamento por item, totais e rejeição de valores inválidos/fora do limite.");

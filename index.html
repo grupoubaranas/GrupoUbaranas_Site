@@ -1,153 +1,295 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grupo Ubaranas | Quadros Elétricos e Automação RJ</title>
-  <meta name="description" content="Especialistas em montagem, manutenção e organização de quadros elétricos, termografia e automação no Rio de Janeiro." />
-
-  <!-- FONTES -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-</head>
-
-<body>
-<div class="hero-brand">
-  <img src="assets/logo/logo.png" class="hero-logo" alt="Grupo Ubaranas">
-  <h2 class="hero-company">GRUPO UBARANAS</h2>
-  <p class="hero-slogan">Elétrica • Automação • Segurança Eletrônica </p>
-</div>
-
-<header class="hero-slider">
-
-  <div class="slide active" style="background-image:url('assets/portfolio/rack.png')">
-    <div class="hero-overlay"></div>
-    <a class="hero-whatsapp">Solicitar Orçamento</a>
-  </div>
-
-  <div class="slide" style="background-image:url('assets/portfolio/banner1.png')">
-    <div class="hero-overlay"></div>
-    <a class="hero-whatsapp">Solicitar Orçamento</a>
-    <div class="hero-content">...</div>
-  </div>
-
-  <div class="slide" style="background-image:url('assets/portfolio/banner2.png')">
-    <div class="hero-overlay"></div>
-    <a class="hero-whatsapp">Solicitar Orçamento</a>
-    <div class="hero-content">...</div>
-  </div>
-
-</header>
-<!-- BENEFÍCIOS -->
-<section class="benefits">
-
-    <div class="container">
-
-        <div class="benefit">
-            <svg class="icon" viewBox="0 0 24 24" fill="none">
-                <path d="M4 7h16M4 12h16M4 17h16"
-                stroke="#38BDF8" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span>Organização</span>
-        </div>
-
-        <div class="benefit">
-            <svg class="icon" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z"
-                stroke="#38BDF8" stroke-width="2"/>
-            </svg>
-            <span>Segurança</span>
-        </div>
-
-        <div class="benefit">
-            <svg class="icon" viewBox="0 0 24 24" fill="none">
-                <path d="M4 16l4-4 4 3 8-8"
-                stroke="#38BDF8" stroke-width="2"/>
-            </svg>
-            <span>Desempenho</span>
-        </div>
-
-        <div class="benefit">
-            <svg class="icon" viewBox="0 0 24 24" fill="none">
-                <path d="M14.7 6.3a4 4 0 01-5.4 5.4L3 18v3h3l6.3-6.3"
-                stroke="#38BDF8" stroke-width="2"/>
-            </svg>
-            <span>Manutenção Preventiva</span>
-        </div>
-    </div>
-
-</section>
-  </section>
-  <!-- SOBRE SERVIÇO -->
-  <section class="about">
-    <div class="container">
-     <h2>Especialistas em Quadros Elétricos</h2>
-      <p>
-        Atuamos com montagem, manutenção e organização de quadros elétricos,
-        garantindo segurança conforme normas técnicas como a NBR 5410.
-      </p>
-    </div>
-  </section>
-
-  <!-- PORTFÓLIO -->
-  <section class="portfolio">
-  <div class="container">
-    <h2>Projetos Realizados</h2>
-
-    <div class="grid">
-      <img src="assets/portfolio/quadros/Quadro(1).jpg" alt="Quadro elétrico organizado com cabeamento identificado">
-      <img src="assets/portfolio/quadros/Quadro(2).jpg" alt="Painel elétrico em manutenção e organização técnica">
-      <img src="assets/portfolio/quadros/Quadro(3).jpg" alt="Quadro elétrico antes da organização dos cabos">
-      <img src="assets/portfolio/quadros/Quadro(4).jpg" alt="Instalação elétrica com padrão técnico profissional">
-      <img src="assets/portfolio/quadros/Quadro(5).jpg" alt="Quadro elétrico finalizado com organização e segurança">
-    </div>
-  </div>
-</section>
-  
- <!-- <section class="portfolio">
-    <div class="container">
-      <h2>Projetos Realizados</h2>
-      <div class="grid">
-        <img src="assets/portfolio/quadros/Quadro(1).jpg" />
-        <img src="assets/portfolio/quadros/Quadro(2).jpg" />
-        <img src="assets/portfolio/quadros/Quadro(3).jpg" />
-        <img src="assets/portfolio/quadros/Quadro(4).jpg" />
-        <img src="assets/portfolio/quadros/Quadro(5).jpg" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Grupo Ubaranas | Elétrica, Automação e Segurança eletrônica no RJ</title>
+    <meta
+      name="description"
+      content="Montagem e manutenção de quadros elétricos, automação e segurança eletrônica no Rio de Janeiro. Conheça nossos projetos e consulte sua ordem de serviço."
+    />
+    <meta name="theme-color" content="#020617" />
+    <link rel="canonical" href="https://grupoubaranas.com.br/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta
+      property="og:title"
+      content="Grupo Ubaranas | Elétrica, Automação e Segurança eletrônica"
+    />
+    <meta
+      property="og:description"
+      content="Cuidado técnico em cada detalhe. Conheça nossos serviços, veja projetos realizados e consulte sua OS."
+    />
+    <meta property="og:url" content="https://grupoubaranas.com.br/" />
+    <meta
+      property="og:image"
+      content="https://grupoubaranas.com.br/assets/optimized/banner-eletrica-ia.webp"
+    />
+    <link rel="icon" type="image/png" href="/assets/logo/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#principal">Pular para o conteúdo</a>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="/" aria-label="Grupo Ubaranas, início"
+          ><img src="assets/logo/logo.png" width="56" height="56" alt="" /><span
+            >GRUPO UBARANAS<small>Elétrica · Automação · Segurança eletrônica</small></span
+          ></a
+        >
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          Menu
+        </button>
+        <nav id="menu" aria-label="Navegação principal">
+          <a href="#servicos">Serviços</a><a href="#portfolio">Projetos</a
+          ><a href="#processo">Como trabalhamos</a
+          ><a class="nav-portal" href="/atendimentos/">Consultar OS ↗</a>
+        </nav>
       </div>
-    </div>
-  </section>
- -->
-  <!-- PROCESSO -->
-  <section class="process">
-    <div class="container">
-      <h2>Nosso Processo</h2>
-      <ul>
-        <li>1. Inspeção técnica</li>
-        <li>2. Diagnóstico elétrico</li>
-        <li>3. Organização e montagem</li>
-        <li>4. Testes e validação</li>
-        <li>5. Entrega técnica</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- CTA FINAL -->
-  <section class="cta">
-    <h2>Seu quadro elétrico precisa de atenção?</h2>
-    <a class="btn-primary" href="https://wa.me/5521977433837">
-      Falar com Especialista
-    </a>
-    <p class="footer-tag">
-      Tecnologia • Organização • Confiança
-    </p>
-  </section>
-  <!-- WHATSAPP FLUTUANTE -->
-  <a class="whatsapp-float"
-     href="https://wa.me/5521977433837"
-     target="_blank">
-    💬
-  </a>
-
-</body>
+    </header>
+    <main id="principal">
+      <section class="hero-slider" aria-label="Apresentação do Grupo Ubaranas">
+        <div class="slides" aria-hidden="true">
+          <div class="slide active">
+            <img src="assets/optimized/banner-eletrica-ia.webp" alt="" fetchpriority="high" />
+          </div>
+          <div class="slide">
+            <img src="assets/optimized/banner-automacao-ia.webp" alt="" loading="lazy" />
+          </div>
+          <div class="slide">
+            <img src="assets/optimized/banner-cftv-ia.webp" alt="" loading="lazy" />
+          </div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+          <p class="eyebrow">SOLUÇÕES TÉCNICAS NO RIO DE JANEIRO</p>
+          <h1>Cuidado técnico.<br />Confiança em cada detalhe.</h1>
+          <p>
+            Elétrica, automação e segurança eletrônica com foco na organização,
+            no funcionamento e na manutenção da sua estrutura.
+          </p>
+          <div class="actions">
+            <a class="btn-primary" href="https://wa.me/5521977433837"
+              >Solicitar orçamento <span aria-hidden="true">↗</span></a
+            ><a class="btn-secondary" href="#portfolio">Conhecer projetos</a>
+          </div>
+          <p class="hero-note">
+            Do diagnóstico à entrega. Um processo claro para o seu projeto.
+          </p>
+        </div>
+        <div class="container slider-controls">
+          <span><span id="slideLabel">ELÉTRICA · PRECISÃO E ORGANIZAÇÃO</span><small class="illustration-note">Imagens ilustrativas. Veja nossos serviços reais no portfólio.</small></span
+          ><button id="pauseSlider" type="button" aria-pressed="false">
+            Pausar imagens
+          </button>
+        </div>
+      </section>
+      <section class="benefits" aria-label="Nosso compromisso">
+        <div class="container">
+          <div class="benefit"><span>01</span>Organização</div>
+          <div class="benefit"><span>02</span>Segurança eletrônica</div>
+          <div class="benefit"><span>03</span>Desempenho</div>
+          <div class="benefit"><span>04</span>Manutenção preventiva</div>
+        </div>
+      </section>
+      <section id="servicos" class="services">
+        <div class="container">
+          <p class="eyebrow">EXPERIÊNCIA APLICADA À SUA ESTRUTURA</p>
+          <h2>Soluções para o que precisa funcionar.</h2>
+          <p class="section-intro">
+            Atuação técnica para instalações mais organizadas e equipamentos bem
+            cuidados.
+          </p>
+          <div class="service-grid">
+            <article class="service-card">
+              <span class="card-number">01 / ELÉTRICA</span>
+              <h3>Quadros elétricos</h3>
+              <p>
+                Montagem, organização e manutenção de quadros, com identificação
+                dos circuitos e atenção aos detalhes da instalação.
+              </p>
+            </article>
+            <article class="service-card">
+              <span class="card-number">02 / AUTOMAÇÃO</span>
+              <h3>Controle e integração</h3>
+              <p>
+                Soluções de automação para facilitar o controle de equipamentos
+                e adequar o funcionamento à necessidade do projeto.
+              </p>
+            </article>
+            <article class="service-card">
+              <span class="card-number">03 / SEGURANÇA ELETRÔNICA</span>
+              <h3>Segurança eletrônica e CFTV</h3>
+              <p>
+                Instalação e manutenção de câmeras de CFTV, sistemas de segurança eletrônica e da
+                infraestrutura que mantém sua operação conectada.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="portfolio" id="portfolio">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">TRABALHO QUE VOCÊ PODE VER</p>
+              <h2>Projetos realizados</h2>
+            </div>
+            <p>
+              Registros dos nossos serviços.<br />Organização e atenção em cada
+              conexão.
+            </p>
+          </div>
+          <div class="grid">
+            <figure>
+              <img
+                src="assets/optimized/Quadro(1).webp"
+                alt="Registro 1 de projeto de quadro elétrico do Grupo Ubaranas"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption><span>QUADROS ELÉTRICOS</span>Projeto 01</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="assets/optimized/Quadro(2).webp"
+                alt="Registro 2 de projeto de quadro elétrico do Grupo Ubaranas"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption><span>QUADROS ELÉTRICOS</span>Projeto 02</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="assets/optimized/Quadro(3).webp"
+                alt="Registro 3 de projeto de quadro elétrico do Grupo Ubaranas"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption><span>QUADROS ELÉTRICOS</span>Projeto 03</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="assets/optimized/Quadro(4).webp"
+                alt="Registro 4 de projeto de quadro elétrico do Grupo Ubaranas"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption><span>QUADROS ELÉTRICOS</span>Projeto 04</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="assets/optimized/Quadro(5).webp"
+                alt="Registro 5 de projeto de quadro elétrico do Grupo Ubaranas"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption><span>QUADROS ELÉTRICOS</span>Projeto 05</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+      <section class="process" id="processo">
+        <div class="container">
+          <p class="eyebrow">DO PRIMEIRO CONTATO À ENTREGA</p>
+          <h2>Clareza em todas as etapas.</h2>
+          <ol>
+            <li>
+              <span>01</span>
+              <h3>Inspeção</h3>
+              <p>Entendemos a necessidade e avaliamos a estrutura.</p>
+            </li>
+            <li>
+              <span>02</span>
+              <h3>Diagnóstico</h3>
+              <p>Identificamos os pontos de atenção e o escopo do serviço.</p>
+            </li>
+            <li>
+              <span>03</span>
+              <h3>Execução</h3>
+              <p>Realizamos a montagem, organização ou manutenção.</p>
+            </li>
+            <li>
+              <span>04</span>
+              <h3>Validação</h3>
+              <p>Verificamos o funcionamento e os detalhes da entrega.</p>
+            </li>
+            <li>
+              <span>05</span>
+              <h3>Entrega técnica</h3>
+              <p>Apresentamos o serviço e as orientações de manutenção.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="client-section">
+        <div class="container client-panel">
+          <div>
+            <p class="eyebrow">JÁ É CLIENTE?</p>
+            <h2>O serviço continua<br />ao seu alcance.</h2>
+            <p>
+              Use o código da etiqueta para consultar sua ordem de serviço, os
+              procedimentos registrados e as datas de garantia e manutenção
+              informadas pela equipe.
+            </p>
+          </div>
+          <div class="portal-access">
+            <span class="card-number">PORTAL DO CLIENTE</span>
+            <h3>Consulte sua OS</h3>
+            <p>
+              Abra o link da etiqueta ou digite o código de consulta no portal.
+            </p>
+            <a class="btn-primary" href="/atendimentos/"
+              >Acessar portal <span aria-hidden="true">↗</span></a
+            ><small>Não encontrou o código? Fale com nossa equipe.</small>
+          </div>
+        </div>
+      </section>
+      <section class="cta" id="contato">
+        <div class="container">
+          <p class="eyebrow">VAMOS CONVERSAR SOBRE SEU PROJETO</p>
+          <h2>Sua estrutura merece<br />atenção profissional.</h2>
+          <p>
+            Conte o que você precisa e envie fotos pelo WhatsApp para iniciar o
+            atendimento.
+          </p>
+          <a class="btn-primary" href="https://wa.me/5521977433837"
+            >Falar com a equipe ↗</a
+          ><a class="phone" href="tel:+5521977433837">(21) 97743-3837</a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <strong>GRUPO UBARANAS</strong>
+          <p>Elétrica · Automação · Segurança eletrônica</p>
+          <small>CNPJ: 49.187.630/0001-06</small>
+        </div>
+        <nav aria-label="Links do rodapé">
+          <a href="/atendimentos/">Portal do cliente</a
+          ><a href="/admin/login.html">Área da equipe</a
+          ><a href="#contato">Contato</a>
+        </nav>
+      </div>
+    </footer>
+    <a
+      class="whatsapp-float"
+      href="https://wa.me/5521977433837"
+      aria-label="Falar com o Grupo Ubaranas no WhatsApp"
+      >WhatsApp ↗</a
+    >
+  </body>
 </html>

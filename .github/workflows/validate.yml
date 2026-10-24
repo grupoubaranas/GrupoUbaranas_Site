@@ -1,0 +1,21 @@
+name: Validar site
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: node --check script.js && node --check admin/admin.js && node --check admin/documents.js && node --check admin/login.js && node --check atendimentos/atendimentos.js
+      - run: node tests/verify-site.cjs
+      - run: node tests/verify-documents.cjs
+      - run: node tests/verify-portal.cjs
+      - run: node --check admin/quotes.js && node --check admin/team.js && node --check admin/ativar-conta.js
+      - run: node tests/verify-quotes.cjs

@@ -122,12 +122,22 @@
         }
 
         state.user = user;
+        const {data: profile, error: profileError} = await window.supabaseClient.from("equipe_usuarios").select("nome,papel,ativo").eq("id",user.id).maybeSingle();
+        if (profileError || !profile?.ativo) {
+            await window.supabaseClient.auth.signOut({scope:"local"});
+            window.location.replace("/admin/login.html");
+            return;
+        }
+        state.profile = profile;
+        document.querySelectorAll("[data-admin-only]").forEach(item => {item.hidden = profile.papel !== "administrador";});
 
         updateUserInfo(user);
         registerAuthWatcher();
 
         await loadOrdersFromDatabase();
 
+        await window.UbaranasQuotes?.init({user,profile,getOrders:()=>state.orders,notify:showToast});
+        await window.UbaranasTeam?.init(profile);
         setPageLoading(false);
     }
 
@@ -274,8 +284,11 @@
                 openOrderModal("create");
 
                 window.setTimeout(
-                    () =>
-                        dom.nextMaintenance?.focus(),
+                    () => {
+                        const detail = dom.nextMaintenance?.closest("details");
+                        if (detail) detail.open = true;
+                        dom.nextMaintenance?.focus();
+                    },
                     80
                 );
 
@@ -287,10 +300,10 @@
             }
         );
 
-        dom.quickReport?.addEventListener(
-            "click",
-            exportOrdersToCsv
-        );
+        dom.quickReport?.addEventListener("click", printSummary);
+        document.getElementById("printSummary")?.addEventListener("click", printSummary);
+        document.getElementById("exportReportCsv")?.addEventListener("click", exportOrdersToCsv);
+        document.getElementById("maintenanceList")?.addEventListener("click", event => { const button = event.target.closest("[data-order]"); if (button) openOrderModal("view", button.dataset.order); });
 
         dom.exportOrders?.addEventListener(
             "click",
@@ -577,7 +590,7 @@
             : "Administrador";
 
         const displayName =
-            metadataName || emailName;
+            state.profile?.nome || metadataName || emailName;
 
         if (dom.userName) {
             dom.userName.textContent =
@@ -585,8 +598,7 @@
         }
 
         if (dom.userRole) {
-            dom.userRole.textContent =
-                "Administrador";
+            dom.userRole.textContent = state.profile?.papel === "tecnico" ? "Técnico" : "Administrador";
         }
 
         if (dom.userAvatar) {
@@ -666,6 +678,7 @@
 
             state.orders = [];
             state.activities = [];
+            if (dom.demoAlert) dom.demoAlert.textContent = "Não foi possível carregar os dados. Verifique a conexão e use Atualizar para tentar novamente.";
 
             applyFilters();
             renderActivities();
@@ -684,6 +697,10 @@
     function mapDatabaseOrder(row) {
         return {
             id: row.id,
+            criadoPor: row.criado_por || null,
+            criadoPorNome: row.criado_por_nome || "Registro anterior à identificação por usuário",
+            atualizadoPor: row.atualizado_por || null,
+            atualizadoPorNome: row.atualizado_por_nome || "Não informado",
 
             numero:
                 row.numero || "",
@@ -1078,9 +1095,8 @@
             return;
         }
 
-        await loadOrdersFromDatabase({
-            notify: true
-        });
+        await loadOrdersFromDatabase({notify:true});
+        await window.UbaranasQuotes?.load();
     }
 
 
@@ -1095,7 +1111,9 @@
             return;
         }
 
+        state.previousFocus = document.activeElement;
         state.modalMode = mode;
+        dom.orderForm.querySelectorAll("details").forEach(detail => { detail.open = mode !== "create"; });
 
         resetOrderForm();
 
@@ -1126,8 +1144,8 @@
 
             dom.orderId.value = "";
 
-            dom.orderNumber.value =
-                generateNextOrderNumber();
+            dom.orderNumber.value = "";
+            dom.orderNumber.placeholder = "Gerado automaticamente ao salvar";
 
             dom.openingDate.value =
                 todayIso();
@@ -1148,12 +1166,16 @@
                     "";
 
                 dom.saveOrderButton.innerHTML = `
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    Salvar Ordem de Serviço
+                    <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+                    Salvar OS
                 `;
             }
         }
 
+        if (mode === "edit" && state.profile?.papel === "tecnico" && !["rascunho","pendente","andamento"].includes(order.status)) {
+            showToast("OS encerrada", "Esta OS está disponível apenas para consulta.", "warning");
+            return;
+        }
         if (mode === "edit") {
             dom.orderModalTitle.textContent =
                 `Editar ${order.numero}`;
@@ -1167,7 +1189,7 @@
                     "";
 
                 dom.saveOrderButton.innerHTML = `
-                    <i class="fa-solid fa-floppy-disk"></i>
+                    <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
                     Salvar alterações
                 `;
             }
@@ -1187,6 +1209,49 @@
             }
         }
 
+        document.getElementById("copyConsultationButton")?.remove();
+        document.getElementById("orderConsultationInfo")?.remove();
+        document.getElementById("printOrderButton")?.remove();
+        document.getElementById("printLabelButton")?.remove();
+        if (order) {
+            const footer = dom.orderForm.querySelector(".modal-footer");
+            const info = document.createElement("p");
+            info.id = "orderConsultationInfo";
+            info.className = "document-help consultation-info";
+            info.textContent = `Cadastrado por: ${order.criadoPorNome} · Última alteração: ${order.atualizadoPorNome}. Código de consulta: ${order.codigoConsulta || "não gerado"} · ${order.visivelNoPortal ? "Disponível no portal" : "Consulta pública desativada"}`;
+            footer?.before(info);
+            if (order.codigoConsulta && order.visivelNoPortal) {
+                const button = document.createElement("button");
+                button.id = "copyConsultationButton";
+                button.type = "button";
+                button.className = "btn btn-secondary";
+                button.textContent = "Copiar link de consulta";
+                button.addEventListener("click", async () => {
+                    try {
+                        await navigator.clipboard.writeText(window.UbaranasDocuments.consultationUrl(order));
+                        showToast("Link copiado", "Envie o link ao cliente para abrir esta OS no portal.", "success");
+                    } catch {
+                        showToast("Não foi possível copiar", "Use o código de consulta exibido nos detalhes da OS.", "warning");
+                    }
+                });
+                footer?.prepend(button);
+            }
+
+            for (const [id, label, kind] of [
+                ["printOrderButton", "Relatório / PDF", "report"],
+                ["printLabelButton", "Imprimir etiqueta", "label"]
+            ]) {
+                const button = document.createElement("button");
+                button.id = id;
+                button.type = "button";
+                button.className = "btn btn-secondary";
+                button.textContent = label;
+                button.addEventListener("click", () => printSavedOrder(order, kind));
+                footer?.prepend(button);
+            }
+        }
+
+        dom.orderNumber.readOnly = true;
         dom.orderModal.classList.add(
             "active"
         );
@@ -1210,7 +1275,39 @@
     }
 
 
+    // Usa somente a OS salva, para que o documento corresponda ao registro persistido.
+    function printSavedOrder(order, kind) {
+        if (kind === "label" && (!order.codigoConsulta || !order.visivelNoPortal)) {
+            showToast("Etiqueta indisponível", "Salve a OS com um código de consulta e habilite sua exibição no portal antes de imprimir a etiqueta.", "warning");
+            return;
+        }
+        const documents = window.UbaranasDocuments;
+        if (!documents || !documents.open(kind === "label" ? documents.label(order) : documents.report(order), kind, `${kind === "label" ? "Etiqueta" : "Relatório"} ${order.numero}`)) {
+            showToast("Documento indisponível", "Permita a abertura da janela de impressão e tente novamente.", "warning");
+        }
+    }
+
+    function printSummary() {
+        if (!state.filteredOrders.length) {
+            showToast("Nenhum registro", "Ajuste os filtros ou cadastre uma OS antes de gerar o relatório.", "warning");
+            return;
+        }
+        const filters = [dom.searchOrder?.value && `Busca: ${dom.searchOrder.value}`, dom.statusFilter?.value && `Status: ${statusLabels[dom.statusFilter.value]}`, dom.priorityFilter?.value && `Prioridade: ${priorityLabels[dom.priorityFilter.value]}`].filter(Boolean).join(" · ");
+        if (!window.UbaranasDocuments?.open(window.UbaranasDocuments.summary(state.filteredOrders, filters), "report", "Relatório de atendimentos")) {
+            showToast("Janela bloqueada", "Permita a abertura da janela para visualizar o relatório.", "warning");
+        }
+    }
+
+    function renderMaintenanceSchedule() {
+        const target = document.getElementById("maintenanceList");
+        if (!target) return;
+        const orders = state.orders.filter(order => order.proximaManutencao && order.status !== "cancelada").sort((a,b) => a.proximaManutencao.localeCompare(b.proximaManutencao));
+        const today = todayIso();
+        target.innerHTML = orders.length ? orders.map(order => `<button class="maintenance-item" type="button" data-order="${escapeHtml(order.id)}"><span><strong>${escapeHtml(order.numero)} · ${escapeHtml(order.cliente)}</strong><small>${escapeHtml(order.equipamento || order.servico)}</small></span><span>${formatDate(order.proximaManutencao)}<small>${order.proximaManutencao < today ? "Data recomendada vencida" : order.proximaManutencao === today ? "Prevista para hoje" : "Programada"}</small></span></button>`).join("") : "<p>Nenhuma próxima manutenção informada. Preencha a data na OS para incluí-la na agenda.</p>";
+    }
+
     function closeOrderModal() {
+        if (state.saving) return;
         if (!dom.orderModal) {
             return;
         }
@@ -1229,6 +1326,7 @@
         );
 
         state.modalMode = "create";
+        state.previousFocus?.focus();
 
         resetOrderForm();
     }
@@ -1253,8 +1351,8 @@
                 "";
 
             dom.saveOrderButton.innerHTML = `
-                <i class="fa-solid fa-floppy-disk"></i>
-                Salvar Ordem de Serviço
+                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+                Salvar OS
             `;
         }
     }
@@ -1377,6 +1475,7 @@
     async function saveOrder(event) {
         event.preventDefault();
 
+        if (state.saving) return;
         if (
             state.modalMode === "view"
         ) {
@@ -1395,6 +1494,8 @@
                 "warning"
             );
 
+            const detail = validation.field?.closest("details");
+            if (detail) detail.open = true;
             validation.field?.focus();
 
             return;
@@ -1447,6 +1548,7 @@
             return;
         }
 
+        state.saving = true;
         setSaveButtonLoading(true);
 
         try {
@@ -1549,6 +1651,7 @@
             applyFilters();
             renderActivities();
 
+            state.saving = false;
             closeOrderModal();
         } catch (error) {
             console.error(
@@ -1576,6 +1679,7 @@
                 );
             }
         } finally {
+            state.saving = false;
             setSaveButtonLoading(false);
         }
     }
@@ -1583,13 +1687,6 @@
 
     function validateOrderForm() {
         const requiredFields = [
-            {
-                field:
-                    dom.orderNumber,
-
-                message:
-                    "Informe o número da Ordem de Serviço."
-            },
             {
                 field:
                     dom.openingDate,
@@ -1685,6 +1782,18 @@
             };
         }
 
+        const opening = dom.openingDate?.value;
+        const completion = dom.completionDate?.value;
+        if (opening && completion && completion < opening) {
+            return {valid:false, message:"A conclusão não pode ser anterior à abertura da OS.", field:dom.completionDate};
+        }
+        const reference = completion || opening;
+        if (reference && dom.nextMaintenance?.value && dom.nextMaintenance.value < reference) {
+            return {valid:false, message:"A próxima manutenção não pode ser anterior à data do atendimento.", field:dom.nextMaintenance};
+        }
+        if (completion && dom.warrantyDate?.value && dom.warrantyDate.value < completion) {
+            return {valid:false, message:"A garantia não pode terminar antes da conclusão do serviço.", field:dom.warrantyDate};
+        }
         return {
             valid: true,
             message: "",
@@ -1710,7 +1819,7 @@
                     .innerHTML;
 
             dom.saveOrderButton.innerHTML = `
-                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                <i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>
                 Salvando...
             `;
 
@@ -1774,6 +1883,7 @@
 
 
     function openDeleteModal(orderId) {
+        if (state.profile?.papel !== "administrador") return;
         const order =
             state.orders.find(
                 (item) =>
@@ -1853,7 +1963,7 @@
                 false;
 
             dom.confirmDelete.innerHTML = `
-                <i class="fa-solid fa-trash"></i>
+                <i class="fa-solid fa-trash" aria-hidden="true"></i>
                 Excluir
             `;
         }
@@ -1957,61 +2067,13 @@
         dom.confirmDelete.innerHTML =
             loading
                 ? `
-                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                    <i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>
                     Excluindo...
                 `
                 : `
-                    <i class="fa-solid fa-trash"></i>
+                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
                     Excluir
                 `;
-    }
-
-
-    function generateNextOrderNumber() {
-        const year =
-            new Date().getFullYear();
-
-        const prefix =
-            `OS-${year}-`;
-
-        const numbers =
-            state.orders
-                .map((order) => {
-                    const number =
-                        String(
-                            order.numero || ""
-                        ).toUpperCase();
-
-                    if (
-                        !number.startsWith(
-                            prefix
-                        )
-                    ) {
-                        return 0;
-                    }
-
-                    return Number(
-                        number.replace(
-                            prefix,
-                            ""
-                        )
-                    ) || 0;
-                });
-
-        const nextNumber =
-            Math.max(
-                0,
-                ...numbers
-            ) + 1;
-
-        return (
-            prefix +
-            String(nextNumber)
-                .padStart(
-                    4,
-                    "0"
-                )
-        );
     }
 
 
@@ -2130,6 +2192,10 @@
         renderOrders();
         updateStats();
         updatePagination();
+        renderMaintenanceSchedule();
+        window.UbaranasQuotes?.refreshOrders();
+        const scope = document.getElementById("reportScope");
+        if (scope) scope.textContent = `${state.filteredOrders.length} de ${state.orders.length} registro(s) incluídos nos relatórios com os filtros atuais.`;
     }
 
 
@@ -2211,6 +2277,10 @@
             pageOrders
                 .map(createOrderRow)
                 .join("");
+        dom.ordersTableBody.querySelectorAll('[data-action="delete"]').forEach(button => {button.hidden = state.profile?.papel !== "administrador";});
+        if (state.profile?.papel === "tecnico") {
+            dom.ordersTableBody.querySelectorAll('[data-action="edit"]').forEach(button => {const order = state.orders.find(item=>String(item.id)===button.dataset.id);button.hidden = !order || !["rascunho","pendente","andamento"].includes(order.status);});
+        }
     }
 
 
@@ -2997,6 +3067,16 @@
 
 
     function handleEscapeKey(event) {
+        if (event.key === "Tab") {
+            const modal = [dom.deleteModal, dom.orderModal].find(item => item?.classList.contains("active"));
+            if (modal) {
+                const controls = [...modal.querySelectorAll('button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), a[href], summary')].filter(item => item.getClientRects().length);
+                const first = controls[0], last = controls.at(-1);
+                if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+                else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+            }
+            return;
+        }
         if (event.key !== "Escape") {
             return;
         }

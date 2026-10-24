@@ -1,116 +1,55 @@
-// =====================================================
-// Grupo Ubaranas
-// Script Principal
-// =====================================================
-// HEADER AO ROLAR A PÁGINA
-//-------------------------------------
-
-const header = document.querySelector('.header');
-if(header){
-    window.addEventListener('scroll', () => {
-        if(window.scrollY > 80){
-            header.classList.add('header-scroll');
-        } else {
-            header.classList.remove('header-scroll');
-        }
-    });
+"use strict";
+const menuButton = document.querySelector(".menu-toggle");
+const menu = document.getElementById("menu");
+function closeMenu() {
+  menu?.classList.remove("open");
+  menuButton?.setAttribute("aria-expanded", "false");
 }
-
-// SCROLL SUAVE
-//-------------------------------------
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', function(e){
-        e.preventDefault();
-        const destino = document.querySelector(
-            this.getAttribute('href')
-        );
-        if(destino){
-            destino.scrollIntoView({
-                behavior:'smooth'
-            });
-        }
-    });
+menuButton?.addEventListener("click", () => {
+  const open = menu.classList.toggle("open");
+  menuButton.setAttribute("aria-expanded", String(open));
 });
-
-// MENU ATIVO
-//-------------------------------------
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('nav ul li a');
-window.addEventListener('scroll', ()=>{
-    let current = "";
-    sections.forEach(section=>{
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if(
-            pageYOffset >= sectionTop - 150
-        ){
-            current = section.getAttribute('id');
-        }
-    });
-    navLinks.forEach(link=>{
-        link.classList.remove('active');
-        if(
-            link.getAttribute('href')
-            ===
-            `#${current}`
-        ){
-            link.classList.add('active');
-        }
-    });
+menu?.addEventListener("click", (event) => {
+  if (event.target.closest("a")) closeMenu();
 });
-// BOTÃO WHATSAPP
-//-------------------------------------
-function abrirWhatsapp(){
-    window.open(
-        "https://wa.me/5521977433837",
-        "_blank"
-    );
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeMenu();
+    if (menu?.contains(document.activeElement)) menuButton.focus();
+  }
+});
+const slides = [...document.querySelectorAll(".slide")];
+const pauseButton = document.getElementById("pauseSlider");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const slideLabels = [
+  "ELÉTRICA · PRECISÃO E ORGANIZAÇÃO",
+  "AUTOMAÇÃO · CONTROLE E INTEGRAÇÃO",
+  "SEGURANÇA ELETRÔNICA · CFTV",
+];
+let index = 0,
+  timer = null,
+  paused = reducedMotion.matches;
+function updateSlider() {
+  window.clearInterval(timer);
+  pauseButton?.setAttribute("aria-pressed", String(paused));
+  if (pauseButton)
+    pauseButton.textContent = paused ? "Reproduzir imagens" : "Pausar imagens";
+  if (!paused && !document.hidden && slides.length > 1)
+    timer = window.setInterval(() => {
+      slides[index].classList.remove("active");
+      index = (index + 1) % slides.length;
+      slides[index].classList.add("active");
+      const label = document.getElementById("slideLabel");
+      if (label) label.textContent = slideLabels[index] || "SOLUÇÕES TÉCNICAS";
+    }, 6500);
 }
-
-// ANIMAÇÕES FUTURAS
-//-------------------------------------
-
-// Aqui futuramente podemos adicionar:
-
-// Lightbox
-
-// Carrossel
-
-// Lazy Load
-
-// Contadores
-
-// AOS
-
-// GSAP
-document.addEventListener("DOMContentLoaded", () => {
-
-  const slides = document.querySelectorAll(".slide");
-
-  console.log("Slides encontrados:", slides.length);
-
-  let index = 0;
-
-  function show(i) {
-    slides.forEach((s) => s.classList.remove("active"));
-    slides[i].classList.add("active");
-  }
-
-  function next() {
-    index = (index + 1) % slides.length;
-    show(index);
-  }
-
-  show(0);
-  setInterval(next, 5000);
-
+pauseButton?.addEventListener("click", () => {
+  paused = !paused;
+  updateSlider();
 });
-
-console.log(
-"Grupo Ubaranas carregado com sucesso"
-);
-console.log("SLIDER JS CARREGOU");
-
-setInterval(() => {
-  console.log("TICK SLIDER");
-}, 1000);
+reducedMotion.addEventListener("change", (event) => {
+  paused = event.matches;
+  updateSlider();
+});
+document.addEventListener("visibilitychange", updateSlider);
+updateSlider();

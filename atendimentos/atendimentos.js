@@ -123,6 +123,7 @@ async function consultarOrdemDeServico(evento) {
         evento.preventDefault();
     }
 
+    if (botaoConsultar.disabled) return;
     const codigo = normalizarCodigo(
         campoNumeroOS.value
     );
@@ -139,7 +140,15 @@ async function consultarOrdemDeServico(evento) {
         return;
     }
 
+    if (!/^[A-Z0-9-]{3,64}$/.test(codigo)) {
+        mostrarErro("Confira o código da etiqueta: use entre 3 e 64 letras, números ou hífens.");
+        campoNumeroOS.focus();
+        return;
+    }
     alterarEstadoConsulta(true);
+    areaResultado.setAttribute("aria-busy", "true");
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
 
     try {
         const {
@@ -150,7 +159,7 @@ async function consultarOrdemDeServico(evento) {
             {
                 p_codigo: codigo
             }
-        );
+        ).abortSignal(controller.signal);
 
         if (error) {
             throw error;
@@ -187,6 +196,8 @@ async function consultarOrdemDeServico(evento) {
             "Tente novamente mais tarde ou entre em contato pelo WhatsApp."
         );
     } finally {
+        window.clearTimeout(timeout);
+        areaResultado.setAttribute("aria-busy", "false");
         alterarEstadoConsulta(false);
     }
 }
@@ -198,7 +209,7 @@ function alterarEstadoConsulta(carregando) {
 
     if (carregando) {
         botaoConsultar.innerHTML = `
-            <i class="fa-solid fa-spinner fa-spin"></i>
+            <i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
             Consultando
         `;
 
@@ -206,7 +217,7 @@ function alterarEstadoConsulta(carregando) {
     }
 
     botaoConsultar.innerHTML = `
-        <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
         Consultar
     `;
 }
@@ -248,7 +259,7 @@ function exibirOrdemDeServico(ordem) {
 
             <span class="os-numero">
 
-                <i class="fa-solid fa-file-circle-check"></i>
+                <i class="fa-solid fa-file-circle-check" aria-hidden="true"></i>
 
                 ${escaparHTML(
                     ordem.numero ||
@@ -349,7 +360,7 @@ function exibirOrdemDeServico(ordem) {
 
             <h3>
 
-                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
 
                 Serviços executados
 
@@ -424,7 +435,7 @@ function criarBlocoTexto(
 
             <h3>
 
-                <i class="${escaparHTML(icone)}"></i>
+                <i class="${escaparHTML(icone)}" aria-hidden="true"></i>
 
                 ${escaparHTML(titulo)}
 
@@ -636,7 +647,7 @@ function exibirStatus(status) {
     areaStatusOS.innerHTML = `
         <div class="status-box ${classes[status.tipo] || "status-em-dia"}">
 
-            <i class="${escaparHTML(status.icone)}"></i>
+            <i class="${escaparHTML(status.icone)}" aria-hidden="true"></i>
 
             <div>
 
@@ -875,7 +886,7 @@ function mostrarErro(mensagem) {
 
             <strong>
 
-                <i class="fa-solid fa-circle-exclamation"></i>
+                <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
 
                 Não foi possível concluir a consulta
 

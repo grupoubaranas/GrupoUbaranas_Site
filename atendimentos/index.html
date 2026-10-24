@@ -2,6 +2,8 @@
 <html lang="pt-BR">
 
 <head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="referrer" content="no-referrer">
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +18,7 @@
     <link
         rel="icon"
         type="image/png"
-        href="../faviconubaranas.png"
+        href="/assets/logo/logo.png"
     >
 
     <!-- Font Awesome -->
@@ -40,7 +42,7 @@
         <header class="cabecalho">
 
             <div class="logo">
-                <img src="assets/logo/logo.png"
+                <img src="/assets/logo/logo.png"
                     alt="Logo do Grupo Ubaranas"
                 >
             </div>
@@ -49,7 +51,7 @@
 
                 <span class="selo">
                     <i class="fa-solid fa-shield-halved"></i>
-                    MANUTENÇÃO CERTIFICADA
+                    REGISTRO DE ATENDIMENTO
                 </span>
 
                 <h1>PORTAL DO CLIENTE</h1>
@@ -124,7 +126,7 @@
             </h2>
 
             <p>
-                Digite o número da Ordem de Serviço informado na
+                Digite o código de consulta da Ordem de Serviço informado na
                 etiqueta de manutenção.
             </p>
 
@@ -134,10 +136,10 @@
                     type="text"
                     id="numeroOS"
                     name="numeroOS"
-                    placeholder="Ex.: UB-260001"
-                    aria-label="Número da Ordem de Serviço"
+                    placeholder="Código de consulta da etiqueta"
+                    aria-label="Código de consulta da Ordem de Serviço"
                     autocomplete="off"
-                    maxlength="30"
+                    maxlength="64" autocapitalize="characters" spellcheck="false"
                 >
 
                 <button
@@ -228,7 +230,7 @@
             </a>
 
             <a
-                href="#consulta-garantia"
+                href="#numeroOS"
                 class="card"
                 id="cardGarantia"
             >
@@ -270,7 +272,7 @@
 
     <!-- JavaScript da página -->
     <script
-    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"
     defer
 ></script>
 
@@ -280,7 +282,7 @@
 ></script>
 
 <script
-    src="/atendimentos/atendimentos.js?v=2"
+    src="/atendimentos/atendimentos.js?v=3"
     defer
 ></script>
 

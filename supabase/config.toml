@@ -1,0 +1,4 @@
+[functions.create-technician]
+# Autenticação é feita no handler com auth.getUser(token), seguida da verificação
+# do perfil administrador na tabela protegida. Compatível com JWTs assimétricos.
+verify_jwt = false
